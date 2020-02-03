@@ -1,0 +1,323 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: UPI QR Code Payment for WooCommerce\n"
+"POT-Creation-Date: 2020-01-30 18:33+0530\n"
+"PO-Revision-Date: 2020-01-30 18:33+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: upi-qr-code-payment-for-woocommerce.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: includes/donate.php:28
+msgid ""
+"Hey, I noticed you've been using UPI QR Code Payment for WooCommerce for "
+"more than 2 week – that’s awesome! If you like UPI QR Code Payment for "
+"WooCommerce and you are satisfied with the plugin, isn’t that worth a coffee "
+"or two? Please consider donating. Donations help me to continue support and "
+"development of this free plugin! Thank you very much!"
+msgstr ""
+
+#: includes/donate.php:29
+msgid "Donate Now"
+msgstr ""
+
+#: includes/donate.php:30
+msgid "I already donated"
+msgstr ""
+
+#: includes/donate.php:31 includes/notice.php:31
+msgid "Nope&#44; maybe later"
+msgstr ""
+
+#: includes/donate.php:32
+msgid "I don't want to donate"
+msgstr ""
+
+#: includes/notice.php:28
+msgid ""
+"Hey, I noticed you've been using UPI QR Code Payment for WooCommerce for "
+"more than 1 week – that’s awesome! Could you please do me a BIG favor and "
+"give it a <strong>5-star</strong> rating on WordPress? Just to help me "
+"spread the word and boost my motivation."
+msgstr ""
+
+#: includes/notice.php:29
+msgid "Ok, you deserve it"
+msgstr ""
+
+#: includes/notice.php:30
+msgid "I already did"
+msgstr ""
+
+#: includes/notice.php:32
+msgid "I don't want to rate"
+msgstr ""
+
+#: includes/payment.php:38
+msgid "UPI QR Code"
+msgstr ""
+
+#: includes/payment.php:39
+msgid ""
+"Allows customers to use UPI mobile app like Paytm, Google Pay, BHIM, PhonePe "
+"to pay to your bank account directly using UPI."
+msgstr ""
+
+#: includes/payment.php:40
+msgid "Proceed to Payment"
+msgstr ""
+
+#: includes/payment.php:111
+msgid "Gateway disabled"
+msgstr ""
+
+#: includes/payment.php:111
+msgid ""
+"This plugin does not support your store currency. UPI Payment only supports "
+"Indian Currency."
+msgstr ""
+
+#: includes/payment.php:124 includes/payment.php:198
+msgid "Enable/Disable:"
+msgstr ""
+
+#: includes/payment.php:126
+msgid "Enable UPI QR Code Payment"
+msgstr ""
+
+#: includes/payment.php:127
+msgid "Enable this if you want to collect payment via UPI QR Codes."
+msgstr ""
+
+#: includes/payment.php:132
+msgid "Title:"
+msgstr ""
+
+#: includes/payment.php:134
+msgid ""
+"This controls the title for the payment method the customer sees during "
+"checkout."
+msgstr ""
+
+#: includes/payment.php:135
+msgid "Pay with UPI QR Code"
+msgstr ""
+
+#: includes/payment.php:139
+msgid "Description:"
+msgstr ""
+
+#: includes/payment.php:141
+msgid "Payment method description that the customer will see on your checkout."
+msgstr ""
+
+#: includes/payment.php:142
+msgid ""
+"It uses UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI "
+"app to make payment."
+msgstr ""
+
+#: includes/payment.php:146
+msgid "Instructions:"
+msgstr ""
+
+#: includes/payment.php:148
+msgid "Instructions that will be added to the order pay page and emails."
+msgstr ""
+
+#: includes/payment.php:149
+msgid ""
+"Scan the QR Code with any UPI apps like BHIM, Paytm, Google Pay, PhonePe or "
+"any Banking UPI app to make payment for this order. After successful "
+"payment, there will be a <strong>UPI Reference ID / Transaction Number</"
+"strong> mentioned on that page. Please enter the UPI Reference ID or "
+"Transaction Number in the below field. We will manually verify this payment "
+"against your 12-digits UPI Reference ID or Transaction Number (e.g. "
+"001422121258)."
+msgstr ""
+
+#: includes/payment.php:153
+msgid "Thank You Message:"
+msgstr ""
+
+#: includes/payment.php:155
+msgid "This displays a message to customer after a successful payment is made."
+msgstr ""
+
+#: includes/payment.php:157
+msgid ""
+"Thank you for your payment. Your transaction has been completed, and your "
+"order has been successfully placed. Please check you Email inbox for "
+"details. You can view your bank account to view transaction details."
+msgstr ""
+
+#: includes/payment.php:160
+msgid "Payment Success Status:"
+msgstr ""
+
+#: includes/payment.php:162
+msgid "Payment action on successful UPI Transaction ID submission."
+msgstr ""
+
+#: includes/payment.php:166
+msgid "Pending Payment"
+msgstr ""
+
+#: includes/payment.php:167
+msgid "Processing"
+msgstr ""
+
+#: includes/payment.php:168
+msgid "Completed"
+msgstr ""
+
+#: includes/payment.php:172
+msgid "Your Store Name:"
+msgstr ""
+
+#: includes/payment.php:174
+msgid "Please enter Your Store name"
+msgstr ""
+
+#: includes/payment.php:179
+msgid "UPI VPA ID:"
+msgstr ""
+
+#: includes/payment.php:181
+msgid "Please enter Your UPI VPA"
+msgstr ""
+
+#: includes/payment.php:186
+msgid "Button Text:"
+msgstr ""
+
+#: includes/payment.php:188
+msgid "Enter the button text to show on mobile devices."
+msgstr ""
+
+#: includes/payment.php:189
+msgid "Click here to pay through UPI"
+msgstr ""
+
+#: includes/payment.php:193
+msgid "Configure Email"
+msgstr ""
+
+#: includes/payment.php:200
+msgid "Enable Email Notification"
+msgstr ""
+
+#: includes/payment.php:201
+msgid ""
+"Enable this option if you want to send payment link to the customer via "
+"email after placing the successful order."
+msgstr ""
+
+#: includes/payment.php:206
+msgid "Email Body Text:"
+msgstr ""
+
+#: includes/payment.php:208
+msgid ""
+"This text will be attached to the On Hold email template sent to customer. "
+"Use {upi_pay_link} to add the link of payment page."
+msgstr ""
+
+#: includes/payment.php:209
+msgid ""
+"Please complete the payment via UPI by going to this link: {upi_pay_link}"
+msgstr ""
+
+#: includes/payment.php:251
+msgid "Awaiting UPI Payment!"
+msgstr ""
+
+#: includes/payment.php:301 includes/payment.php:307
+msgid "OrderID:"
+msgstr ""
+
+#: includes/payment.php:305
+msgid "OrderID: "
+msgstr ""
+
+#: includes/payment.php:314
+msgid "Enter the UPI Reference ID"
+msgstr ""
+
+#: includes/payment.php:314
+msgid "Please enter the 12-digits UPI Reference ID here."
+msgstr ""
+
+#: includes/payment.php:419
+msgid "UPI Transaction ID: "
+msgstr ""
+
+#: includes/payment.php:422
+msgid "UPI Reference ID Submitted Successfully! Redirecting..."
+msgstr ""
+
+#: upi-qr-code-payment-for-woocommerce.php:93
+msgid "Settings"
+msgstr ""
+
+#: upi-qr-code-payment-for-woocommerce.php:105
+msgid "Support"
+msgstr ""
+
+#: upi-qr-code-payment-for-woocommerce.php:106
+msgid "FAQ"
+msgstr ""
+
+#: upi-qr-code-payment-for-woocommerce.php:107
+msgid "Donate"
+msgstr ""
+
+#: upi-qr-code-payment-for-woocommerce.php:118
+msgid ""
+"Your version of PHP is below the minimum version of PHP required by UPI QR "
+"Code Payment for WooCommerce plugin. Please contact your host and request "
+"that your version be upgraded to 5.6 or later."
+msgstr ""
+
+#: upi-qr-code-payment-for-woocommerce.php:124
+#, php-format
+msgid ""
+"Thanks for installing %1$s v%2$s plugin. Click <a href=\"%3$s\">here</a> to "
+"configure plugin settings."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "UPI QR Code Payment for WooCommerce"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"It enables a Woocommerce site to accept payments through UPI apps like BHIM, "
+"Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway "
+"charges."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Sayan Datta"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://about.me/iamsayan"
+msgstr ""
