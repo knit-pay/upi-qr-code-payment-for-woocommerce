@@ -18,12 +18,18 @@ When this plugin is installed, a customer will see UPI as a payment option. When
 
 ### Benefits
 
+* Simple & Easy to Setup.
 * Avoid Payment Gateway Fees.
 * Instant Settlement.
 * Direct Payment.
 * 100% Success Rate.
 * Send QR Code link to Customer.
 * 24x7 Availibilty.
+* Multisite Network Supproted.
+* No Renewal/Subscription.
+* No KYC, No GST number Required.
+* No Hidden or Additional Charges.
+* Instant Money Settlement.
 
 ### Detailed Steps
 
@@ -32,7 +38,7 @@ When this plugin is installed, a customer will see UPI as a payment option. When
 * Customer can scan the QR Code using any UPI app or choose an app from mobile to pay the required order amount.
 * After successful payment, a 12 digits transaction ID will apprear in the Customer's UPI app from which he/she made the payment.
 * After that, customer needs to enter that 12 digit transaction number to the "Enter the Transaction ID" textbox and click submit.
-* After successful submission of the ID, the order will be marked as pending payment.
+* After successful submission of the ID, the order will be marked as on hold (customizable).
 * Now, Merchant gets a notification on the mobile on his/her UPI app (Google Pay/PhonePe/BHIM/Paytm etc.)
 * Merchant opens notification, sees a payment made. Sees the "Order ID".
 * Merchant opens the Woocommerce Dashboard, checks the "pending orders" for this Order ID.
