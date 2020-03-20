@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.0.2
+Release Date: March 20, 2020
+
+* Fixed: A bug where plugin shows a false 403 error.
+
 ## 1.0.1
 Release Date: March 14, 2020
 

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: UPI QR Code Payment for WooCommerce\n"
-"POT-Creation-Date: 2020-03-14 19:25+0530\n"
+"POT-Creation-Date: 2020-03-20 08:35+0530\n"
 "PO-Revision-Date: 2020-03-14 19:24+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -271,29 +271,49 @@ msgstr ""
 msgid "Awaiting UPI Payment!"
 msgstr ""
 
-#: includes/payment.php:331 includes/payment.php:337
+#: includes/payment.php:317
+msgid "Only numbers or digits are allowed!"
+msgstr ""
+
+#: includes/payment.php:318
+msgid "Please wait while we are verifying the UPI Reference Number..."
+msgstr ""
+
+#: includes/payment.php:319
+msgid "BAD_REQUEST_ERROR: Order ID or Transaction ID not found. Reloading..."
+msgstr ""
+
+#: includes/payment.php:320
+msgid "Please contact with site adminitrator for further assistance."
+msgstr ""
+
+#: includes/payment.php:321
+msgid "This field must contains a valid 12 digits UPI Refernce Number."
+msgstr ""
+
+#: includes/payment.php:336 includes/payment.php:342
 msgid "OrderID:"
 msgstr ""
 
-#: includes/payment.php:335
+#: includes/payment.php:340
 msgid "OrderID: "
 msgstr ""
 
-#: includes/payment.php:344
+#: includes/payment.php:349
 msgid "Enter the UPI Reference ID"
 msgstr ""
 
-#: includes/payment.php:344
+#: includes/payment.php:349
 msgid "Please enter the 12-digits UPI Reference ID here."
 msgstr ""
 
-#: includes/payment.php:468
+#: includes/payment.php:473
 msgid "UPI Transaction ID: "
 msgstr ""
 
-#: includes/payment.php:471
+#: includes/payment.php:476
 msgid ""
-"UPI Reference ID Submitted Successfully! Please wait, we are redirecting you "
+"UPI Reference ID Verified Successfully! Please wait, we are redirecting you "
 "in a moment..."
 msgstr ""
 

@@ -311,10 +311,15 @@ function upiwc_payment_gateway_init() {
 			// add localize scripts
 			wp_localize_script( 'upi-js', 'woo_upi_ajax_data',
                 array( 
-                    'ajaxurl'   => admin_url( 'admin-ajax.php' ),
-					'orderid'   => $order_id,
-                    'security'  => wp_create_nonce( 'upi_ref_number_id_'.$order_id ),
-                    'version'   => UPI_WOO_PLUGIN_VERSION,
+                    'ajaxurl'          => admin_url( 'admin-ajax.php' ),
+					'orderid'          => $order_id,
+                    'security'         => wp_create_nonce( 'upi_ref_number_id_'.$order_id ),
+                    'verify_number'    => apply_filters( 'upiwc_verify_id_format_message', __( 'Only numbers or digits are allowed!', 'upi-qr-code-payment-for-woocommerce' ) ),
+                    'verify_start'     => apply_filters( 'upiwc_id_verify_start_message', __( 'Please wait while we are verifying the UPI Reference Number...', 'upi-qr-code-payment-for-woocommerce' ) ),
+                    'verify_failed'    => apply_filters( 'upiwc_id_verify_failed_message', __( 'BAD_REQUEST_ERROR: Order ID or Transaction ID not found. Reloading...', 'upi-qr-code-payment-for-woocommerce' ) ),
+                    'verify_error'     => apply_filters( 'upiwc_id_verify_error_message', __( 'Please contact with site adminitrator for further assistance.', 'upi-qr-code-payment-for-woocommerce' ) ),
+                    'validate_number'  => apply_filters( 'upiwc_id_validate_number_message', __( 'This field must contains a valid 12 digits UPI Refernce Number.', 'upi-qr-code-payment-for-woocommerce' ) ),
+                    'app_version'      => UPI_WOO_PLUGIN_VERSION,
                 )
 			);
 
@@ -455,7 +460,7 @@ function woo_collect_upi_ref_id() {
 		$orderID = sanitize_text_field( $_POST['orderID'] );
 		$tranID = sanitize_text_field( $_POST['tranid'] );
 		// security check
-		check_ajax_referer( 'upi_ref_number_id_'.$order_id, 'security' );
+		check_ajax_referer( 'upi_ref_number_id_'.$orderID, 'security' );
 	 
 		$order = wc_get_order( $_POST['orderID'] );
 		// update the payment reference
@@ -468,7 +473,7 @@ function woo_collect_upi_ref_id() {
 		$order->add_order_note( apply_filters( 'upiwc_capture_payment_note', __( 'UPI Transaction ID: ', 'upi-qr-code-payment-for-woocommerce' ).$tranID, $order ), false );
 		
 		wp_send_json_success( array(
-			'message' => apply_filters( 'upiwc_capture_payment_redirect_notice', __( 'UPI Reference ID Submitted Successfully! Please wait, we are redirecting you in a moment...', 'upi-qr-code-payment-for-woocommerce' ) ),
+			'message' => apply_filters( 'upiwc_capture_payment_redirect_notice', __( 'UPI Reference ID Verified Successfully! Please wait, we are redirecting you in a moment...', 'upi-qr-code-payment-for-woocommerce' ) ),
 			'redirect' => apply_filters( 'upiwc_capture_payment_redirect', $order->get_checkout_order_received_url() )
 		) );
 	} else {
