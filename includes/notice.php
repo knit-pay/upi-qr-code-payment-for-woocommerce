@@ -29,7 +29,6 @@ function upiwc_rating_admin_notice() {
         <p><a href="https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?filter=5#new-post" target="_blank" class="button button-secondary"><?php _e( 'Ok, you deserve it', 'upi-qr-code-payment-for-woocommerce' ); ?></a>&nbsp;
         <a href="<?php echo $dismiss; ?>" class="already-did"><strong><?php _e( 'I already did', 'upi-qr-code-payment-for-woocommerce' ); ?></strong></a>&nbsp;<strong>|</strong>
         <a href="<?php echo $no_thanks; ?>" class="later"><strong><?php _e( 'Nope&#44; maybe later', 'upi-qr-code-payment-for-woocommerce' ); ?></strong></a>&nbsp;<strong>|</strong>
-        <a href="<?php echo $dismiss; ?>" class="hide"><strong><?php _e( 'I don\'t want to rate', 'upi-qr-code-payment-for-woocommerce' ); ?></strong></a></p>
     </div>
 <?php
 }

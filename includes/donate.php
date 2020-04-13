@@ -29,7 +29,6 @@ function upiwc_donate_admin_notice() {
         <p><a href="https://www.paypal.me/iamsayan" target="_blank" class="button button-secondary"><?php _e( 'Donate Now', 'upi-qr-code-payment-for-woocommerce' ); ?></a>&nbsp;
         <a href="<?php echo $dismiss; ?>" class="already-did"><strong><?php _e( 'I already donated', 'upi-qr-code-payment-for-woocommerce' ); ?></strong></a>&nbsp;<strong>|</strong>
         <a href="<?php echo $no_thanks; ?>" class="later"><strong><?php _e( 'Nope&#44; maybe later', 'upi-qr-code-payment-for-woocommerce' ); ?></strong></a>&nbsp;<strong>|</strong>
-        <a href="<?php echo $dismiss; ?>" class="hide"><strong><?php _e( 'I don\'t want to donate', 'upi-qr-code-payment-for-woocommerce' ); ?></strong></a></p>
     </div>
 <?php
 }
