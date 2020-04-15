@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.0.4
+Release Date: April 15, 2020
+
+* Improved: Order Confirm mechanism.
+* Fixed: Dialog Box issue on Mobile devices.
+
+## 1.0.3
+Release Date: April 13, 2020
+
+* NEW: Major UI Changes in Payment Confirm Process.
+* Fixed: A bug where payment can't be done using BHIM App.
+
 ## 1.0.2
 Release Date: March 20, 2020
 

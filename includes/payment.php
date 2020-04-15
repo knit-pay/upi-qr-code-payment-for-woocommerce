@@ -340,7 +340,7 @@ function upiwc_payment_gateway_init() {
 					    <div id="upi-qrcode"></div>
 						<?php if ( wp_is_mobile() ) { ?>
 						    <div class="jconfirm-buttons">
-						        <a href="upi://pay?pa=<?php echo strtolower( $shopvpa ); ?>&pn=<?php echo $shopname; ?>&am=<?php echo $grand_total; ?>&cu=INR&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'OrderID', 'upi-qr-code-payment-for-woocommerce' ); ?><?php echo $order->get_id(); ?>&mode=00"><button type="button" class="btn btn-dark">Click here to pay through UPI</button></a>
+						        <a href="upi://pay?pa=<?php echo strtolower( $shopvpa ); ?>&pn=<?php echo $shopname; ?>&am=<?php echo $grand_total; ?>&cu=INR&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'OrderID', 'upi-qr-code-payment-for-woocommerce' ); ?><?php echo $order->get_id(); ?>&mode=00" onclick="window.onbeforeunload = null;"><button type="button" class="btn btn-dark">Click here to pay through UPI</button></a>
 						    </div>
 						<?php } ?>
 						<div id="upi-description"><?php echo wptexturize( $this->instructions ); ?></div>
@@ -452,17 +452,13 @@ function woo_collect_upi_ref_id() {
         $gateway = new WC_UPI_Payment_Gateway();
 		$orderID = sanitize_text_field( $_POST['orderID'] );
 		$upiID = sanitize_text_field( $_POST['upiid'] );
-		$tranID = !empty( $_POST['tranid'] ) ? sanitize_text_field( $_POST['tranid'] ) : 'Not given';
+		$tranID = !empty( $_POST['tranid'] ) ? sanitize_text_field( $_POST['tranid'] ) : '';
 		// security check
 		check_ajax_referer( 'upi_ref_number_id_'.$orderID, 'security' );
-	 
+	    // get order from order id
 		$order = wc_get_order( $orderID );
 		// update the payment reference
-		if( $tranID == 'Not given' ) {
-		    $order->set_transaction_id( esc_attr( $upiID ) );
-		} else {
-			$order->set_transaction_id( esc_attr( $tranID ) );
-		}
+		$order->set_transaction_id( esc_attr( $tranID ) );
 		// Mark as on-hold (we're verifying the payment manually)
 		$order->update_status( apply_filters( 'upiwc_capture_payment_order_status', $gateway->payment_status ) );
 		// reduce stock level
