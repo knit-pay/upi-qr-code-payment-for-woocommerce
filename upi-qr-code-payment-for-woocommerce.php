@@ -3,14 +3,14 @@
  * Plugin Name: UPI QR Code Payment for WooCommerce
  * Plugin URI: https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
  * Description: It enables a Woocommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
- * Version: 1.0.4
+ * Version: 1.1.0
  * Author: Sayan Datta
  * Author URI: https://www.sayandatta.in
  * License: GPLv3
  * Text Domain: upi-qr-code-payment-for-woocommerce
  * Domain Path: /languages
  * WC requires at least: 3.1
- * WC tested up to: 4.0
+ * WC tested up to: 4.1
  * 
  * UPI QR Code Payment for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $consts = array(
-    'UPI_WOO_PLUGIN_VERSION'       => '1.0.4', // plugin version
+    'UPI_WOO_PLUGIN_VERSION'       => '1.1.0', // plugin version
     'UPI_WOO_PLUGIN_BASENAME'      => plugin_basename( __FILE__ ),
 	'UPI_WOO_PLUGIN_DIR'           => plugin_dir_url( __FILE__ ),
 	//'UPI_WOO_PLUGIN_ENABLE_DEBUG'  => true
@@ -129,4 +129,3 @@ function upiwc_new_plugin_install_notice() {
 
 require_once plugin_dir_path( __FILE__ ) . 'includes/payment.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/notice.php';
-require_once plugin_dir_path( __FILE__ ) . 'includes/donate.php';

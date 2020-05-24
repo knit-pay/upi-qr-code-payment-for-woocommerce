@@ -33,7 +33,7 @@ function upiwc_payment_gateway_init() {
 		public function __construct() {
 	  
 			$this->id                 = 'wc-upi';
-			$this->icon               = apply_filters( 'upiwc_custom_gateway_icon', UPI_WOO_PLUGIN_DIR . 'includes/icon/bhim.png' );
+			$this->icon               = apply_filters( 'upiwc_custom_gateway_icon', UPI_WOO_PLUGIN_DIR . 'includes/icon/logo.png' );
 			$this->has_fields         = false;
 			$this->method_title       = __( 'UPI QR Code', 'upi-qr-code-payment-for-woocommerce' );
 			$this->method_description = __( 'Allows customers to use UPI mobile app like Paytm, Google Pay, BHIM, PhonePe to pay to your bank account directly using UPI.', 'upi-qr-code-payment-for-woocommerce' );
@@ -55,10 +55,16 @@ function upiwc_payment_gateway_init() {
 			$this->vpa 		            = $this->get_option( 'vpa' );
 			$this->pay_button 		    = $this->get_option( 'pay_button' );
 			$this->button_text 		    = $this->get_option( 'button_text' );
+			$this->qrcode_mobile 		= $this->get_option( 'qrcode_mobile', 'yes' );
+			$this->disable_info 		= $this->get_option( 'disable_info', 'no' );
+			$this->upi_handle 		    = $this->get_option( 'upi_handle', 'no' );
+			$this->transaction_id 		= $this->get_option( 'transaction_id', 'no' );
+			$this->require_txn_id 		= $this->get_option( 'require_txn_id', 'no' );
 			$this->email_enabled        = $this->get_option( 'email_enabled' );
 			$this->email_subject        = $this->get_option( 'email_subject' );
 			$this->email_heading        = $this->get_option( 'email_heading' );
 			$this->additional_content   = $this->get_option( 'additional_content' );
+			$this->default_status       = apply_filters( 'upiwc_process_payment_order_status', 'pending' );
 			
 			// Actions
 			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
@@ -67,7 +73,10 @@ function upiwc_payment_gateway_init() {
 	        add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
 
 			// thank you page output
-			add_action( 'woocommerce_receipt_'.$this->id, array( $this, 'upi_payment_qr_code_pay' ), 4, 1 );
+			add_action( 'woocommerce_receipt_'.$this->id, array( $this, 'generate_qr_code' ), 4, 1 );
+
+			// verify payment from redirection
+            add_action( 'woocommerce_api_upiwc-payment', array( $this, 'capture_payment' ) );
 
 			// Customize on hold email template subject
 			add_filter( 'woocommerce_email_subject_customer_on_hold_order', array( $this, 'email_subject_pending_order' ), 10, 3 );
@@ -77,6 +86,12 @@ function upiwc_payment_gateway_init() {
 
 			// Customize on hold email template additional content
 			add_filter( 'woocommerce_email_additional_content_customer_on_hold_order', array( $this, 'email_additional_content_pending_order' ), 10, 3 );
+
+			// Customer Emails
+			add_action( 'woocommerce_email_after_order_table', array( $this, 'email_instructions' ), 10, 4 );
+
+			// add support for payment for on hold orders
+			add_action( 'woocommerce_valid_order_statuses_for_payment', array( $this, 'on_hold_payment' ), 10, 2 );
 
 			// change wc payment link if exists payment method is QR Code
 			add_filter( 'woocommerce_get_checkout_payment_url', array( $this, 'custom_checkout_url' ), 10, 2 );
@@ -103,7 +118,6 @@ function upiwc_payment_gateway_init() {
         
         /**
 	     * Admin Panel Options.
-	     * - Options for bits like 'title' and availability on a country-by-country basis.
 	     *
 	     * @since 1.0.0
 	     */
@@ -125,7 +139,7 @@ function upiwc_payment_gateway_init() {
 		 * Initialize Gateway Settings Form Fields
 		 */
 		public function init_form_fields() {
-			$placeholder_text = sprintf( __( 'Available placeholders: %s', 'woocommerce' ), '<code>' . esc_html( '{site_title}, {site_address}, {order_date}, {order_number}' ) . '</code>' );
+
 			$this->form_fields = array(
 				'enabled' => array(
 					'title'       => __( 'Enable/Disable:', 'upi-qr-code-payment-for-woocommerce' ),
@@ -153,15 +167,15 @@ function upiwc_payment_gateway_init() {
 					'title'       => __( 'Instructions:', 'upi-qr-code-payment-for-woocommerce' ),
 					'type'        => 'textarea',
 					'description' => __( 'Instructions that will be added to the order pay page and emails.', 'upi-qr-code-payment-for-woocommerce' ),
-					'default'     => __( 'Scan the QR Code with any UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI app to make payment for this order. After successful payment, enter the UPI Reference ID or Transaction Number and your UPI ID in the next screen ans submit the form. We will manually verify this payment against your 12-digits UPI Reference ID or Transaction Number (e.g. 001422121258) and your UPI ID.', 'upi-qr-code-payment-for-woocommerce' ),
+					'default'     => __( 'Scan the QR Code with any UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI app to make payment for this order. After successful payment, enter the UPI Reference ID or Transaction Number and your UPI ID in the next screen and submit the form. We will manually verify this payment against your 12-digits UPI Reference ID or Transaction Number (e.g. 001422121258) and your UPI ID.', 'upi-qr-code-payment-for-woocommerce' ),
 					'desc_tip'    => true,
 				),
                 'thank_you' => array(
                     'title'       => __( 'Thank You Message:', 'upi-qr-code-payment-for-woocommerce' ),
                     'type'        => 'textarea',
                     'description' => __( 'This displays a message to customer after a successful payment is made.', 'upi-qr-code-payment-for-woocommerce' ),
-                    'desc_tip'    => true,
-                    'default'     => __( 'Thank you for your payment. Your transaction has been completed, and your order has been successfully placed. Please check you Email inbox for details. You can view your bank account to view transaction details.', 'upi-qr-code-payment-for-woocommerce' ),
+                    'default'     => __( 'Thank you for your payment. Your transaction has been completed, and your order has been successfully placed. Please check you Email inbox for details. Please check your bank account statement to view transaction details.', 'upi-qr-code-payment-for-woocommerce' ),
+					'desc_tip'    => true,
 				),
 				'payment_status' => array(
                     'title'       => __( 'Payment Success Status:', 'upi-qr-code-payment-for-woocommerce' ),
@@ -169,24 +183,24 @@ function upiwc_payment_gateway_init() {
 					'description' =>  __( 'Payment action on successful UPI Transaction ID submission.', 'upi-qr-code-payment-for-woocommerce' ),
 					'desc_tip'    => true,
                     'default'     => 'on-hold',
-                    'options'     => array(
+                    'options'     => apply_filters( 'upiwc_settings_order_statuses', array(
 						'pending'      => __( 'Pending Payment', 'upi-qr-code-payment-for-woocommerce' ),
 						'on-hold'      => __( 'On Hold', 'upi-qr-code-payment-for-woocommerce' ),
 						'processing'   => __( 'Processing', 'upi-qr-code-payment-for-woocommerce' ),
 						'completed'    => __( 'Completed', 'upi-qr-code-payment-for-woocommerce' )
-                    )
+                    ) )
                 ),
 				'name' => array(
-			    	'title'       => __( 'Your Store Name:', 'upi-qr-code-payment-for-woocommerce' ),
+			    	'title'       => __( 'Your Store or Shop Name:', 'upi-qr-code-payment-for-woocommerce' ),
 			    	'type'        => 'text',
-			    	'description' => __( 'Please enter Your Store name', 'upi-qr-code-payment-for-woocommerce' ),
+			    	'description' => __( 'Please enter Your Store or Shop name. If you are a person, you can enter your name.', 'upi-qr-code-payment-for-woocommerce' ),
 			    	'default'     => get_bloginfo( 'name' ),
 			    	'desc_tip'    => true,
 				),
 			    'vpa' => array(
 			    	'title'       => __( 'UPI VPA ID:', 'upi-qr-code-payment-for-woocommerce' ),
 			    	'type'        => 'email',
-			    	'description' => __( 'Please enter Your UPI VPA', 'upi-qr-code-payment-for-woocommerce' ),
+			    	'description' => __( 'Please enter Your UPI VPA at which you want to collect payments.', 'upi-qr-code-payment-for-woocommerce' ),
 			    	'default'     => '',
 			    	'desc_tip'    => true,
 				),
@@ -203,6 +217,46 @@ function upiwc_payment_gateway_init() {
 			    	'description' => __( 'Enter the button text to show on mobile devices.', 'upi-qr-code-payment-for-woocommerce' ),
 			    	'default'     => __( 'Click here to pay through UPI', 'upi-qr-code-payment-for-woocommerce' ),
 			    	'desc_tip'    => true,
+				),
+				'qrcode_mobile' => array(
+					'title'       => __( 'Mobile QR Code:', 'upi-qr-code-payment-for-woocommerce' ),
+					'type'        => 'checkbox',
+					'label'       => __( 'Show QR Code on Mobile', 'upi-qr-code-payment-for-woocommerce' ),
+					'description' => __( 'Enable this if you want to show UPI QR Code on mobile devices.', 'upi-qr-code-payment-for-woocommerce' ),
+					'default'     => 'yes',
+					'desc_tip'    => true,
+				),
+				'disable_info' => array(
+					'title'       => __( 'Require Payment Info:', 'upi-qr-code-payment-for-woocommerce' ),
+					'type'        => 'checkbox',
+					'label'       => __( 'Disable UPI ID Collection', 'upi-qr-code-payment-for-woocommerce' ),
+					'description' => __( 'Enable this if you do want to collect UPI ID or Transaction Number from your customer.', 'upi-qr-code-payment-for-woocommerce' ),
+					'default'     => 'no',
+					'desc_tip'    => true,
+				),
+				'upi_handle' => array(
+					'title'       => __( 'UPI Handle (VPA):', 'upi-qr-code-payment-for-woocommerce' ),
+					'type'        => 'checkbox',
+					'label'       => __( 'Show UPI Handle Field', 'upi-qr-code-payment-for-woocommerce' ),
+					'description' => __( 'Enable this if you want to allow for your customer to select UPI handles from predefined list.', 'upi-qr-code-payment-for-woocommerce' ),
+					'default'     => 'no',
+					'desc_tip'    => true,
+				),
+                'transaction_id' => array(
+					'title'       => __( 'UPI Transaction ID:', 'upi-qr-code-payment-for-woocommerce' ),
+					'type'        => 'checkbox',
+					'label'       => __( 'Show Transaction ID Field', 'upi-qr-code-payment-for-woocommerce' ),
+					'description' => __( 'Enable this if you want to collect UPI Transaction ID from your customers.', 'upi-qr-code-payment-for-woocommerce' ),
+					'default'     => 'no',
+					'desc_tip'    => true,
+				),
+				'require_txn_id' => array(
+					'title'       => __( 'Require Transaction ID:', 'upi-qr-code-payment-for-woocommerce' ),
+					'type'        => 'checkbox',
+					'label'       => __( 'Require Transaction ID Field', 'upi-qr-code-payment-for-woocommerce' ),
+					'description' => __( 'Enable this if you want to require UPI Transaction ID field.', 'upi-qr-code-payment-for-woocommerce' ),
+					'default'     => 'no',
+					'desc_tip'    => true,
 				),
 				'email' => array(
                     'title'       => __( 'Configure Email', 'upi-qr-code-payment-for-woocommerce' ),
@@ -221,14 +275,14 @@ function upiwc_payment_gateway_init() {
 					'title'       => __( 'Email Subject:', 'upi-qr-code-payment-for-woocommerce' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
-					'description' => $placeholder_text,
+					'description' => sprintf( __( 'Available placeholders: %s', 'woocommerce' ), '<code>' . esc_html( '{site_title}, {site_address}, {order_date}, {order_number}' ) . '</code>' ),
 					'default'     => __( '[{site_title}]: Payment pending #{order_number}', 'upi-qr-code-payment-for-woocommerce' ),
 				),
 				'email_heading' => array(
 					'title'       => __( 'Email Heading:', 'upi-qr-code-payment-for-woocommerce' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
-					'description' => $placeholder_text,
+					'description' => sprintf( __( 'Available placeholders: %s', 'woocommerce' ), '<code>' . esc_html( '{site_title}, {site_address}, {order_date}, {order_number}' ) . '</code>' ),
 					'default'     => __( 'Thank you for your order', 'upi-qr-code-payment-for-woocommerce' ),
 				),
 				'additional_content' => array(
@@ -245,7 +299,7 @@ function upiwc_payment_gateway_init() {
 		 * Custom CSS and JS
 		 */
 		public function payment_scripts() {
-			// exit if we are not on the Thank You page
+			// exit if we are not on the Order Pay page
 			if( ! is_wc_endpoint_url( 'order-pay' ) ) return;
 			
 	        // if our payment gateway is disabled, we do not have to enqueue JS too
@@ -258,11 +312,11 @@ function upiwc_payment_gateway_init() {
                 $ver = time();
             }
 			
-			wp_enqueue_style( 'upiwc-jquery-confirm', plugins_url( 'css/jquery-confirm.min.css' , __FILE__ ), array(), '3.3.4' );
-			wp_enqueue_style( 'upiwc-qr-code', plugins_url( 'css/upi.min.css' , __FILE__ ), array(), $ver );
-			wp_enqueue_script( 'upiwc-jquery-confirm-js', plugins_url( 'js/jquery-confirm.min.js' , __FILE__ ), array( 'jquery' ), '3.3.4', true );
-		    wp_enqueue_script( 'upiwc-qr-code-js', plugins_url( 'js/qrcode.min.js' , __FILE__ ), array( 'jquery' ), '1.0.0', true );
-			wp_enqueue_script( 'upiwc-js', plugins_url( 'js/upi.min.js' , __FILE__ ), array( 'jquery', 'upiwc-qr-code-js' ), $ver, true );
+			wp_register_style( 'upiwc-jquery-confirm', plugins_url( 'css/jquery-confirm.min.css' , __FILE__ ), array(), '3.3.4' );
+			wp_register_style( 'upiwc-qr-code', plugins_url( 'css/upi.min.css' , __FILE__ ), array( 'upiwc-jquery-confirm' ), $ver );
+			wp_register_script( 'upiwc-jquery-confirm-js', plugins_url( 'js/jquery-confirm.min.js' , __FILE__ ), array( 'jquery' ), '3.3.4', true );
+		    wp_register_script( 'upiwc-qr-code-js', plugins_url( 'js/easy.qrcode.min.js' , __FILE__ ), array( 'jquery' ), '3.6.0', true );
+			wp_register_script( 'upiwc-js', plugins_url( 'js/upi.min.js' , __FILE__ ), array( 'jquery', 'upiwc-qr-code-js', 'upiwc-jquery-confirm-js' ), $ver, true );
 		}
 
 		/**
@@ -273,18 +327,21 @@ function upiwc_payment_gateway_init() {
 		 */
 		public function process_payment( $order_id ) {
             $order = wc_get_order( $order_id );
-
+			
 			// Mark as pending (we're awaiting the payment)
-			$order->update_status( apply_filters( 'upiwc_process_payment_order_status', 'pending' ) );
+			$order->update_status( $this->default_status );
 
 			// add some order notes
 			$order->add_order_note( apply_filters( 'upiwc_process_payment_note', __( 'Awaiting UPI Payment!', 'upi-qr-code-payment-for-woocommerce' ), $order ), false );
 			
+			// update meta
+			update_post_meta( $order->get_id(), '_upiwc_order_paid', 'no' );
+
 			// Empty cart
 			WC()->cart->empty_cart();
 
 			// check plugin settings
-			if( 'yes' === $this->enabled && 'yes' === $this->email_enabled ) {
+			if( 'yes' === $this->enabled && 'yes' === $this->email_enabled && $order->has_status( 'pending' ) ) {
 				// Get an instance of the WC_Email_Customer_On_Hold_Order object
 				$wc_email = WC()->mailer()->get_emails()['WC_Email_Customer_On_Hold_Order'];
 				
@@ -305,55 +362,111 @@ function upiwc_payment_gateway_init() {
 	     * @param WC_Order $order_id Order id.
 	     * @return string
 	     */
-		public function upi_payment_qr_code_pay( $order_id ) {
+		public function generate_qr_code( $order_id ) {
             // get order object from id
 			$order = wc_get_order( $order_id );
-
-			$order_billing_first_name = $order->get_billing_first_name();
-			$grand_total = apply_filters( 'upiwc_order_total_amount', $order->get_total(), $order );
-		
-			$payment_gateway = wc_get_payment_gateway_by_order( $order_id );
-		
-			$shopvpa = $payment_gateway->vpa;
-			$shopname = $payment_gateway->name;
-
+            $total = apply_filters( 'upiwc_order_total_amount', $order->get_total(), $order );
+			
+			// enqueue required css & js files
+			wp_enqueue_style( 'upiwc-jquery-confirm' );
+			wp_enqueue_style( 'upiwc-qr-code' );
+			wp_enqueue_script( 'upiwc-jquery-confirm-js' );
+		    wp_enqueue_script( 'upiwc-qr-code-js' );
+			wp_enqueue_script( 'upiwc-js' );
+			
 			// add localize scripts
-			wp_localize_script( 'upiwc-js', 'woo_upi_ajax_data',
+			wp_localize_script( 'upiwc-js', 'upiwc_params',
                 array( 
                     'ajaxurl'               => admin_url( 'admin-ajax.php' ),
 					'orderid'               => $order_id,
                     'security'              => wp_create_nonce( 'upi_ref_number_id_'.$order_id ),
-					'confirm_message'       => apply_filters( 'upiwc_confirm_payment_message', __( 'Please enter the correct details here. We will manually verify your transaction.', 'upi-qr-code-payment-for-woocommerce' ) ),
-					'show_tran_field'       => apply_filters( 'upiwc_show_transaction_id_field', true ),
-					'require_tran_field'    => apply_filters( 'upiwc_require_transaction_id_field', false ),
-					'require_upi_field'     => apply_filters( 'upiwc_require_upi_id_field', true ),
+					'confirm_message'       => apply_filters( 'upiwc_confirm_payment_message', __( 'Please enter the correct details here. Click Confirm, only after amount deducted from your account. We will manually verify your transaction.', 'upi-qr-code-payment-for-woocommerce' ) ),
+					'confirm_redirect'      => apply_filters( 'upiwc_confirm_redirect_message', __( 'Click Confirm, only after amount deducted from your account. We will manually verify your transaction. Are you sure?', 'upi-qr-code-payment-for-woocommerce' ) ),
+					'redirect_url'          => $order->get_checkout_order_received_url(),
+					'callback_url'          => get_home_url() . '/wc-api/upiwc-payment/',
+					'cancel_url'            => $order->get_checkout_payment_url(),
+					'disable_info'          => $this->disable_info,
+					'payment_status'        => $this->payment_status,
+					'show_upi_handle_field' => $this->upi_handle,
+					'show_tran_field'       => $this->transaction_id,
+					'require_tran_field'    => $this->require_txn_id,
 					'app_version'           => UPI_WOO_PLUGIN_VERSION,
                 )
 			);
 
 			// add html output on payment endpoint
-			if( $order->needs_payment() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) { ?>
+			if( 'yes' === $this->enabled && $order->needs_payment() === true && $order->has_status( $this->default_status ) ) { ?>
 			    <section class="woo-upi-section">
-					<h2 class="upiwc-title"><?php echo apply_filters( 'upiwc_payment_title_heading', $this->title ); ?></h3>
-					<button id="upiwc-confirm-payment" class="btn button"><?php echo $this->pay_button; ?></button>
-			    	<div id="js_qrcode">
-					    <div id="upi-qrcode"></div>
+				    <h2 class="upiwc-title"><?php echo apply_filters( 'upiwc_payment_title_heading', $this->title ); ?></h2>
+					<?php do_action( 'upiwc_after_payment_title', $order ); ?>
+					<button id="upiwc-confirm-payment" class="btn button" data-theme="<?php echo apply_filters( 'upiwc_payment_dialog_theme', 'blue' ); ?>"><?php echo $this->pay_button; ?></button>
+			    	<button id="upiwc-cancel-payment" class="btn button"><?php _e( 'Cancel', 'upi-qr-code-payment-for-woocommerce' ); ?></button>
+					<?php do_action( 'upiwc_after_payment_buttons', $order ); ?>
+					<div id="js_qrcode">
+					    <div id="upiwc-upi-id" class="upiwc-upi-id"><?php _e( 'UPI ID:', 'upi-qr-code-payment-for-woocommerce' ); ?> <span id="upiwc-upi-id-raw"><?php echo htmlentities( strtoupper( $this->vpa ) ); ?></span></div>
+						<?php if ( ! wp_is_mobile() || ( wp_is_mobile() && $this->qrcode_mobile === 'yes' ) ) { ?>
+						    <div id="upiwc-qrcode"></div>
+						<?php } ?>
+						<div id="upiwc-order-total" class="upiwc-order-total"><?php _e( 'Amount to be Paid:', 'upi-qr-code-payment-for-woocommerce' ); ?> <span id="upiwc-order-total-amount">₹<?php echo $total; ?></span></div>
 						<?php if ( wp_is_mobile() ) { ?>
 						    <div class="jconfirm-buttons">
-						        <a href="upi://pay?pa=<?php echo strtolower( $shopvpa ); ?>&pn=<?php echo $shopname; ?>&am=<?php echo $grand_total; ?>&cu=INR&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'OrderID', 'upi-qr-code-payment-for-woocommerce' ); ?><?php echo $order->get_id(); ?>&mode=00" onclick="window.onbeforeunload = null;"><button type="button" class="btn btn-dark">Click here to pay through UPI</button></a>
+						        <a href="upi://pay?pa=<?php echo htmlentities( strtolower( $this->vpa ) ); ?>&pn=<?php echo preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ); ?>&am=<?php echo $total; ?>&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'Order ID', 'upi-qr-code-payment-for-woocommerce' ); ?> <?php echo $order->get_id(); ?>&mode=04" onclick="window.onbeforeunload = null;"><button type="button" class="btn btn-dark"><?php echo $this->button_text; ?></button></a>
 						    </div>
 						<?php } ?>
-						<div id="upi-description"><?php echo wptexturize( $this->instructions ); ?></div>
-					    <input type="hidden" id="data-qr-code" data-width="200" data-height="200" data-link="upi://pay?pa=<?php echo strtolower( $shopvpa ); ?>&pn=<?php echo $shopname; ?>&am=<?php echo $grand_total; ?>&cu=INR&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'OrderID', 'upi-qr-code-payment-for-woocommerce' ); ?><?php echo $order->get_id(); ?>&mode=01">
-						<?php if ( wp_is_mobile() ) { ?>
-						    <input type="hidden" id="data-dialog-box" data-pay="95%" data-confirm="95%">
+						<div id="upiwc-description" class="upiwc-description"><?php echo wptexturize( $this->instructions ); ?></div>
+					    <?php if ( wp_is_mobile() ) { ?>
+						    <input type="hidden" id="data-qr-code" data-width="140" data-height="140" data-link="upi://pay?pa=<?php echo htmlentities( strtolower( $this->vpa ) ); ?>&pn=<?php echo preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ); ?>&am=<?php echo $total; ?>&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'Order ID', 'upi-qr-code-payment-for-woocommerce' ); ?> <?php echo $order->get_id(); ?>&mode=01">
+						    <input type="hidden" id="data-dialog-box" data-pay="95%" data-confirm="95%" data-redirect="95%">
 						<?php } else { ?>
-						    <input type="hidden" id="data-dialog-box" data-pay="60%" data-confirm="50%">
+						    <input type="hidden" id="data-qr-code" data-width="180" data-height="180" data-link="upi://pay?pa=<?php echo htmlentities( strtolower( $this->vpa ) ); ?>&pn=<?php echo preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ); ?>&am=<?php echo $total; ?>&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'Order ID', 'upi-qr-code-payment-for-woocommerce' ); ?> <?php echo $order->get_id(); ?>&mode=01">
+							<input type="hidden" id="data-dialog-box" data-pay="60%" data-confirm="50%" data-redirect="40%">
 						<?php } ?>
 					</div>
 				</section><?php
 			}
 		}
+
+		/**
+	     * Process payment verification.
+	     */
+        public function capture_payment() {
+            // get order id
+            if ( 'GET' !== $_SERVER['REQUEST_METHOD'] ) {
+                // create redirect
+                wp_safe_redirect( home_url() );
+                exit;
+            }
+
+            // check post requests
+        	if ( ! isset( $_GET['wc_order_id'] ) ) {
+                // create redirect
+                wp_safe_redirect( home_url() );
+                exit;
+            }
+        
+            // generate order
+            $order = wc_get_order( esc_attr( $_GET['wc_order_id'] ) );
+            
+            // check if it an order
+            if ( is_a( $order, 'WC_Order' ) ) {
+                $order->update_status( apply_filters( 'upiwc_capture_payment_order_status', $this->payment_status ) );
+		        // reduce stock level
+		        wc_reduce_stock_levels( $order->get_id() );
+		        // set order note
+		        $order->add_order_note( __( 'Payment primarily completed. Needs shop owner\'s verification.', 'upi-qr-code-payment-for-woocommerce' ), false );
+		        // update post meta
+				update_post_meta( $order->get_id(), '_upiwc_order_paid', 'yes' );
+				// create redirect
+				wp_safe_redirect( $order->get_checkout_order_received_url() );
+                exit;
+            } else {
+				// create redirect
+                $title = __( 'Order can\'t be found against this Order ID. If the money debited from your account, please Contact with Site Administrator for further action.', 'upi-qr-code-payment-for-woocommerce' );
+                        
+                wp_die( $title, get_bloginfo( 'name' ) );
+                exit;
+			}
+        }
 
         /**
 		 * Customize the WC emails template.
@@ -430,46 +543,87 @@ function upiwc_payment_gateway_init() {
 	     * @return string
 	     */
 	    public function custom_checkout_url( $url, $order ) {
-	    	if ( $this->id === $order->get_payment_method() && $order->has_status( 'pending' ) && apply_filters( 'upiwc_custom_checkout_url', true ) ) {
+	    	if ( $this->id === $order->get_payment_method() && ( ( $order->has_status( 'on-hold' ) && $this->default_status === 'on-hold' ) || ( $order->has_status( 'pending' ) && apply_filters( 'upiwc_custom_checkout_url', false ) ) ) ) {
 	    		return esc_url( remove_query_arg( 'pay_for_order', $url ) );
 	    	}
     
 	    	return $url;
 		}
-    } // end 
+
+		/**
+		 * Add content to the WC emails.
+		 *
+		 * @access public
+		 * @param WC_Order $order
+		 * @param bool     $sent_to_admin
+		 * @param bool     $plain_text
+		 * @param object   $email
+		 */
+		public function email_instructions( $order, $sent_to_admin, $plain_text, $email ) {
+		    // check upi gateway name
+			if( 'yes' === $this->enabled && 'yes' === $this->email_enabled && ! empty( $this->additional_content ) && ! $sent_to_admin && $this->id === $order->get_payment_method() && $order->has_status( 'on-hold' ) ) {
+				echo wpautop( wptexturize( str_replace( '{upi_pay_link}', $order->get_checkout_payment_url( true ), $this->additional_content ) ) ) . PHP_EOL;
+			}
+		}
+
+		/**
+	     * Custom order received text.
+	     *
+	     * @param string   $statuses  Default status.
+	     * @param WC_Order $order     Order data.
+	     * @return string
+	     */
+		public function on_hold_payment( $statuses, $order ) {
+			if( $this->id === $order->get_payment_method() && $order->has_status( 'on-hold' ) && $order->get_meta( '_upiwc_order_paid', true ) !== 'yes' && $this->default_status === 'on-hold' ) {
+				$statuses[] = 'on-hold';
+			}
+		
+			return $statuses;
+		}
+    }
 }
 
 // add ajax functions
-add_action( 'wp_ajax_process_collect_upi_id',  'woo_collect_upi_ref_id' );
-add_action( 'wp_ajax_nopriv_process_collect_upi_id', 'woo_collect_upi_ref_id' );
+add_action( 'wp_ajax_process_upi_id_verification',  'upiwc_verify_upi_transaction' );
+add_action( 'wp_ajax_nopriv_process_upi_id_verification', 'upiwc_verify_upi_transaction' );
 
-function woo_collect_upi_ref_id() {
-	// If the WooCommerce payment gateway extended class is not available nothing will return
-	if ( ! class_exists( 'WC_UPI_Payment_Gateway' ) ) return;
-
-	if ( isset( $_POST['orderID'] ) && isset( $_POST['upiid'] ) && isset( $_POST['tranid'] ) ) {
-		// Access outside of class
-        $gateway = new WC_UPI_Payment_Gateway();
+function upiwc_verify_upi_transaction() {
+	// check post requests
+	if ( isset( $_POST['orderID'], $_POST['upiid'], $_POST['tranid'], $_POST['redirect'], $_POST['status'] ) ) {
+		// get order id
 		$orderID = sanitize_text_field( $_POST['orderID'] );
-		$upiID = sanitize_text_field( $_POST['upiid'] );
-		$tranID = !empty( $_POST['tranid'] ) ? sanitize_text_field( $_POST['tranid'] ) : '';
 		// security check
 		check_ajax_referer( 'upi_ref_number_id_'.$orderID, 'security' );
+		// get upi id
+		$upiID = sanitize_text_field( $_POST['upiid'] );
+		// get transaction id
+		$tranID = !empty( $_POST['tranid'] ) ? sanitize_text_field( $_POST['tranid'] ) : '';
+		// get new status
+		$status = sanitize_text_field( $_POST['status'] );
+		// get redirect url
+		$url = esc_url( $_POST['redirect'] );
 	    // get order from order id
 		$order = wc_get_order( $orderID );
-		// update the payment reference
-		$order->set_transaction_id( esc_attr( $tranID ) );
-		// Mark as on-hold (we're verifying the payment manually)
-		$order->update_status( apply_filters( 'upiwc_capture_payment_order_status', $gateway->payment_status ) );
-		// reduce stock level
-		wc_reduce_stock_levels( $order->get_id() );
-		// set order note
-		$order->add_order_note( apply_filters( 'upiwc_capture_payment_note', sprintf( __( 'UPI ID: %1$s<br>UPI Transaction ID: %2$s', 'upi-qr-code-payment-for-woocommerce' ), $upiID, $tranID ), $order ), false );
-		
-		wp_send_json_success( array(
-			'message' => apply_filters( 'upiwc_capture_payment_redirect_notice', __( 'Thank You for Shopping with us. We will contact you shortly.<br>We are redirecting you in a moment...', 'upi-qr-code-payment-for-woocommerce' ) ),
-			'redirect' => apply_filters( 'upiwc_capture_payment_redirect', $order->get_checkout_order_received_url() )
-		) );
+		// check if it an order
+		if( is_a( $order, 'WC_Order' ) ) {
+		    // update the payment reference
+		    $order->set_transaction_id( esc_attr( $tranID ) );
+		    // Mark as on-hold (we're verifying the payment manually)
+		    $order->update_status( apply_filters( 'upiwc_capture_payment_order_status', $status ) );
+		    // reduce stock level
+		    wc_reduce_stock_levels( $order->get_id() );
+		    // set order note
+		    $order->add_order_note( apply_filters( 'upiwc_capture_payment_note', sprintf( __( 'UPI ID: %1$s%3$sUPI Transaction ID: %2$s', 'upi-qr-code-payment-for-woocommerce' ), $upiID, ! empty( $tranID ) ? $tranID : 'N/A', '<br>' ), $order ), false );
+		    // update post meta
+		    update_post_meta( $order->get_id(), '_upiwc_order_paid', 'yes' );
+		    // send response
+		    wp_send_json_success( array(
+		    	'message' => apply_filters( 'upiwc_capture_payment_redirect_notice', __( 'Thank you for shopping with us. We will contact you shortly.<br>We are redirecting you in a moment...', 'upi-qr-code-payment-for-woocommerce' ) ),
+		    	'redirect' => apply_filters( 'upiwc_capture_payment_redirect', $url )
+			) );
+		} else {
+			wp_send_json_error();
+		}
 	} else {
 		wp_send_json_error();
 	}
