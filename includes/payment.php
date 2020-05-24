@@ -410,15 +410,15 @@ function upiwc_payment_gateway_init() {
 						<div id="upiwc-order-total" class="upiwc-order-total"><?php _e( 'Amount to be Paid:', 'upi-qr-code-payment-for-woocommerce' ); ?> <span id="upiwc-order-total-amount">₹<?php echo $total; ?></span></div>
 						<?php if ( wp_is_mobile() ) { ?>
 						    <div class="jconfirm-buttons">
-						        <a href="upi://pay?pa=<?php echo htmlentities( strtolower( $this->vpa ) ); ?>&pn=<?php echo preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ); ?>&am=<?php echo $total; ?>&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'Order ID', 'upi-qr-code-payment-for-woocommerce' ); ?> <?php echo $order->get_id(); ?>&mode=04" onclick="window.onbeforeunload = null;"><button type="button" class="btn btn-dark"><?php echo $this->button_text; ?></button></a>
+						        <a href="upi://pay?pa=<?php echo htmlentities( strtolower( $this->vpa ) ); ?>&pn=<?php echo preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ); ?>&am=<?php echo $total; ?>&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'Order ID', 'upi-qr-code-payment-for-woocommerce' ); ?> <?php echo $order->get_order_number(); ?>&mode=04" onclick="window.onbeforeunload = null;"><button type="button" class="btn btn-dark"><?php echo $this->button_text; ?></button></a>
 						    </div>
 						<?php } ?>
 						<div id="upiwc-description" class="upiwc-description"><?php echo wptexturize( $this->instructions ); ?></div>
 					    <?php if ( wp_is_mobile() ) { ?>
-						    <input type="hidden" id="data-qr-code" data-width="140" data-height="140" data-link="upi://pay?pa=<?php echo htmlentities( strtolower( $this->vpa ) ); ?>&pn=<?php echo preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ); ?>&am=<?php echo $total; ?>&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'Order ID', 'upi-qr-code-payment-for-woocommerce' ); ?> <?php echo $order->get_id(); ?>&mode=01">
+						    <input type="hidden" id="data-qr-code" data-width="140" data-height="140" data-link="upi://pay?pa=<?php echo htmlentities( strtolower( $this->vpa ) ); ?>&pn=<?php echo preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ); ?>&am=<?php echo $total; ?>&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'Order ID', 'upi-qr-code-payment-for-woocommerce' ); ?> <?php echo $order->get_order_number(); ?>&mode=01">
 						    <input type="hidden" id="data-dialog-box" data-pay="95%" data-confirm="95%" data-redirect="95%">
 						<?php } else { ?>
-						    <input type="hidden" id="data-qr-code" data-width="180" data-height="180" data-link="upi://pay?pa=<?php echo htmlentities( strtolower( $this->vpa ) ); ?>&pn=<?php echo preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ); ?>&am=<?php echo $total; ?>&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'Order ID', 'upi-qr-code-payment-for-woocommerce' ); ?> <?php echo $order->get_id(); ?>&mode=01">
+						    <input type="hidden" id="data-qr-code" data-width="180" data-height="180" data-link="upi://pay?pa=<?php echo htmlentities( strtolower( $this->vpa ) ); ?>&pn=<?php echo preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ); ?>&am=<?php echo $total; ?>&tr=<?php echo $order->get_id(); ?>&tn=<?php _e( 'Order ID', 'upi-qr-code-payment-for-woocommerce' ); ?> <?php echo $order->get_order_number(); ?>&mode=01">
 							<input type="hidden" id="data-dialog-box" data-pay="60%" data-confirm="50%" data-redirect="40%">
 						<?php } ?>
 					</div>
