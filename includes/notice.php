@@ -13,8 +13,8 @@ add_action( 'admin_notices', 'upiwc_rating_admin_notice' );
 add_action( 'admin_init', 'upiwc_dismiss_rating_admin_notice' );
 
 function upiwc_rating_admin_notice() {
-    // Show notice after 360 hours (15 days) from installed time.
-    if ( upiwc_plugin_get_installed_time() > strtotime( '-360 hours' )
+    // Show notice after 240 hours (10 days) from installed time.
+    if ( upiwc_plugin_get_installed_time() > strtotime( '-240 hours' )
         || '1' === get_option( 'upiwc_plugin_dismiss_rating_notice' )
         || ! current_user_can( 'manage_options' )
         || apply_filters( 'upiwc_plugin_hide_sticky_notice', false ) ) {

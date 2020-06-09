@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: UPI QR Code Payment for WooCommerce\n"
-"POT-Creation-Date: 2020-05-24 10:40+0530\n"
+"POT-Creation-Date: 2020-06-09 18:08+0530\n"
 "PO-Revision-Date: 2020-03-14 19:24+0530\n"
 "Last-Translator: \n"
 "Language-Team: Sayan Datta <hello@sayandatta.in>\n"
@@ -20,6 +20,356 @@ msgstr ""
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: includes/backup.php:38 includes/payment.php:38
+msgid "UPI QR Code"
+msgstr ""
+
+#: includes/backup.php:39 includes/payment.php:39
+msgid ""
+"Allows customers to use UPI mobile app like Paytm, Google Pay, BHIM, PhonePe "
+"to pay to your bank account directly using UPI."
+msgstr ""
+
+#: includes/backup.php:40 includes/payment.php:40
+msgid "Proceed to Payment"
+msgstr ""
+
+#: includes/backup.php:131 includes/payment.php:131
+msgid "Gateway disabled"
+msgstr ""
+
+#: includes/backup.php:131 includes/payment.php:131
+msgid ""
+"This plugin does not support your store currency. UPI Payment only supports "
+"Indian Currency."
+msgstr ""
+
+#: includes/backup.php:145 includes/backup.php:294 includes/payment.php:145
+#: includes/payment.php:270
+msgid "Enable/Disable:"
+msgstr ""
+
+#: includes/backup.php:147 includes/payment.php:147
+msgid "Enable UPI QR Code Payment"
+msgstr ""
+
+#: includes/backup.php:148 includes/payment.php:148
+msgid "Enable this if you want to collect payment via UPI QR Codes."
+msgstr ""
+
+#: includes/backup.php:153 includes/payment.php:153
+msgid "Title:"
+msgstr ""
+
+#: includes/backup.php:155 includes/payment.php:155
+msgid ""
+"This controls the title for the payment method the customer sees during "
+"checkout."
+msgstr ""
+
+#: includes/backup.php:156 includes/payment.php:156
+msgid "Pay with UPI QR Code"
+msgstr ""
+
+#: includes/backup.php:160 includes/payment.php:160
+msgid "Description:"
+msgstr ""
+
+#: includes/backup.php:162 includes/payment.php:162
+msgid "Payment method description that the customer will see on your checkout."
+msgstr ""
+
+#: includes/backup.php:163 includes/payment.php:163
+msgid ""
+"It uses UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI "
+"app to make payment."
+msgstr ""
+
+#: includes/backup.php:167 includes/payment.php:167
+msgid "Instructions:"
+msgstr ""
+
+#: includes/backup.php:169 includes/payment.php:169
+msgid "Instructions that will be added to the order pay page and emails."
+msgstr ""
+
+#: includes/backup.php:170 includes/payment.php:170
+msgid ""
+"Scan the QR Code with any UPI apps like BHIM, Paytm, Google Pay, PhonePe or "
+"any Banking UPI app to make payment for this order. After successful "
+"payment, enter the UPI Reference ID or Transaction Number and your UPI ID in "
+"the next screen and submit the form. We will manually verify this payment "
+"against your 12-digits UPI Reference ID or Transaction Number (e.g. "
+"001422121258) and your UPI ID."
+msgstr ""
+
+#: includes/backup.php:174 includes/payment.php:174
+msgid "Thank You Message:"
+msgstr ""
+
+#: includes/backup.php:176 includes/payment.php:176
+msgid "This displays a message to customer after a successful payment is made."
+msgstr ""
+
+#: includes/backup.php:177 includes/payment.php:177
+msgid ""
+"Thank you for your payment. Your transaction has been completed, and your "
+"order has been successfully placed. Please check you Email inbox for "
+"details. Please check your bank account statement to view transaction "
+"details."
+msgstr ""
+
+#: includes/backup.php:181 includes/payment.php:181
+msgid "Payment Success Status:"
+msgstr ""
+
+#: includes/backup.php:183 includes/backup.php:224 includes/payment.php:183
+msgid "Payment action on successful UPI Transaction ID submission."
+msgstr ""
+
+#: includes/backup.php:187 includes/payment.php:187
+msgid "Pending Payment"
+msgstr ""
+
+#: includes/backup.php:188 includes/payment.php:188
+msgid "On Hold"
+msgstr ""
+
+#: includes/backup.php:189 includes/payment.php:189
+msgid "Processing"
+msgstr ""
+
+#: includes/backup.php:190 includes/payment.php:190
+msgid "Completed"
+msgstr ""
+
+#: includes/backup.php:194 includes/payment.php:194
+msgid "Your Store or Shop Name:"
+msgstr ""
+
+#: includes/backup.php:196 includes/payment.php:196
+msgid ""
+"Please enter Your Store or Shop name. If you are a person, you can enter "
+"your name."
+msgstr ""
+
+#: includes/backup.php:201 includes/payment.php:201
+msgid "UPI VPA ID:"
+msgstr ""
+
+#: includes/backup.php:203 includes/payment.php:203
+msgid "Please enter Your UPI VPA at which you want to collect payments."
+msgstr ""
+
+#: includes/backup.php:208 includes/payment.php:208
+msgid "Pay Now Button Text:"
+msgstr ""
+
+#: includes/backup.php:210 includes/payment.php:210
+msgid "Enter the text to show as the payment button."
+msgstr ""
+
+#: includes/backup.php:211 includes/payment.php:211
+msgid "Scan & Pay Now"
+msgstr ""
+
+#: includes/backup.php:215 includes/payment.php:215
+msgid "Button Text (Mobile):"
+msgstr ""
+
+#: includes/backup.php:217 includes/payment.php:217
+msgid "Enter the button text to show on mobile devices."
+msgstr ""
+
+#: includes/backup.php:218 includes/payment.php:218
+msgid "Click here to pay through UPI"
+msgstr ""
+
+#: includes/backup.php:222 includes/payment.php:222
+msgid "Popup Theme:"
+msgstr ""
+
+#: includes/backup.php:228 includes/payment.php:228
+msgid "Light Theme"
+msgstr ""
+
+#: includes/backup.php:229 includes/payment.php:229
+msgid "Dark Theme"
+msgstr ""
+
+#: includes/backup.php:233 includes/payment.php:233
+msgid "UPI Address:"
+msgstr ""
+
+#: includes/backup.php:235 includes/payment.php:235
+msgid "Show UPI Address Field"
+msgstr ""
+
+#: includes/backup.php:236 includes/backup.php:252
+msgid ""
+"Enable this if you do want to collect UPI ID or Transaction Number from your "
+"customer."
+msgstr ""
+
+#: includes/backup.php:241 includes/payment.php:241
+msgid "UPI Handle (VPA):"
+msgstr ""
+
+#: includes/backup.php:243 includes/payment.php:243
+msgid "Show UPI Handle Field"
+msgstr ""
+
+#: includes/backup.php:244
+msgid ""
+"Enable this if you want to allow for your customer to select UPI handles "
+"from predefined list."
+msgstr ""
+
+#: includes/backup.php:249 includes/payment.php:249
+msgid "Require UPI ID:"
+msgstr ""
+
+#: includes/backup.php:251 includes/payment.php:251
+msgid "Require UPI ID Collection"
+msgstr ""
+
+#: includes/backup.php:257 includes/payment.php:257
+msgid "Mobile QR Code:"
+msgstr ""
+
+#: includes/backup.php:259 includes/payment.php:259
+msgid "Show QR Code on Mobile"
+msgstr ""
+
+#: includes/backup.php:260 includes/payment.php:260
+msgid "Enable this if you want to show UPI QR Code on mobile devices."
+msgstr ""
+
+#: includes/backup.php:289 includes/payment.php:265
+msgid "Configure Email"
+msgstr ""
+
+#: includes/backup.php:296 includes/payment.php:272
+msgid "Enable Email Notification"
+msgstr ""
+
+#: includes/backup.php:297 includes/payment.php:273
+msgid ""
+"Enable this option if you want to send payment link to the customer via "
+"email after placing the successful order."
+msgstr ""
+
+#: includes/backup.php:302 includes/payment.php:278
+msgid "Email Subject:"
+msgstr ""
+
+#: includes/backup.php:305 includes/backup.php:312 includes/payment.php:281
+#: includes/payment.php:288
+#, php-format
+msgid "Available placeholders: %s"
+msgstr ""
+
+#: includes/backup.php:306 includes/payment.php:282
+msgid "[{site_title}]: Payment pending #{order_number}"
+msgstr ""
+
+#: includes/backup.php:309 includes/payment.php:285
+msgid "Email Heading:"
+msgstr ""
+
+#: includes/backup.php:313 includes/payment.php:289
+msgid "Thank you for your order"
+msgstr ""
+
+#: includes/backup.php:316 includes/payment.php:292
+msgid "Email Body Text:"
+msgstr ""
+
+#: includes/backup.php:318 includes/payment.php:294
+msgid ""
+"This text will be attached to the On Hold email template sent to customer. "
+"Use {upi_pay_link} to add the link of payment page."
+msgstr ""
+
+#: includes/backup.php:319 includes/payment.php:295
+msgid ""
+"Please complete the payment via UPI by going to this link: {upi_pay_link} "
+"(ignore if already done)."
+msgstr ""
+
+#: includes/backup.php:378 includes/payment.php:353
+msgid "Please enter your UPI Address!"
+msgstr ""
+
+#: includes/backup.php:383 includes/payment.php:358
+msgid "Please enter a valid UPI Address!"
+msgstr ""
+
+#: includes/backup.php:428 includes/payment.php:403
+#, php-format
+msgid "Awaiting UPI Payment!%1$sUPI ID: %2$s"
+msgstr ""
+
+#: includes/backup.php:481 includes/payment.php:456
+msgid ""
+"Please enter the correct details here. Click Confirm, only after amount "
+"deducted from your account. We will manually verify your transaction."
+msgstr ""
+
+#: includes/backup.php:482 includes/payment.php:457
+msgid ""
+"Click Confirm, only after amount deducted from your account. We will "
+"manually verify your transaction. Are you sure?"
+msgstr ""
+
+#: includes/backup.php:501 includes/payment.php:471
+msgid ""
+"Please wait and don't press back or refresh this page while we are "
+"processing your payment."
+msgstr ""
+
+#: includes/backup.php:502 includes/payment.php:472
+msgid "Waiting for payment..."
+msgstr ""
+
+#: includes/backup.php:506 includes/payment.php:476
+msgid "Cancel"
+msgstr ""
+
+#: includes/backup.php:511 includes/payment.php:481
+msgid "UPI ID:"
+msgstr ""
+
+#: includes/backup.php:517 includes/payment.php:487
+msgid "Amount to be Paid:"
+msgstr ""
+
+#: includes/backup.php:521 includes/backup.php:528 includes/backup.php:531
+#: includes/payment.php:491 includes/payment.php:498 includes/payment.php:501
+msgid "ORDER ID"
+msgstr ""
+
+#: includes/backup.php:561 includes/payment.php:531
+msgid "Payment primarily completed. Needs shop owner's verification."
+msgstr ""
+
+#: includes/backup.php:569 includes/payment.php:541
+msgid ""
+"Order can't be found against this Order ID. If the money debited from your "
+"account, please Contact with Site Administrator for further action."
+msgstr ""
+
+#: includes/backup.php:721
+#, php-format
+msgid "UPI ID: %1$s%3$sUPI Transaction ID: %2$s"
+msgstr ""
+
+#: includes/backup.php:726
+msgid ""
+"Thank you for shopping with us. We will contact you shortly.<br>We are "
+"redirecting you in a moment..."
+msgstr ""
 
 #: includes/notice.php:28
 msgid ""
@@ -41,337 +391,22 @@ msgstr ""
 msgid "Nope&#44; maybe later"
 msgstr ""
 
-#: includes/payment.php:38
-msgid "UPI QR Code"
-msgstr ""
-
-#: includes/payment.php:39
-msgid ""
-"Allows customers to use UPI mobile app like Paytm, Google Pay, BHIM, PhonePe "
-"to pay to your bank account directly using UPI."
-msgstr ""
-
-#: includes/payment.php:40
-msgid "Proceed to Payment"
-msgstr ""
-
-#: includes/payment.php:131
-msgid "Gateway disabled"
-msgstr ""
-
-#: includes/payment.php:131
-msgid ""
-"This plugin does not support your store currency. UPI Payment only supports "
-"Indian Currency."
-msgstr ""
-
-#: includes/payment.php:145 includes/payment.php:267
-msgid "Enable/Disable:"
-msgstr ""
-
-#: includes/payment.php:147
-msgid "Enable UPI QR Code Payment"
-msgstr ""
-
-#: includes/payment.php:148
-msgid "Enable this if you want to collect payment via UPI QR Codes."
-msgstr ""
-
-#: includes/payment.php:153
-msgid "Title:"
-msgstr ""
-
-#: includes/payment.php:155
-msgid ""
-"This controls the title for the payment method the customer sees during "
-"checkout."
-msgstr ""
-
-#: includes/payment.php:156
-msgid "Pay with UPI QR Code"
-msgstr ""
-
-#: includes/payment.php:160
-msgid "Description:"
-msgstr ""
-
-#: includes/payment.php:162
-msgid "Payment method description that the customer will see on your checkout."
-msgstr ""
-
-#: includes/payment.php:163
-msgid ""
-"It uses UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI "
-"app to make payment."
-msgstr ""
-
-#: includes/payment.php:167
-msgid "Instructions:"
-msgstr ""
-
-#: includes/payment.php:169
-msgid "Instructions that will be added to the order pay page and emails."
-msgstr ""
-
-#: includes/payment.php:170
-msgid ""
-"Scan the QR Code with any UPI apps like BHIM, Paytm, Google Pay, PhonePe or "
-"any Banking UPI app to make payment for this order. After successful "
-"payment, enter the UPI Reference ID or Transaction Number and your UPI ID in "
-"the next screen and submit the form. We will manually verify this payment "
-"against your 12-digits UPI Reference ID or Transaction Number (e.g. "
-"001422121258) and your UPI ID."
-msgstr ""
-
-#: includes/payment.php:174
-msgid "Thank You Message:"
-msgstr ""
-
-#: includes/payment.php:176
-msgid "This displays a message to customer after a successful payment is made."
-msgstr ""
-
-#: includes/payment.php:177
-msgid ""
-"Thank you for your payment. Your transaction has been completed, and your "
-"order has been successfully placed. Please check you Email inbox for "
-"details. Please check your bank account statement to view transaction "
-"details."
-msgstr ""
-
-#: includes/payment.php:181
-msgid "Payment Success Status:"
-msgstr ""
-
-#: includes/payment.php:183
-msgid "Payment action on successful UPI Transaction ID submission."
-msgstr ""
-
-#: includes/payment.php:187
-msgid "Pending Payment"
-msgstr ""
-
-#: includes/payment.php:188
-msgid "On Hold"
-msgstr ""
-
-#: includes/payment.php:189
-msgid "Processing"
-msgstr ""
-
-#: includes/payment.php:190
-msgid "Completed"
-msgstr ""
-
-#: includes/payment.php:194
-msgid "Your Store or Shop Name:"
-msgstr ""
-
-#: includes/payment.php:196
-msgid ""
-"Please enter Your Store or Shop name. If you are a person, you can enter "
-"your name."
-msgstr ""
-
-#: includes/payment.php:201
-msgid "UPI VPA ID:"
-msgstr ""
-
-#: includes/payment.php:203
-msgid "Please enter Your UPI VPA at which you want to collect payments."
-msgstr ""
-
-#: includes/payment.php:208
-msgid "Pay Now Button Text:"
-msgstr ""
-
-#: includes/payment.php:210
-msgid "Enter the text to show as the payment button."
-msgstr ""
-
-#: includes/payment.php:211
-msgid "Scan & Pay Now"
-msgstr ""
-
-#: includes/payment.php:215
-msgid "Button Text (Mobile):"
-msgstr ""
-
-#: includes/payment.php:217
-msgid "Enter the button text to show on mobile devices."
-msgstr ""
-
-#: includes/payment.php:218
-msgid "Click here to pay through UPI"
-msgstr ""
-
-#: includes/payment.php:222
-msgid "Mobile QR Code:"
-msgstr ""
-
 #: includes/payment.php:224
-msgid "Show QR Code on Mobile"
+msgid "Select the QR Code Popup theme from here."
 msgstr ""
 
-#: includes/payment.php:225
-msgid "Enable this if you want to show UPI QR Code on mobile devices."
+#: includes/payment.php:236
+msgid "Enable this if you want to collect UPI ID from your customer."
 msgstr ""
 
-#: includes/payment.php:230
-msgid "Require Payment Info:"
-msgstr ""
-
-#: includes/payment.php:232
-msgid "Disable UPI ID Collection"
-msgstr ""
-
-#: includes/payment.php:233
+#: includes/payment.php:244
 msgid ""
-"Enable this if you do want to collect UPI ID or Transaction Number from your "
-"customer."
+"Enable this if you want to allow your customer to select UPI handles from "
+"predefined list."
 msgstr ""
 
-#: includes/payment.php:238
-msgid "UPI Handle (VPA):"
-msgstr ""
-
-#: includes/payment.php:240
-msgid "Show UPI Handle Field"
-msgstr ""
-
-#: includes/payment.php:241
-msgid ""
-"Enable this if you want to allow for your customer to select UPI handles "
-"from predefined list."
-msgstr ""
-
-#: includes/payment.php:246
-msgid "UPI Transaction ID:"
-msgstr ""
-
-#: includes/payment.php:248
-msgid "Show Transaction ID Field"
-msgstr ""
-
-#: includes/payment.php:249
-msgid ""
-"Enable this if you want to collect UPI Transaction ID from your customers."
-msgstr ""
-
-#: includes/payment.php:254
-msgid "Require Transaction ID:"
-msgstr ""
-
-#: includes/payment.php:256
-msgid "Require Transaction ID Field"
-msgstr ""
-
-#: includes/payment.php:257
-msgid "Enable this if you want to require UPI Transaction ID field."
-msgstr ""
-
-#: includes/payment.php:262
-msgid "Configure Email"
-msgstr ""
-
-#: includes/payment.php:269
-msgid "Enable Email Notification"
-msgstr ""
-
-#: includes/payment.php:270
-msgid ""
-"Enable this option if you want to send payment link to the customer via "
-"email after placing the successful order."
-msgstr ""
-
-#: includes/payment.php:275
-msgid "Email Subject:"
-msgstr ""
-
-#: includes/payment.php:278 includes/payment.php:285
-#, php-format
-msgid "Available placeholders: %s"
-msgstr ""
-
-#: includes/payment.php:279
-msgid "[{site_title}]: Payment pending #{order_number}"
-msgstr ""
-
-#: includes/payment.php:282
-msgid "Email Heading:"
-msgstr ""
-
-#: includes/payment.php:286
-msgid "Thank you for your order"
-msgstr ""
-
-#: includes/payment.php:289
-msgid "Email Body Text:"
-msgstr ""
-
-#: includes/payment.php:291
-msgid ""
-"This text will be attached to the On Hold email template sent to customer. "
-"Use {upi_pay_link} to add the link of payment page."
-msgstr ""
-
-#: includes/payment.php:292
-msgid ""
-"Please complete the payment via UPI by going to this link: {upi_pay_link} "
-"(ignore if already done)."
-msgstr ""
-
-#: includes/payment.php:335
-msgid "Awaiting UPI Payment!"
-msgstr ""
-
-#: includes/payment.php:383
-msgid ""
-"Please enter the correct details here. Click Confirm, only after amount "
-"deducted from your account. We will manually verify your transaction."
-msgstr ""
-
-#: includes/payment.php:384
-msgid ""
-"Click Confirm, only after amount deducted from your account. We will "
-"manually verify your transaction. Are you sure?"
-msgstr ""
-
-#: includes/payment.php:403
-msgid "Cancel"
-msgstr ""
-
-#: includes/payment.php:406
-msgid "UPI ID:"
-msgstr ""
-
-#: includes/payment.php:410
-msgid "Amount to be Paid:"
-msgstr ""
-
-#: includes/payment.php:413 includes/payment.php:418 includes/payment.php:421
-msgid "Order ID"
-msgstr ""
-
-#: includes/payment.php:456
-msgid "Payment primarily completed. Needs shop owner's verification."
-msgstr ""
-
-#: includes/payment.php:464
-msgid ""
-"Order can't be found against this Order ID. If the money debited from your "
-"account, please Contact with Site Administrator for further action."
-msgstr ""
-
-#: includes/payment.php:616
-#, php-format
-msgid "UPI ID: %1$s%3$sUPI Transaction ID: %2$s"
-msgstr ""
-
-#: includes/payment.php:621
-msgid ""
-"Thank you for shopping with us. We will contact you shortly.<br>We are "
-"redirecting you in a moment..."
+#: includes/payment.php:252
+msgid "Enable this if you want to make UPI Address field mandetory."
 msgstr ""
 
 #: upi-qr-code-payment-for-woocommerce.php:93

@@ -1,6 +1,27 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.1.2
+Release Date: June 9, 2020
+
+* Added: Dark Mode for popup.
+* Tweak: Plugin will now show UPI ID field on checkout page as it will boost customer experience on checkout instead of getting the UPI ID after the payment. It can be disable from plugin settings.
+* Tweak: Transaction ID is completely removed to simplify the customer checkout experience.
+* Tweak: Added some styles on order payment page to enhance the checkout experience.
+* Tweak: Cancel button will redirect customers to checkout page.
+* Tweak: Cart will be automatically cleared if payment is actually completed.
+* Fixed: 404 not found issue and other permaalinks issues.
+* WC Compatibity upto v4.2.
+
+## 1.1.1
+Release Date: June 1, 2020
+
+* Tweak: Added some css classes to use custom styling for mobile button.
+* Fixed: A bug where 404 error is thrown if WordPress does not use pretty permalinks.
+* Fixed: A bug where popup becomes unresponsive in mobile devices if QR Code is hidden on mobile device.
+* Fixed: Some CSS & JS issues.
+
+
 ## 1.1.0
 Release Date: May 24, 2020
 

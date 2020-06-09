@@ -3,7 +3,7 @@ Contributors: infosatech
 Tags: upi, upi payment, woocommerce, qrcode, bhim upi, paytm upi, india
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 1.1.0
+Stable tag: 1.1.2
 Requires PHP: 5.6
 Donate link: https://www.paypal.me/iamsayan/
 License: GPLv3
@@ -102,11 +102,30 @@ Post detailed information about the issue in the [support forum](https://wordpre
 
 If you like UPI QR Code Payment for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
 
+= 1.1.2 =
+Release Date: June 9, 2020
+
+* Added: Dark Mode for popup.
+* Tweak: Plugin will now show UPI ID field on checkout page as it will boost customer experience on checkout instead of getting the UPI ID after the payment. It can be disable from plugin settings.
+* Tweak: Transaction ID is completely removed to simplify the customer checkout experience.
+* Tweak: Added some styles on order payment page to enhance the checkout experience.
+* Tweak: Cancel button will redirect customers to checkout page.
+* Tweak: Cart will be automatically cleared if payment is actually completed.
+* Fixed: 404 not found issue and other permaalinks issues.
+* WC Compatibity upto v4.2.
+
+= 1.1.1 =
+Release Date: June 1, 2020
+
+* Tweak: Added some css classes to use custom styling for mobile button.
+* Fixed: A bug where 404 error is thrown if WordPress does not use pretty permalinks.
+* Fixed: A bug where popup becomes unresponsive in mobile devices if QR Code is hidden on mobile device.
+* Fixed: Some CSS & JS issues.
+
 = 1.1.0 =
 Release Date: May 24, 2020
 
 * Tweak: Can disable Payment details collection from plugin settings.
-* Fixed: A bug where popup becomes unresponsive in mobile devices.
 * Fixed: Some CSS & JS issues.
 * Fixed: Custom button text is not working.
 
@@ -189,3 +208,8 @@ Release Date: March 14, 2020
 Release Date: January 30, 2020
 
 * Initial release.
+
+== Upgrade Notice ==
+
+= 1.1.2 =
+In this release we have introduced several changes on customer checkout experience. Please review the changes after updating the plugin.
