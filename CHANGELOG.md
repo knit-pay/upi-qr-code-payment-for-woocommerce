@@ -1,6 +1,37 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.1.6
+Release Date: September 18, 2020
+
+* Added: An option on payment page to go back to select any mayment method. This can be disabled by a filter.
+* Tweak: UPI Pay Button will be shown only on android devices.
+* Tweak: Added some CSS Improvements.
+* Optimize codes and stability.
+* Tested with WooCommerce v4.5.
+
+## 1.1.5
+Release Date: August 14, 2020
+
+* Fixed: Popup is not showing if QR is hidden on mobile devices.
+* Tested with WordPress v5.5.
+
+## 1.1.4
+Release Date: June 29, 2020
+
+* Fixed: Some JS issues.
+
+## 1.1.3
+Release Date: June 24, 2020
+
+* Added: Option to get Transaction ID, which was previously removed on v1.1.2.
+* Added: Option to change payment confirm message.
+* Added: Some validations.
+* Tweak: Sort UPI Handles alphabatically and introduced autocomplete.
+* Fixed: UPI ID is not showing as WooCommerce transaction ID.
+* Fixed: Some CSS & JS issues.
+* Other Improvements.
+
 ## 1.1.2
 Release Date: June 9, 2020
 

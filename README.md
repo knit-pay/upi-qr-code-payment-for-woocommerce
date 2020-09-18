@@ -36,7 +36,7 @@ When this plugin is installed, a customer will see UPI as a payment option. When
 * Customer will see UPI as a payment option in WooCommerce Checkout page.
 * When customer chooses it, it will open a page which shows the UPI QR Code containg the payemnt details and in mobile it will also show a button which takes customer to the list of installed UPI mobile applications.
 * Customer can scan the QR Code using any UPI app or choose an app from mobile to pay the required order amount.
-* After successful payment, a 12 digits transaction ID will apprear in the Customer's UPI app from which he/she made the payment.
+* After successful payment, a 12-digits Transaction/UTR ID will apprear in the Customer's UPI app from which he/she made the payment.
 * After that, customer needs to enter that 12 digit transaction number to the "Enter the Transaction ID" textbox and click submit.
 * After successful submission of the ID, the order will be marked as on hold (customizable).
 * Now, Merchant gets a notification on the mobile on his/her UPI app (Google Pay/PhonePe/BHIM/Paytm etc.)
@@ -87,6 +87,10 @@ Go to 'WooCommerce > Settings > Payments > UPI QR Code', enable/disable options 
 #### Is this plugin compatible with any themes?
 
 Yes, this plugin is compatible with any theme.
+
+#### I want auto verification after payment is done. Is is possible?
+
+Unfortunately no, automatic payment verification is not possible as NPCI does not allow to use their API and verify the traansaction of any website.
 
 #### The plugin isn't working or have a bug?
 

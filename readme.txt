@@ -2,8 +2,8 @@
 Contributors: infosatech
 Tags: upi, upi payment, woocommerce, qrcode, bhim upi, paytm upi, india
 Requires at least: 4.6
-Tested up to: 5.4
-Stable tag: 1.1.2
+Tested up to: 5.5
+Stable tag: 1.1.6
 Requires PHP: 5.6
 Donate link: https://www.paypal.me/iamsayan/
 License: GPLv3
@@ -43,7 +43,7 @@ Like UPI QR Code Payment for WooCommerce plugin? Consider leaving a [5 star revi
 * Customer will see UPI as a payment option in WooCommerce Checkout page.
 * When customer chooses it, it will open a page which shows the UPI QR Code containg the payemnt details and in mobile it will also show a button which takes customer to the list of installed UPI mobile applications.
 * Customer can scan the QR Code using any UPI app or choose an app from mobile to pay the required order amount.
-* After successful payment, a 12 digits transaction ID will apprear in the Customer's UPI app from which he/she made the payment.
+* After successful payment, a 12-digits Transaction/UTR ID will apprear in the Customer's UPI app from which he/she made the payment.
 * After that, customer needs to enter that 12 digit transaction number to the "Enter the Transaction ID" textbox and click submit.
 * After successful submission of the ID, the order will be marked as on hold (customizable).
 * Now, Merchant gets a notification on the mobile on his/her UPI app (Google Pay/PhonePe/BHIM/Paytm etc.)
@@ -85,6 +85,10 @@ Go to 'WooCommerce > Settings > Payments > UPI QR Code', enable/disable options 
 
 Yes, this plugin is compatible with any theme. Also, compatible with Genesis, Divi themes.
 
+= I want auto verification after payment is done. Is is possible? =
+
+Unfortunately no, automatic payment verification is not possible as NPCI does not allow to use their API and verify the traansaction of any website.
+
 = The plugin isn't working or have a bug? =
 
 Post detailed information about the issue in the [support forum](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce) and I will work to fix it.
@@ -102,11 +106,42 @@ Post detailed information about the issue in the [support forum](https://wordpre
 
 If you like UPI QR Code Payment for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
 
+= 1.1.6 =
+Release Date: September 18, 2020
+
+* Added: An option on payment page to go back to select any mayment method. This can be disabled by a filter.
+* Tweak: UPI Pay Button will be shown only on android devices.
+* Tweak: Added some CSS Improvements.
+* Optimize codes and stability.
+* Tested with WooCommerce v4.5.
+
+= 1.1.5 =
+Release Date: August 14, 2020
+
+* Fixed: Popup is not showing if QR is hidden on mobile devices.
+* Tested with WordPress v5.5.
+
+= 1.1.4 =
+Release Date: June 29, 2020
+
+* Fixed: Some JS issues.
+
+= 1.1.3 =
+Release Date: June 24, 2020
+
+* Added: Option to get Transaction ID, which was previously removed on v1.1.2.
+* Added: Option to change payment confirm message.
+* Added: Some validations.
+* Tweak: Sort UPI Handles alphabatically and introduced autocomplete.
+* Fixed: UPI ID is not showing as WooCommerce transaction ID.
+* Fixed: Some CSS & JS issues.
+* Other Improvements.
+
 = 1.1.2 =
 Release Date: June 9, 2020
 
 * Added: Dark Mode for popup.
-* Tweak: Plugin will now show UPI ID field on checkout page as it will boost customer experience on checkout instead of getting the UPI ID after the payment. It can be disable from plugin settings.
+* Tweak: Plugin will now show UPI ID field on checkout page as it will boost customer experience on checkout instead of getting the UPI ID after the payment. It can be disable ussing this filter: `upiwc_is_upi_enable`.
 * Tweak: Transaction ID is completely removed to simplify the customer checkout experience.
 * Tweak: Added some styles on order payment page to enhance the checkout experience.
 * Tweak: Cancel button will redirect customers to checkout page.
@@ -210,6 +245,3 @@ Release Date: January 30, 2020
 * Initial release.
 
 == Upgrade Notice ==
-
-= 1.1.2 =
-In this release we have introduced several changes on customer checkout experience. Please review the changes after updating the plugin.
