@@ -774,7 +774,7 @@ function upiwc_payment_gateway_init() {
 	     * @return array
 	     */
 		public function disable_gateway( $available_gateways ) {
-			if ( wp_is_mobile() && $this->hide_on_mobile === 'no' ) {
+			if ( wp_is_mobile() && $this->hide_on_mobile === 'yes' ) {
 			    unset( $available_gateways['wc-upi'] );
 			}
 
