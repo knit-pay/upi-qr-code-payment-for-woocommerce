@@ -1,27 +1,27 @@
-=== UPI QR Code Payment for WooCommerce ===
+=== UPI QR Code Payment Gateway ===
 Contributors: infosatech
 Tags: upi, upi payment, woocommerce, qrcode, bhim upi, paytm upi, india
 Requires at least: 4.6
-Tested up to: 5.5
-Stable tag: 1.1.6
+Tested up to: 5.7
+Stable tag: 1.2.0
 Requires PHP: 5.6
 Donate link: https://www.paypal.me/iamsayan/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
-This Plugin enables WooCommerce shopowners to get direct and instant payments through UPI apps like BHIM, Google Pay, Whatsapp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
+This Plugin enables WooCommerce shop owners to get direct and instant payments through UPI apps like BHIM, Google Pay, Whatsapp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
 
 == Description ==
 
-This Plugin enables WooCommerce shopowners to get direct and instant payments through UPI apps like BHIM, Google Pay, Whatsapp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
+This Plugin enables WooCommerce shop owners to get direct and instant payments through UPI apps like BHIM, Google Pay, Whatsapp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
 
-### UPI QR Code Payment for WooCommerce
+### UPI QR Code Payment Gateway
 
 UPI (Unified Payments Interface) is a payment standard owned by National Payment Corporation of India, a government owned instant payment solution. UPI works 24x7 and is free subject to prevalent government guidelines.
 
-When this plugin is installed, a customer will see UPI as a payment option. When customer chooses it, it will open a page which shows the UPI QR Code containg the payemnt details and in mobile it will also show a button which takes customer to the list of installed UPI mobile applications. Customer can choose an app and pay the required amount. 
+When this plugin is installed, a customer will see UPI as a payment option. When customer chooses it, it will open a page which shows the UPI QR Code containing the payemnt details and in mobile it will also show a button which takes customer to the list of installed UPI mobile applications. Customer can choose an app and pay the required amount. 
 
-Like UPI QR Code Payment for WooCommerce plugin? Consider leaving a [5 star review](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post).
+Like UPI QR Code Payment Gateway plugin? Consider leaving a [5 star review](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post).
 
 #### Benefits
 
@@ -65,9 +65,9 @@ Like UPI QR Code Payment for WooCommerce plugin? Consider leaving a [5 star revi
 == Installation ==
 
 1. Visit 'Plugins > Add New'.
-1. Search for 'UPI QR Code Payment for WooCommerce' and install it.
+1. Search for 'UPI QR Code Payment Gateway' and install it.
 1. Or you can upload the `upi-qr-code-payment-for-woocommerce` folder to the `/wp-content/plugins/` directory manually.
-1. Activate UPI QR Code Payment for WooCommerce from your Plugins page.
+1. Activate UPI QR Code Payment Gateway from your Plugins page.
 1. After activation go to 'WooCommerce > Settings > Payments > UPI QR Code'.
 1. Enable options and save changes.
 
@@ -104,12 +104,55 @@ Post detailed information about the issue in the [support forum](https://wordpre
 
 == Changelog ==
 
-If you like UPI QR Code Payment for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
+If you like UPI QR Code Payment Gateway, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
+
+= 1.2.0 =
+Release Date: March 16, 2021
+
+* Added: Option to add Merchant Codes according to the latest UPI Specification. Please use a valid Merchant UPI VPA ID (not user UPI ID), otherwise all payments will be failed.
+* Added: A button to download the QR Codes on Mobile Devices easily.
+* Tweak: Hide Copy UPI ID button by default. It can enabled via this filter: `add_filter( 'upiwc_show_upi_id_copy_button', '__return_true' );`.
+* Tested with WordPress v5.7 and WooCommerce v5.1.
+
+= 1.1.10 =
+Release Date: February 5, 2021
+
+* Removed: Trademark violations.
+* Tested with WooCommerce v5.0.
+
+= 1.1.9 =
+Release Date: January 16, 2021
+
+* Added: An button to copy the merchant's UPI ID so that customer can easily copy the ID and goes to any UPI App to make the payment.
+* Added: An option to set custom payment instructions for mobile devices.
+* Added: Filter to show direct UPI pay button. If you want this, add this line to the end of your theme's functions.php file: `add_filter( 'upiwc_show_direct_pay_button', '__return_true' );`.
+* Tweak: Customer UPI ID will be shown on popup if it is actually entered by the customer on checkout page.
+* Tested with WooCommerce v4.9.
+
+= 1.1.8 =
+Release Date: January 12, 2021
+
+* Tweak: According to the recents changes in National Payments Corporation of India(NPCI) direct UPI Intent generated by any web app is not supported anymore. So, from now this plugin only works with UPI QR code and on mobile devices this payment gateway will be hidden by default.
+* Tested with WordPress v5.6.
+
+= 1.1.7 =
+Release Date: December 7, 2020
+
+* Added: A method by which UPI apps will be launched automatically on Android devices.
+* Added: Customer's UPI ID in Payment Popup page.
+* Fixed: UPI Payment button is not showing on mobile devices.
+* Tweak: UPI QR Code will be shown everytime on iOS devices.
+* Tweak: UPI Pay Button will be shown only on android devices.
+* Tweak: A 90 seconds timer to look more professional.
+* Tweak: Added some CSS Improvements.
+* Removed: Country restrictions.
+* Optimize codes and stability.
+* Tested with WooCommerce v4.7.
 
 = 1.1.6 =
 Release Date: September 18, 2020
 
-* Added: An option on payment page to go back to select any mayment method. This can be disabled by a filter.
+* Added: An option on payment page to go back to select any payment method. This can be disabled by a filter.
 * Tweak: UPI Pay Button will be shown only on android devices.
 * Tweak: Added some CSS Improvements.
 * Optimize codes and stability.

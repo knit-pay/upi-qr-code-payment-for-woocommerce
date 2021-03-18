@@ -1,32 +1,32 @@
 <?php
 /**
- * Plugin Name: UPI QR Code Payment for WooCommerce
+ * Plugin Name: UPI QR Code Payment Gateway
  * Plugin URI: https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
- * Description: It enables a Woocommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
- * Version: 1.1.6
+ * Description: It enables a WooCommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
+ * Version: 1.2.0
  * Author: Sayan Datta
  * Author URI: https://www.sayandatta.in
  * License: GPLv3
  * Text Domain: upi-qr-code-payment-for-woocommerce
  * Domain Path: /languages
  * WC requires at least: 3.1
- * WC tested up to: 4.5
+ * WC tested up to: 5.1
  * 
- * UPI QR Code Payment for WooCommerce is free software: you can redistribute it and/or modify
+ * UPI QR Code Payment Gateway is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * any later version.
  *
- * UPI QR Code Payment for WooCommerce is distributed in the hope that it will be useful,
+ * UPI QR Code Payment Gateway is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with UPI QR Code Payment for WooCommerce plugin. If not, see <http://www.gnu.org/licenses/>.
+ * along with UPI QR Code Payment Gateway plugin. If not, see <http://www.gnu.org/licenses/>.
  * 
  * @category WooCommerce
- * @package  UPI QR Code Payment for WooCommerce
+ * @package  UPI QR Code Payment Gateway
  * @author   Sayan Datta <hello@sayandatta.in>
  * @license  http://www.gnu.org/licenses/ GNU General Public License
  * @link     https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $consts = array(
-    'UPI_WOO_PLUGIN_VERSION'       => '1.1.6', // plugin version
+    'UPI_WOO_PLUGIN_VERSION'       => '1.2.0', // plugin version
     'UPI_WOO_PLUGIN_BASENAME'      => plugin_basename( __FILE__ ),
 	'UPI_WOO_PLUGIN_DIR'           => plugin_dir_url( __FILE__ ),
 	//'UPI_WOO_PLUGIN_ENABLE_DEBUG'  => true
@@ -115,13 +115,13 @@ add_action( 'admin_notices', 'upiwc_new_plugin_install_notice' );
 function upiwc_new_plugin_install_notice() { 
     // Show a warning to sites running PHP < 5.6
     if( version_compare( PHP_VERSION, '5.6', '<' ) ) {
-	    echo '<div class="error"><p>' . __( 'Your version of PHP is below the minimum version of PHP required by UPI QR Code Payment for WooCommerce plugin. Please contact your host and request that your version be upgraded to 5.6 or later.', 'upi-qr-code-payment-for-woocommerce' ) . '</p></div>';
+	    echo '<div class="error"><p>' . __( 'Your version of PHP is below the minimum version of PHP required by UPI QR Code Payment Gateway plugin. Please contact your host and request that your version be upgraded to 5.6 or later.', 'upi-qr-code-payment-for-woocommerce' ) . '</p></div>';
     }
 
     // Check transient, if available display notice
     if( get_transient( 'upiwc-admin-notice-on-activation' ) ) { ?>
         <div class="notice notice-success">
-            <p><strong><?php printf( __( 'Thanks for installing %1$s v%2$s plugin. Click <a href="%3$s">here</a> to configure plugin settings.', 'upi-qr-code-payment-for-woocommerce' ), 'UPI QR Code Payment for WooCommerce', UPI_WOO_PLUGIN_VERSION, admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc-upi' ) ); ?></strong></p>
+            <p><strong><?php printf( __( 'Thanks for installing %1$s v%2$s plugin. Click <a href="%3$s">here</a> to configure plugin settings.', 'upi-qr-code-payment-for-woocommerce' ), 'UPI QR Code Payment Gateway', UPI_WOO_PLUGIN_VERSION, admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc-upi' ) ); ?></strong></p>
         </div> <?php
         delete_transient( 'upiwc-admin-notice-on-activation' );
     }
@@ -129,3 +129,4 @@ function upiwc_new_plugin_install_notice() {
 
 require_once plugin_dir_path( __FILE__ ) . 'includes/payment.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/notice.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/donate.php';
