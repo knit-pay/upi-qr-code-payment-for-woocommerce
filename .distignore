@@ -1,0 +1,15 @@
+/.wordpress-org
+/.git
+/.github
+/includes/css/upi.css
+/includes/js/upi.js
+
+_config.yml
+.distignore
+.editorconfig
+.gitignore
+CHANGELOG.md
+phpcs.xml
+README.md
+LICENSE
+todo

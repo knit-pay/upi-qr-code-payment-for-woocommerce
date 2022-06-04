@@ -1,4 +1,4 @@
-![alt text](https://github.com/iamsayan/upi-qr-code-payment-for-woocommerce/raw/master/banner.png "Plugin Banner")
+![UPI QR Code Payment for WooCommerce](.github/banner.png "Plugin Banner")
 
 # UPI QR Code Payment for WooCommerce
 

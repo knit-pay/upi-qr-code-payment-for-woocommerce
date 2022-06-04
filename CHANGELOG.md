@@ -1,6 +1,26 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.2.3
+Release Date: June 4, 2022
+
+* Added: Merchant Category Code input option.
+* Tested with WooCommerce v6.5.
+
+## 1.2.2
+Release Date: June 16, 2021
+
+* Removed: Mobile Phone Logic.
+* Tested with WooCommerce v5.4.
+
+## 1.2.1
+Release Date: May 24, 2021
+
+* Added: A delay of 30 seconds on 'Proceed to Next Button'.
+* Added: Merchant code so that you don't need to add it.
+* Added: New Payment Icon.
+* Tested with WooCommerce v5.3.
+
 ## 1.2.0
 Release Date: March 16, 2021
 
