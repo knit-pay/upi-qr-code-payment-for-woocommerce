@@ -2,24 +2,24 @@
 Contributors: infosatech
 Tags: upi, upi payment, woocommerce, qrcode, bhim upi, paytm upi, india
 Requires at least: 4.6
-Tested up to: 5.7
-Stable tag: 1.2.0
+Tested up to: 6.0
+Stable tag: 1.2.3
 Requires PHP: 5.6
-Donate link: https://www.paypal.me/iamsayan/
+Donate link: https://rzp.io/l/Bq3W5pr
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
-This Plugin enables WooCommerce shop owners to get direct and instant payments through UPI apps like BHIM, Google Pay, Whatsapp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
+This Plugin enables WooCommerce shopowners to get direct and instant payments through UPI apps like BHIM, Google Pay, Whatsapp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
 
 == Description ==
 
-This Plugin enables WooCommerce shop owners to get direct and instant payments through UPI apps like BHIM, Google Pay, Whatsapp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
+This Plugin enables WooCommerce shopowners to get direct and instant payments through UPI apps like BHIM, Google Pay, Whatsapp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
 
 ### UPI QR Code Payment Gateway
 
 UPI (Unified Payments Interface) is a payment standard owned by National Payment Corporation of India, a government owned instant payment solution. UPI works 24x7 and is free subject to prevalent government guidelines.
 
-When this plugin is installed, a customer will see UPI as a payment option. When customer chooses it, it will open a page which shows the UPI QR Code containing the payemnt details and in mobile it will also show a button which takes customer to the list of installed UPI mobile applications. Customer can choose an app and pay the required amount. 
+When this plugin is installed, a customer will see UPI as a payment option. When customer chooses it, it will open a page which shows the UPI QR Code containg the payemnt details and in mobile it will also show a button which takes customer to the list of installed UPI mobile applications. Customer can choose an app and pay the required amount. 
 
 Like UPI QR Code Payment Gateway plugin? Consider leaving a [5 star review](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post).
 
@@ -105,6 +105,26 @@ Post detailed information about the issue in the [support forum](https://wordpre
 == Changelog ==
 
 If you like UPI QR Code Payment Gateway, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
+
+= 1.2.3 =
+Release Date: June 4, 2022
+
+* Added: Merchant Category Code input option.
+* Tested with WordPress v6.0 and WooCommerce v6.5.
+
+= 1.2.2 =
+Release Date: June 16, 2021
+
+* Removed: Mobile Phone Logic.
+* Tested with WooCommerce v5.4.
+
+= 1.2.1 =
+Release Date: May 24, 2021
+
+* Added: A delay of 30 seconds on 'Proceed to Next Button'.
+* Added: Merchant code so that you don't need to add it.
+* Added: New Payment Icon.
+* Tested with WooCommerce v5.3.
 
 = 1.2.0 =
 Release Date: March 16, 2021
@@ -286,5 +306,3 @@ Release Date: March 14, 2020
 Release Date: January 30, 2020
 
 * Initial release.
-
-== Upgrade Notice ==

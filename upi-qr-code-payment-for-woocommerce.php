@@ -3,14 +3,14 @@
  * Plugin Name: UPI QR Code Payment Gateway
  * Plugin URI: https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
  * Description: It enables a WooCommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
- * Version: 1.2.0
+ * Version: 1.2.3
  * Author: Sayan Datta
- * Author URI: https://www.sayandatta.in
+ * Author URI: https://sayandatta.in
  * License: GPLv3
  * Text Domain: upi-qr-code-payment-for-woocommerce
  * Domain Path: /languages
  * WC requires at least: 3.1
- * WC tested up to: 5.1
+ * WC tested up to: 6.5
  * 
  * UPI QR Code Payment Gateway is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,13 +39,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $consts = array(
-    'UPI_WOO_PLUGIN_VERSION'       => '1.2.0', // plugin version
-    'UPI_WOO_PLUGIN_BASENAME'      => plugin_basename( __FILE__ ),
-	'UPI_WOO_PLUGIN_DIR'           => plugin_dir_url( __FILE__ ),
-	//'UPI_WOO_PLUGIN_ENABLE_DEBUG'  => true
+    'UPI_WOO_PLUGIN_VERSION'  => '1.2.3', // plugin version
+    'UPI_WOO_PLUGIN_BASENAME' => plugin_basename( __FILE__ ),
+	'UPI_WOO_PLUGIN_DIR'      => plugin_dir_url( __FILE__ ),
 );
 
-foreach( $consts as $const => $value ) {
+foreach ( $consts as $const => $value ) {
     if ( ! defined( $const ) ) {
         define( $const, $value );
     }
@@ -99,13 +98,13 @@ function upiwc_add_action_links( $links ) {
 add_filter( 'plugin_row_meta', 'upiwc_plugin_meta_links', 10, 2 );
 
 function upiwc_plugin_meta_links( $links, $file ) {
-    $plugin = UPI_WOO_PLUGIN_BASENAME;
-    if ( $file == $plugin ) // only for this plugin
+    if ( UPI_WOO_PLUGIN_BASENAME === $file ) { // only for this plugin
         return array_merge( $links, 
             array( '<a href="https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/" target="_blank">' . __( 'Support', 'upi-qr-code-payment-for-woocommerce' ) . '</a>' ),
             array( '<a href="https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/#faq" target="_blank">' . __( 'FAQ', 'upi-qr-code-payment-for-woocommerce' ) . '</a>' ),
-            array( '<a href="https://www.paypal.me/iamsayan/" target="_blank">' . __( 'Donate', 'upi-qr-code-payment-for-woocommerce' ) . '</a>' )
+            array( '<a href="https://rzp.io/l/Bq3W5pr" target="_blank">' . __( 'Donate', 'upi-qr-code-payment-for-woocommerce' ) . '</a>' )
         );
+    }
     return $links;
 }
 
@@ -114,12 +113,12 @@ add_action( 'admin_notices', 'upiwc_new_plugin_install_notice' );
 
 function upiwc_new_plugin_install_notice() { 
     // Show a warning to sites running PHP < 5.6
-    if( version_compare( PHP_VERSION, '5.6', '<' ) ) {
+    if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
 	    echo '<div class="error"><p>' . __( 'Your version of PHP is below the minimum version of PHP required by UPI QR Code Payment Gateway plugin. Please contact your host and request that your version be upgraded to 5.6 or later.', 'upi-qr-code-payment-for-woocommerce' ) . '</p></div>';
     }
 
     // Check transient, if available display notice
-    if( get_transient( 'upiwc-admin-notice-on-activation' ) ) { ?>
+    if ( get_transient( 'upiwc-admin-notice-on-activation' ) ) { ?>
         <div class="notice notice-success">
             <p><strong><?php printf( __( 'Thanks for installing %1$s v%2$s plugin. Click <a href="%3$s">here</a> to configure plugin settings.', 'upi-qr-code-payment-for-woocommerce' ), 'UPI QR Code Payment Gateway', UPI_WOO_PLUGIN_VERSION, admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc-upi' ) ); ?></strong></p>
         </div> <?php
