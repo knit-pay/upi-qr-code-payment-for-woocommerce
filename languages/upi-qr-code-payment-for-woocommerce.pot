@@ -468,7 +468,7 @@ msgid ""
 msgstr ""
 
 #: includes/payment.php:238
-msgid "Select the QR Code Popup theme from here."
+msgid "Select the QR Code Popup theme here."
 msgstr ""
 
 #: includes/payment.php:247
@@ -476,7 +476,7 @@ msgid "UPI Address (VPA):"
 msgstr ""
 
 #: includes/payment.php:249
-msgid "If you want to collect UPI Address from customers, set it from here."
+msgid "If you want to collect UPI Address from customers, set it here."
 msgstr ""
 
 #: includes/payment.php:253 includes/payment.php:276
@@ -492,7 +492,7 @@ msgid "Show Input Field & Handle"
 msgstr ""
 
 #: includes/payment.php:261
-msgid "If you want to make UPI Address field required, set it from here."
+msgid "If you want to make UPI Address field required, set it here."
 msgstr ""
 
 #: includes/payment.php:265
@@ -509,7 +509,7 @@ msgstr ""
 
 #: includes/payment.php:272
 msgid ""
-"If you want to collect UPI Transaction ID from customers, set it from here."
+"If you want to collect UPI Transaction ID from customers, set it here."
 msgstr ""
 
 #: includes/payment.php:278
@@ -669,5 +669,5 @@ msgid "Sayan Datta"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://sayandatta.in"
+msgid "https://www.sayandatta.co.in"
 msgstr ""

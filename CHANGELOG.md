@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.2.4
+Release Date: January 31, 2023
+
+* Added: Payment details in order admin column.
+* Tweak: Strengthened the UTR ID validation.
+* Tweak: UPI Transaction ID field will be now default for new installations.
+* Fixed: Wrong texts and typos.
+* Tested with WordPress v6.1 and WooCommerce v7.3.
+
 ## 1.2.3
 Release Date: June 4, 2022
 

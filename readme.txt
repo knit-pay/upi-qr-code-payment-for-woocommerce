@@ -2,8 +2,8 @@
 Contributors: infosatech
 Tags: upi, upi payment, woocommerce, qrcode, bhim upi, paytm upi, india
 Requires at least: 4.6
-Tested up to: 6.0
-Stable tag: 1.2.3
+Tested up to: 6.1
+Stable tag: 1.2.4
 Requires PHP: 5.6
 Donate link: https://rzp.io/l/Bq3W5pr
 License: GPLv3
@@ -87,7 +87,7 @@ Yes, this plugin is compatible with any theme. Also, compatible with Genesis, Di
 
 = I want auto verification after payment is done. Is is possible? =
 
-Unfortunately no, automatic payment verification is not possible as NPCI does not allow to use their API and verify the traansaction of any website.
+Unfortunately no, automatic payment verification is not possible as NPCI does not allow to use their API and verify the transaction of any external website.
 
 = The plugin isn't working or have a bug? =
 
@@ -105,6 +105,15 @@ Post detailed information about the issue in the [support forum](https://wordpre
 == Changelog ==
 
 If you like UPI QR Code Payment Gateway, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
+
+= 1.2.4 =
+Release Date: January 31, 2023
+
+* Added: Payment details in order admin column.
+* Tweak: Strengthened the UTR ID validation.
+* Tweak: UPI Transaction ID field will be now default for new installations.
+* Fixed: Wrong texts and typos.
+* Tested with WordPress v6.1 and WooCommerce v7.3.
 
 = 1.2.3 =
 Release Date: June 4, 2022
