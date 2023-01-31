@@ -1,4 +1,5 @@
-jQuery(document).ready(function($) {
+( function( $ ) {
+    "use strict";
 
     if ( typeof upiwc_params === 'undefined' ) {
         return false;
@@ -72,6 +73,7 @@ jQuery(document).ready(function($) {
     $( 'body' ).on( 'click', '#upiwc-confirm-payment', function( e ) {
         e.preventDefault();
         
+        var d = new Date()
         var colorTheme = $( this ).data( 'theme' );
         var cd = $.confirm( {
             title: '<span class="upiwc-popup-title-' + upiwc_params.app_theme + '">Scan this QR Code</span>',
@@ -154,7 +156,7 @@ jQuery(document).ready(function($) {
                                     action: function() {
                                         var tran_id = this.$content.find('#upiwc-transaction-number').val();
                                         if( upiwc_params.transaction_id == 'show_require' ) {
-                                            if( tran_id == '' || ( tran_id.length != upiwc_params.tran_id_length ) ) {
+                                            if( tran_id == '' || ( tran_id.length !== upiwc_params.tran_id_length ) || ( tran_id.toString().charAt(0) !== d.getFullYear().toString().slice(-1) ) ) {
                                                 $.alert( {
                                                     title: '<span class="upiwc-popup-title-' + upiwc_params.app_theme + '">Error!</span>',
                                                     content: '<div id="upiwc-error-text">Please enter a valid Transaction / UTR / Reference ID and try again.</div>',
@@ -210,7 +212,7 @@ jQuery(document).ready(function($) {
         $( '.upiwc-buttons, .upiwc-return-link' ).hide();
         $( '.upiwc-waiting-text' ).text( 'Please wait and don\'t press back or refresh this page while we are processing your payment...' );
     } );
-} );
+} )( jQuery );
 
 function upiTransactionIDField() {
     var d = new Date(),

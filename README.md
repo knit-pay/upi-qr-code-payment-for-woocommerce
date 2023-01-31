@@ -1,16 +1,23 @@
-![UPI QR Code Payment for WooCommerce](.github/banner.png "Plugin Banner")
+![UPI QR Code Payment Gateway for WooCommerce](.github/banner.png "Plugin Banner")
 
-# UPI QR Code Payment for WooCommerce
+# UPI QR Code Payment Gateway for WooCommerce
 
 This is the Un-Official UPI QR Code plugin for WooCommerce. Allows you to accept Credit Cards, Debit Cards, Netbanking, Wallets, and UPI Payments with the WooCommerce plugin.
 
-[![WP compatibility](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/wp-badge.svg)](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/latest) [![PHP compatibility](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/php-badge.svg)](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/latest)
+[![WP compatibility](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/wp-badge.svg)](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/latest) 
+[![PHP compatibility](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/php-badge.svg)](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/latest)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/iamsayan/upi-qr-code-payment-for-woocommerce)
+![PHP](https://img.shields.io/badge/php-v7.3%2B-blue)
+![GitHub Release Date](https://img.shields.io/github/release-date/iamsayan/upi-qr-code-payment-for-woocommerce?logo=github)
+![GitHub last commit](https://img.shields.io/github/last-commit/iamsayan/upi-qr-code-payment-for-woocommerce?logo=github)
+![GitHub Repo stars](https://img.shields.io/github/stars/iamsayan/upi-qr-code-payment-for-woocommerce?style=social)
+![GitHub forks](https://img.shields.io/github/forks/iamsayan/upi-qr-code-payment-for-woocommerce?style=social)
 
 ## Description
 
 This Plugin enables WooCommerce shopowners to get direct and instant payments through UPI apps like BHIM, Google Pay, Whatsapp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
 
-### UPI QR Code Payment for WooCommerce
+### UPI QR Code Payment Gateway for WooCommerce
 
 UPI (Unified Payments Interface) is a payment standard owned by National Payment Corporation of India, a government owned instant payment solution. UPI works 24x7 and is free subject to prevalent government guidelines.
 
@@ -44,7 +51,7 @@ When this plugin is installed, a customer will see UPI as a payment option. When
 * Merchant opens the Woocommerce Dashboard, checks the "pending orders" for this Order ID.
 * Checks the order details and processes it (shipping etc) and makes the orders as "processing" or "completed".
 
-Like UPI QR Code Payment for WooCommerce plugin? Consider leaving a [5 star review](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post).
+Like UPI QR Code Payment Gateway for WooCommerce plugin? Consider leaving a [5 star review](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post).
 
 ### Compatibility
 
@@ -61,13 +68,13 @@ Like UPI QR Code Payment for WooCommerce plugin? Consider leaving a [5 star revi
 
 ### From within WordPress
 1. Visit 'Plugins > Add New'.
-1. Search for 'UPI QR Code Payment for WooCommerce'.
-1. Activate UPI QR Code Payment for WooCommerce from your Plugins page.
+1. Search for 'UPI QR Code Payment Gateway'.
+1. Activate UPI QR Code Payment Gateway from your Plugins page.
 1. Go to "after activation" below.
 
 ### Manually
 1. Upload the `upi-qr-code-payment-for-woocommerce` folder to the `/wp-content/plugins/` directory.
-1. Activate UPI QR Code Payment for WooCommerce plugin through the 'Plugins' menu in WordPress.
+1. Activate UPI QR Code Payment Gateway plugin through the 'Plugins' menu in WordPress.
 1. Go to "after activation" below.
 
 ### After activation
