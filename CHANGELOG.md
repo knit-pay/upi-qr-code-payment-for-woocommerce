@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.2.5
+Release Date: February 16, 2023
+
+* Fixed: UTR ID validation on some installations.
+* Tested with WooCommerce v7.4.
+
 ## 1.2.4
 Release Date: January 31, 2023
 
