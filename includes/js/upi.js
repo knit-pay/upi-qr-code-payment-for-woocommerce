@@ -155,8 +155,8 @@
                                     btnClass: 'btn-' + colorTheme,
                                     action: function() {
                                         var tran_id = this.$content.find('#upiwc-transaction-number').val();
-                                        if( upiwc_params.transaction_id == 'show_require' ) {
-                                            if( tran_id == '' || ( tran_id.length !== upiwc_params.tran_id_length ) || ( tran_id.toString().charAt(0) !== d.getFullYear().toString().slice(-1) ) ) {
+                                        if ( upiwc_params.transaction_id == 'show_require' ) {
+                                            if ( tran_id == '' || ( tran_id.length !== upiwc_params.tran_id_length ) ) {
                                                 $.alert( {
                                                     title: '<span class="upiwc-popup-title-' + upiwc_params.app_theme + '">Error!</span>',
                                                     content: '<div id="upiwc-error-text">Please enter a valid Transaction / UTR / Reference ID and try again.</div>',
