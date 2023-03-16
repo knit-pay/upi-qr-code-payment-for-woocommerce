@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.3.0
+Release Date: March 16, 2023
+
+* NEW: Payment UI Interface.
+* Added: Settings Categorization.
+* Tweak: Various Improvements and fixes.
+* Tested with WooCommerce v7.5.
+
 ## 1.2.5
 Release Date: February 16, 2023
 
