@@ -1,7 +1,7 @@
 /.wordpress-org
 /.git
 /.github
-/includes/css/upi.css
+/includes/css/upi.scss
 /includes/js/upi.js
 
 _config.yml
