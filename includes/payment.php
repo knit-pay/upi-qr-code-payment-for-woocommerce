@@ -62,6 +62,7 @@ function upiwc_payment_gateway_init() {
 			$this->require_upi          = $this->get_option( 'require_upi', 'yes' );
 			$this->transaction_id       = $this->get_option( 'transaction_id', 'show_require' );
 			$this->intent               = $this->get_option( 'intent', 'no' );
+			$this->auto_intent          = $this->get_option( 'auto_intent', 'no' );
 			$this->download_qr          = $this->get_option( 'download_qr', 'no' );
 			$this->qrcode_mobile        = $this->get_option( 'qrcode_mobile', 'yes' );
 			$this->hide_on_mobile       = $this->get_option( 'hide_on_mobile', 'no' );
@@ -240,7 +241,7 @@ function upiwc_payment_gateway_init() {
 						'completed'  => __( 'Completed', 'upi-qr-code-payment-for-woocommerce' ),
                     ) ),
                 ),
-				'payemnt_page' => array(
+				'payemnt_page'        => array(
                     'title'       => __( 'Payment Page Settings', 'upi-qr-code-payment-for-woocommerce' ),
                     'type'        => 'title',
                     'description' => __( 'Customize various settings of the Payment Page here.', 'upi-qr-code-payment-for-woocommerce' ),
@@ -285,7 +286,7 @@ function upiwc_payment_gateway_init() {
 						'show_require' => __( 'Show & Require Input Field', 'upi-qr-code-payment-for-woocommerce' ),
                     ),
 				),
-				'intent'       => array(
+				'intent'              => array(
 					'title'       => __( 'One Tap Payment Button:', 'upi-qr-code-payment-for-woocommerce' ),
 					'type'        => 'checkbox',
 					'label'       => __( 'Show / Hide One Tap / Direct Payment Button', 'upi-qr-code-payment-for-woocommerce' ),
@@ -293,7 +294,15 @@ function upiwc_payment_gateway_init() {
 					'default'     => 'no',
 					'desc_tip'    => false,
 				),
-				'download_qr'  => array(
+				'auto_intent'         => array(
+					'title'       => __( 'Auto Launch UPI Apps:', 'upi-qr-code-payment-for-woocommerce' ),
+					'type'        => 'checkbox',
+					'label'       => __( 'Enable / Disable Auto Launch UPI Apps', 'upi-qr-code-payment-for-woocommerce' ),
+					'description' => __( 'Enable this if you want to auto launch UPI apps only on android devices. Only Merchent UPI IDs will work.', 'upi-qr-code-payment-for-woocommerce' ),
+					'default'     => 'no',
+					'desc_tip'    => false,
+				),
+				'download_qr'         => array(
 					'title'       => __( 'Download Button:', 'upi-qr-code-payment-for-woocommerce' ),
 					'type'        => 'checkbox',
 					'label'       => __( 'Show / Hide download QR Code Button', 'upi-qr-code-payment-for-woocommerce' ),
@@ -558,7 +567,9 @@ function upiwc_payment_gateway_init() {
 					'transaction_id'    => $this->transaction_id,
 					'mc_code'           => $this->mcc ? $this->mcc : 8931,
 					'prevent_reload'    => apply_filters( 'upiwc_enable_payment_reload', true ),
-					'intent_interval'   => apply_filters( 'upiwc_auto_open_interval', 1000 ),
+					'btn_timer'    		=> apply_filters( 'upiwc_enable_button_timer', true ),
+					'btn_show_interval' => apply_filters( 'upiwc_button_show_interval', 30000 ),
+					'can_intent'        => ( wp_is_mobile() && ( stripos( $_SERVER['HTTP_USER_AGENT'], "iPhone" ) === false ) && $this->auto_intent === 'yes' ),
 					'payer_vpa'         => htmlentities( strtolower( get_post_meta( $order->get_id(), '_transaction_upi_id', true ) ) ),
 					'payee_vpa'         => htmlentities( strtolower( $this->vpa ) ),
 					'payee_name'        => preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ),
@@ -578,9 +589,9 @@ function upiwc_payment_gateway_init() {
                         <?php do_action( 'upiwc_after_before_title', $order ); ?>
 						<div class="upiwc-buttons">
 							<button id="upiwc-processing" class="btn button" disabled="disabled"><?php esc_html_e( 'Waiting for payment...', 'upi-qr-code-payment-for-woocommerce' ); ?></button>
-							<button id="upiwc-confirm-payment" class="btn button"><?php echo esc_html( apply_filters( 'upiwc_payment_button_text', $this->pay_button ) ); ?></button>
+							<button id="upiwc-confirm-payment" class="btn button" style="display: none;"><?php echo esc_html( apply_filters( 'upiwc_payment_button_text', $this->pay_button ) ); ?></button>
 			    	        <?php if ( apply_filters( 'upiwc_show_cancel_button', true ) ) { ?>
-							    <button id="upiwc-cancel-payment" class="btn button"><?php esc_html_e( 'Cancel', 'upi-qr-code-payment-for-woocommerce' ); ?></button>
+							    <button id="upiwc-cancel-payment" class="btn button" style="display: none;"><?php esc_html_e( 'Cancel', 'upi-qr-code-payment-for-woocommerce' ); ?></button>
 							<?php } ?>
 						</div>
 						<?php if ( apply_filters( 'upiwc_show_choose_payment_method', true ) ) { ?>
@@ -639,7 +650,7 @@ function upiwc_payment_gateway_init() {
 													<span class="field-required">*</span>
 												<?php } ?>
 											</label>
-											<input type="text" id="upiwc-payment-transaction-number" class="" placeholder="" maxlength="12" onkeypress="return isNumberUpiwc(event)" />
+											<input type="text" id="upiwc-payment-transaction-number" class="" placeholder="" maxlength="12" onkeypress="return upiwcIsNumber(event)" />
 										</form>
 										<div class="upiwc-payment-error" style="display: none;"></div>
 									</div>

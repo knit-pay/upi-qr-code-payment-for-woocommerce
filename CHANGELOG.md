@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.3.1
+Release Date: March 17, 2023
+
+* Fixed: Tap to Pay button was not working after last update.
+* Fixed: Confirm button was not working after last update if the transaction id field is hidden.
+* Tweak: Popup Display on Mobile breakpoints.
+* Added: Option to Enable / Disable auto launch UPI Apps.
+
 ## 1.3.0
 Release Date: March 16, 2023
 

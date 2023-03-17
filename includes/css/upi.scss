@@ -92,7 +92,15 @@
         .jconfirm-content-pane {
             margin: 0;
 
+            @media only screen and (max-width: 576px) {
+                overflow: hidden;
+            }
+
             .jconfirm-content {
+                @media only screen and (max-width: 576px) {
+                    min-height: 100vh;
+                }
+
                 .upiwc-payment-content {
                     display: flex;
                     flex-direction: column;
@@ -169,6 +177,8 @@
                                 -webkit-tap-highlight-color: transparent;
                                 border: 0;
                                 background-image: none;
+                                height: auto;
+                                width: auto;
                             }
                         }
 
@@ -261,6 +271,14 @@
                 margin: 0;
                 text-transform: initial;
                 color: #fff !important;
+                width: auto;
+                height: auto;
+
+                &:disabled,
+                &[disabled] {
+                    opacity: .7;
+                    pointer-events: none;
+                }
 
                 &:hover {
                     background-color: var( --upiwc-theme-color, #005bf2 ) !important;
