@@ -1,8 +1,9 @@
 /.wordpress-org
 /.git
 /.github
-/includes/css/upi.scss
-/includes/js/upi.js
+/includes/css/checkout.scss
+/includes/css/payment.scss
+/includes/js/payment.js
 
 _config.yml
 .distignore

@@ -1,75 +1,67 @@
 ( function( $ ) {
     "use strict";
-
-    if ( typeof upiwc_params === 'undefined' ) {
+    
+    if ( typeof upiwcData === 'undefined' ) {
         return false;
     }
 
-    if ( upiwc_params.prevent_reload == 1 ) {
-        window.onbeforeunload = function() {
-            return "Are you sure you want to leave?";
-        }
-    }
+    let paymentLink = 'pay?pa=' + upiwcData.payee_vpa + '&pn=' + upiwcData.payee_name.replace(/\s/g, '') + '&am=' + upiwcData.order_amount + '&tr=' + upiwcData.order_key.replace( 'wc_order_', '' ).replace(/\s/g, '') + '&mc=' + upiwcData.mc_code + '&cu=INR&tn=OrderId:' + upiwcData.order_number.replace(/\s/g, '');
+    paymentLink = encodeURI( paymentLink );
 
-    let modalSize = '375px';
-    let offset = 40;
-    if ( upiwc_params.is_mobile == 'yes' ) {
-        modalSize = '100%';
-        offset = 0;
-    }
-
-    let payment_link = 'upi://pay?pa=' + upiwc_params.payee_vpa + '&pn=' + upiwc_params.payee_name + '&am=' + upiwc_params.order_amount + '&tr=' + upiwc_params.order_key.replace( 'wc_order_', '' ) + '&mc=' + upiwc_params.mc_code + '&cu=INR&tn=ORDER ID ' + upiwc_params.order_number;
-    let elText = encodeURI( payment_link );
-
-    $( 'body' ).on( 'contextmenu', '#upiwc-payment-qr-code img', function( e ) {
+    $( 'body' ).on( 'contextmenu', '.upiwc-payment-qr-code img', function( e ) {
         return false;
     } );
 
     $( 'body' ).on( 'click', '#upiwc-cancel-payment', function( e ) {
         e.preventDefault();
-        window.onbeforeunload = null;
-        window.location = upiwc_params.cancel_url;
+        window.location = upiwcData.cancel_url;
     } );
 
     $( 'body' ).on( 'click', '.upiwc-return-link', function( e ) {
         e.preventDefault();
-        window.onbeforeunload = null;
-        window.location = upiwc_params.payment_url;
+        window.location = upiwcData.payment_url;
     } );
     $( 'body' ).on( 'click', '#upiwc-confirm-payment', function( e ) {
         e.preventDefault();
 
-        let amountContent = '<span class="payment-amount">₹ ' + upiwc_params.order_amount + '</span>';
-        if ( upiwc_params.payer_vpa != '' ) {
-            amountContent += '<span class="upi-id">' + upiwc_params.payer_vpa + '</span>';
+        let amountContent = '<span class="payment-amount">₹ ' + upiwcData.order_amount + '</span>';
+        if ( upiwcData.payer_vpa != '' ) {
+            amountContent += '<span class="upi-id">' + upiwcData.payer_vpa + '</span>';
         }
         let paymentModal = $.confirm( {
             title: $( 'body' ).find( '.upiwc-modal-header' ).html(),
             content: $( 'body' ).find( '.upiwc-modal-content' ).html(),
             useBootstrap: false,
             animation: 'scale',
-            boxWidth: modalSize,
+            boxWidth: '375px',
             draggable: false,
-            offsetBottom: offset,
-            offsetTop: offset,
+            offsetBottom: 38,
+            offsetTop: 38,
             closeIcon: true,
+            bgOpacity: .8,
+            lazyOpen: true,
+            theme: upiwcData.theme,
+            onOpenBefore: function () {
+                this.$el.addClass( 'upiwc-payment-modal' );
+            },
             onContentReady: function () {
                 let self = this;
-                let timeout;
+                let timeoutIntent, timeoutCopy;
 
                 self.$content.find( '.upiwc-payment-upi-id' ).on( 'click', function( e ) {
                     e.preventDefault();
-                    clearTimeout( timeout );
+                    clearTimeout( timeoutCopy );
 
-                    navigator.clipboard.writeText( upiwc_params.payee_vpa ).then( function() {
-                        console.log( 'Async: Copying to clipboard was successful!' );
+                    navigator.clipboard.writeText( upiwcData.payee_vpa ).then( function() {
+                        console.log( 'Copying to clipboard was successful!' );
                     }, function( err ) {
-                        console.error( 'Async: Could not copy text: ', err );
+                        console.error( 'Could not copy text: ', err );
                     } );
 
-                    self.$content.find( '.upiwc-payment-upi-id' ).text( 'Copied!' );
-                    timeout = setTimeout( function() {
-                        self.$content.find( '.upiwc-payment-upi-id' ).text( upiwc_params.payee_vpa );
+                    let el = $( this )
+                    el.text( 'Copied!' );
+                    timeoutCopy = setTimeout( function() {
+                        el.text( upiwcData.payee_vpa );
                     }, 1000 );
                 } );
 
@@ -77,33 +69,35 @@
                     self.$content.find( '.upiwc-payment-error' ).hide();
                 } );
 
-                self.$content.find( '#upi-pay' ).on( 'click', function( e ) {
-                    e.preventDefault();
-                    window.onbeforeunload = null;
-                    window.open( elText );
-                } );
-
-                let qr_code = self.$content.find( '#upiwc-payment-qr-code img' ).attr( 'src' );
+                let qrCodeSrc = self.$content.find( '#upiwc-payment-qr-code img' ).attr( 'src' );
                 self.$content.find( '#upi-download' ).on( 'click', function( e ) {
                     e.preventDefault();
 
                     let a = document.createElement( 'a' ); //Create <a>
-                    a.href = qr_code; //Image Base64 Goes here
+                    a.href = qrCodeSrc; //Image Base64 Goes here
                     a.download = "QR Code.png"; //File name Here
                     a.click();
                 } );
 
-                if ( upiwc_params.can_intent ) {
-                    setTimeout( function() {
-                        window.onbeforeunload = null;
-                        window.open( elText );
-                    }, 1000 );
-                }
+                self.$content.find( '.upiwc-payment-btn' ).on( 'click', function( e ) {
+                    e.preventDefault();
+                    clearTimeout( timeoutIntent );
+                    self.$content.find( '.upiwc-payment-intent-error' ).hide();
 
-                let btnShowInterval = parseInt( upiwc_params.btn_show_interval );
+                    let type = $( this ).data( 'type' );
+                    let paymentWindow = window.open( upiwcIntent( paymentLink, type ) );
+                    timeoutIntent = setTimeout( function() {
+                        if ( ! paymentWindow.closed ) {
+                            paymentWindow.close();
+                            self.$content.find( '.upiwc-payment-intent-error' ).text( 'No specified UPI App on this device. Select other UPI option to proceed.' ).show();
+                        }  
+                    }, 2500 ); 
+                } );
+
+                let btnShowInterval = parseInt( upiwcData.btn_show_interval );
                 if ( btnShowInterval && btnShowInterval >= 1000 ) {
-                    if ( upiwc_params.btn_timer == 1 ) {
-                        upiwcStartTimer( btnShowInterval / 1000, document.querySelector( '.btn.next' ) );
+                    if ( upiwcData.btn_timer == 1 ) {
+                        upiwcStartTimer( btnShowInterval / 1000, document.querySelector( '.btn.upiwc-next' ) );
                     }
                     setTimeout( function() {
                         self.buttons.nextStep.setText( 'Proceed to Next' );
@@ -116,25 +110,25 @@
             },
             onClose: function () {
                 $( '#upiwc-processing' ).hide();
-                $( '#upiwc-confirm-payment, #upiwc-cancel-payment, .upiwc-return-link' ).fadeIn( 'slow' );
+                $( '#upiwc-confirm-payment, #upiwc-cancel-payment, .upiwc-return-link' ).show();
                 $( '.upiwc-waiting-text' ).text( 'Please click the Pay Now button below to complete the payment against this order.' );
             },
             buttons: {
                 amount: {
                     text: amountContent,
-                    btnClass: 'amount',
+                    btnClass: 'upiwc-amount',
                     action: function() {
                         return false;
                     }
                 },
                 nextStep: {
                     text: 'Waiting...',
-                    btnClass: 'next',
+                    btnClass: 'upiwc-next',
                     isDisabled: true,
                     action: function() {
                         let self = this;
                         self.$content.find( '.upiwc-payment-confirm' ).show();
-                        self.$content.find( '.upiwc-payment-info, .upiwc-payment-qr-code' ).hide();
+                        self.$content.find( '.upiwc-payment-info, .upiwc-payment-qr-code.upiwc-show, .upiwc-payment-actions, .upiwc-payment-container' ).hide();
                         self.$closeIcon.hide();
 
                         self.buttons.amount.hide();
@@ -148,11 +142,11 @@
                 back: {
                     text: 'Back',
                     isHidden: true,
-                    btnClass: 'back',
+                    btnClass: 'upiwc-back',
                     action: function() {
                         let self = this;
                         self.$content.find( '.upiwc-payment-confirm' ).hide();
-                        self.$content.find( '.upiwc-payment-info, .upiwc-payment-qr-code' ).show();
+                        self.$content.find( '.upiwc-payment-info, .upiwc-payment-qr-code.upiwc-show, .upiwc-payment-actions, .upiwc-payment-container' ).show();
                         self.buttons.amount.show();
                         self.buttons.nextStep.show();
                         self.buttons.back.hide();
@@ -164,6 +158,7 @@
                 },
                 confirm: {
                     text: 'Confirm',
+                    btnClass: 'upiwc-confirm',
                     isHidden: true,
                     action: function() {
                         let self = this;
@@ -174,7 +169,7 @@
                                 self.$content.find( '.upiwc-payment-error' ).text( 'Transaction ID should be of 12 digits!' ).show();
                                 return false;
                             }
-                            if ( upiwc_params.transaction_id === 'show_require' && tran_id == '' ) {
+                            if ( upiwcData.transaction_id === 'show_require' && tran_id == '' ) {
                                 self.$content.find( '.upiwc-payment-error' ).text( 'Transaction ID is required!' ).show();
                                 return false;
                             }
@@ -188,9 +183,8 @@
                         if ( tran_id !== undefined && typeof( tran_id ) !== 'undefined' && tran_id != '' ) {
                             tran_id_field = '<input type="hidden" name="wc_transaction_id" value="' + tran_id + '"></input>';
                         }
-                        window.onbeforeunload = null;
 
-                        $( '#upiwc-payment-success-container' ).html( '<form method="POST" action="' + upiwc_params.callback_url + '" id="UPIJSCheckoutForm" style="display: none;"><input type="hidden" name="wc_order_id" value="' + upiwc_params.order_id + '"><input type="hidden" name="wc_order_key" value="' + upiwc_params.order_key + '">' + tran_id_field + '</form>' );
+                        $( '#upiwc-payment-success-container' ).html( '<form method="POST" action="' + upiwcData.callback_url + '" id="UPIJSCheckoutForm" style="display: none;"><input type="hidden" name="wc_order_id" value="' + upiwcData.order_id + '"><input type="hidden" name="wc_order_key" value="' + upiwcData.order_key + '">' + tran_id_field + '</form>' );
                         $( 'body' ).find( '#UPIJSCheckoutForm' ).submit();
 
                         return false;
@@ -198,6 +192,7 @@
                 }
             }
         } );
+        paymentModal.open();
         
         $( '#upiwc-processing' ).show();
         $( '#upiwc-confirm-payment, #upiwc-cancel-payment, .upiwc-return-link' ).hide();
@@ -206,7 +201,7 @@
 
     if ( $( '#upiwc-payment-qr-code' ).length ) {
         new QRCode( 'upiwc-payment-qr-code', {
-            text: elText,
+            text: 'upi://' + paymentLink,
             width: 200,
             height: 200,
             correctLevel: QRCode.CorrectLevel.H,
@@ -219,6 +214,24 @@
         $( '#upiwc-confirm-payment' ).trigger( 'click' );
     }
 } )( jQuery );
+
+function upiwcIntent( link, type ) {
+    switch ( type ) {
+        case 'gpay':
+            prefix = 'gpay://upi/';
+            break;
+        case 'phonepe':
+            prefix = 'phonepe://';
+            break;
+        case 'paytm':
+            prefix = 'paytmmp://';
+            break;
+        default:
+            prefix = 'upi://';
+    }
+
+    return prefix + link;
+}
 
 function upiwcIsNumber( evt ) {
     evt = (evt) ? evt : window.event;
@@ -237,29 +250,23 @@ function upiwcStartTimer( duration, display ) {
         timerInterval;
 
     function timer() {
-        // get the number of seconds that have elapsed since 
-        // upiwcStartTimer() was called
         diff = duration - ( ( ( Date.now() - start ) / 1000 ) | 0 );
 
-        // does the same job as parseInt truncates the float
         minutes = (diff / 60) | 0;
         seconds = (diff % 60) | 0;
 
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.textContent = minutes + ":" + seconds; 
+        display.textContent = 'Waiting... (' + minutes + ":" + seconds + ')'; 
 
         if ( diff <= 0 ) {
-            // add one second so that the count down starts at the full duration
-            // example 05:00 not 04:59
             start = Date.now() + 1000;
         }
     };
 
     clearTimeout( timerInterval )
 
-    // we don't want to wait a full second before the timer starts
     timer();
     
     timerInterval = setInterval( timer, 1000 );

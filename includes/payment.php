@@ -57,12 +57,12 @@ function upiwc_payment_gateway_init() {
 			$this->name                 = $this->get_option( 'name' );
 			$this->vpa                  = $this->get_option( 'vpa' );
 			$this->pay_button           = $this->get_option( 'pay_button' );
-			$this->mcc                  = $this->get_option( 'mc_code' );
+			$this->mc_code              = $this->get_option( 'mc_code' );
 			$this->upi_address          = $this->get_option( 'upi_address', 'show_require' );
 			$this->require_upi          = $this->get_option( 'require_upi', 'yes' );
+			$this->theme                = $this->get_option( 'theme', 'light' );
 			$this->transaction_id       = $this->get_option( 'transaction_id', 'show_require' );
 			$this->intent               = $this->get_option( 'intent', 'no' );
-			$this->auto_intent          = $this->get_option( 'auto_intent', 'no' );
 			$this->download_qr          = $this->get_option( 'download_qr', 'no' );
 			$this->qrcode_mobile        = $this->get_option( 'qrcode_mobile', 'yes' );
 			$this->hide_on_mobile       = $this->get_option( 'hide_on_mobile', 'no' );
@@ -156,15 +156,15 @@ function upiwc_payment_gateway_init() {
 
 			$this->form_fields = array(
 				'enabled'             => array(
-					'title'       => __( 'Enable/Disable:', 'upi-qr-code-payment-for-woocommerce' ),
+					'title'       => __( 'Enable / Disable:', 'upi-qr-code-payment-for-woocommerce' ),
 					'type'        => 'checkbox',
 					'label'       => __( 'Enable UPI QR Code Payment Method', 'upi-qr-code-payment-for-woocommerce' ),
 					'description' => __( 'Enable this if you want to collect payment via UPI QR Codes.', 'upi-qr-code-payment-for-woocommerce' ),
 					'default'     => 'yes',
-					'desc_tip'    => true,
+					'desc_tip'    => false,
 				),
 				'title'               => array(
-					'title'       => __( 'Title:', 'upi-qr-code-payment-for-woocommerce' ),
+					'title'       => __( 'Gateway Title:', 'upi-qr-code-payment-for-woocommerce' ),
 					'type'        => 'text',
 					'description' => __( 'This controls the title for the payment method the customer sees during checkout.', 'upi-qr-code-payment-for-woocommerce' ),
 					'default'     => __( 'Pay with UPI QR Code', 'upi-qr-code-payment-for-woocommerce' ),
@@ -175,20 +175,6 @@ function upiwc_payment_gateway_init() {
 					'type'        => 'textarea',
 					'description' => __( 'Payment method description that the customer will see on your checkout.', 'upi-qr-code-payment-for-woocommerce' ),
 					'default'     => __( 'It uses UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI app to make payment.', 'upi-qr-code-payment-for-woocommerce' ),
-					'desc_tip'    => false,
-				),
-				'instructions'        => array(
-					'title'       => __( 'Instructions:', 'upi-qr-code-payment-for-woocommerce' ),
-					'type'        => 'textarea',
-					'description' => __( 'Instructions that will be added to the order pay popup on desktop devices.', 'upi-qr-code-payment-for-woocommerce' ),
-					'default'     => __( 'Scan the QR Code with any UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI app to make payment for this order. After successful payment, enter the UPI Reference ID or Transaction Number and your UPI ID in the next screen and submit the form. We will manually verify this payment against your 12-digits UPI Reference ID or Transaction Number (e.g. 301422121258) and your UPI ID.', 'upi-qr-code-payment-for-woocommerce' ),
-					'desc_tip'    => false,
-				),
-				'instructions_mobile' => array(
-					'title'       => __( 'Mobile Instructions:', 'upi-qr-code-payment-for-woocommerce' ),
-					'type'        => 'textarea',
-					'description' => __( 'Instructions that will be added to the order pay popup on mobile devices.', 'upi-qr-code-payment-for-woocommerce' ),
-					'default'     => __( 'Scan the QR Code with any UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI app to make payment for this order. After successful payment, enter the UPI Reference ID or Transaction Number and your UPI ID in the next screen and submit the form. We will manually verify this payment against your 12-digits UPI Reference ID or Transaction Number (e.g. 301422121258) and your UPI ID.', 'upi-qr-code-payment-for-woocommerce' ),
 					'desc_tip'    => false,
 				),
 				'upi_address'         => array(
@@ -214,20 +200,6 @@ function upiwc_payment_gateway_init() {
 						'no'  => __( 'Don\'t Require Field', 'upi-qr-code-payment-for-woocommerce' ),
                     ),
 				),
-				'confirm_message'     => array(
-					'title'       => __( 'Confirm Message:', 'upi-qr-code-payment-for-woocommerce' ),
-					'type'        => 'textarea',
-					'description' => __( 'This displays a message to customer as payment processing text.', 'upi-qr-code-payment-for-woocommerce' ),
-					'default'     => __( 'Click Confirm, only after amount deducted from your account. We will manually verify your transaction. Are you sure?', 'upi-qr-code-payment-for-woocommerce' ),
-					'desc_tip'    => false,
-				),
-                'thank_you'           => array(
-                    'title'       => __( 'Thank You Message:', 'upi-qr-code-payment-for-woocommerce' ),
-                    'type'        => 'textarea',
-                    'description' => __( 'This displays a message to customer after a successful payment is made.', 'upi-qr-code-payment-for-woocommerce' ),
-                    'default'     => __( 'Thank you for your payment. Your transaction has been completed, and your order has been successfully placed. Please check you Email inbox for details. Please check your bank account statement to view transaction details.', 'upi-qr-code-payment-for-woocommerce' ),
-					'desc_tip'    => false,
-				),
 				'payment_status'      => array(
                     'title'       => __( 'Payment Complete Status:', 'upi-qr-code-payment-for-woocommerce' ),
                     'type'        => 'select',
@@ -241,10 +213,25 @@ function upiwc_payment_gateway_init() {
 						'completed'  => __( 'Completed', 'upi-qr-code-payment-for-woocommerce' ),
                     ) ),
                 ),
+                'thank_you'           => array(
+                    'title'       => __( 'Thank You Message:', 'upi-qr-code-payment-for-woocommerce' ),
+                    'type'        => 'textarea',
+                    'description' => __( 'This displays a message to customer after a successful payment is made.', 'upi-qr-code-payment-for-woocommerce' ),
+                    'default'     => __( 'Thank you for your payment. Your transaction has been completed, and your order has been successfully placed. Please check you Email inbox for details. Please check your bank account statement to view transaction details.', 'upi-qr-code-payment-for-woocommerce' ),
+					'desc_tip'    => false,
+				),
+				'hide_on_mobile'      => array(
+					'title'       => __( 'Mobile Visibility:', 'upi-qr-code-payment-for-woocommerce' ),
+					'type'        => 'checkbox',
+					'label'       => __( 'Disable QR Code Payment Gateway on Mobile Devices', 'upi-qr-code-payment-for-woocommerce' ),
+					'description' => __( 'Enable this if you want to disable QR Code Payment Gateway on Mobile Devices.', 'upi-qr-code-payment-for-woocommerce' ),
+					'default'     => 'no',
+					'desc_tip'    => false,
+				),
 				'payemnt_page'        => array(
-                    'title'       => __( 'Payment Page Settings', 'upi-qr-code-payment-for-woocommerce' ),
+                    'title'       => __( 'Payment Popup Settings', 'upi-qr-code-payment-for-woocommerce' ),
                     'type'        => 'title',
-                    'description' => __( 'Customize various settings of the Payment Page here.', 'upi-qr-code-payment-for-woocommerce' ),
+                    'description' => __( 'Customize various settings of the Payment Popup here.', 'upi-qr-code-payment-for-woocommerce' ),
 				),
 				'name'                => array(
 			    	'title'       => __( 'Your Store or Shop Name:', 'upi-qr-code-payment-for-woocommerce' ),
@@ -256,7 +243,7 @@ function upiwc_payment_gateway_init() {
 			    'vpa'                 => array(
 			    	'title'       => __( 'Merchant UPI VPA ID:', 'upi-qr-code-payment-for-woocommerce' ),
 			    	'type'        => 'email',
-			    	'description' => __( 'Please enter Your Merchant UPI VPA (e.g. Q12345678@ybl) at which you want to collect payments. Receiver and Sender UPI ID can\'t be same. General User UPI VPA is not acceptable. To Generate Merchant UPI ID, you can use apps like PhonePe Business or Paytm for Business etc.', 'upi-qr-code-payment-for-woocommerce' ),
+			    	'description' => __( 'Please enter Your Merchant UPI VPA (e.g. 12345678@icici) at which you want to collect payments. Receiver and Sender UPI ID can\'t be same. General User UPI VPA is not acceptable. To Generate Merchant UPI ID, you can use apps like PhonePe Business or Paytm for Business etc.', 'upi-qr-code-payment-for-woocommerce' ),
 			    	'default'     => '',
 			    	'desc_tip'    => false,
 				),
@@ -274,6 +261,17 @@ function upiwc_payment_gateway_init() {
 			    	'default'     => 8931,
 			    	'desc_tip'    => false,
 				),
+				'theme'               => array(
+                    'title'       => __( 'Popup Theme:', 'upi-qr-code-payment-for-woocommerce' ),
+                    'type'        => 'select',
+					'description' => __( 'Select the QR Code Popup theme here.', 'upi-qr-code-payment-for-woocommerce' ),
+					'desc_tip'    => false,
+                    'default'     => 'light',
+                    'options'     => apply_filters( 'upiwc_popup_themes', array(
+						'light' => __( 'Light Theme', 'upi-qr-code-payment-for-woocommerce' ),
+						'dark'  => __( 'Dark Theme', 'upi-qr-code-payment-for-woocommerce' ),
+                    ) ),
+                ),
 				'transaction_id'      => array(
 					'title'       => __( 'UPI Transaction ID:', 'upi-qr-code-payment-for-woocommerce' ),
 					'type'        => 'select',
@@ -287,18 +285,10 @@ function upiwc_payment_gateway_init() {
                     ),
 				),
 				'intent'              => array(
-					'title'       => __( 'One Tap Payment Button:', 'upi-qr-code-payment-for-woocommerce' ),
+					'title'       => __( 'Payment Buttons:', 'upi-qr-code-payment-for-woocommerce' ),
 					'type'        => 'checkbox',
-					'label'       => __( 'Show / Hide One Tap / Direct Payment Button', 'upi-qr-code-payment-for-woocommerce' ),
-					'description' => __( 'Enable this if you want to show direct pay now option only on android devices. Only Merchent UPI IDs will work.', 'upi-qr-code-payment-for-woocommerce' ),
-					'default'     => 'no',
-					'desc_tip'    => false,
-				),
-				'auto_intent'         => array(
-					'title'       => __( 'Auto Launch UPI Apps:', 'upi-qr-code-payment-for-woocommerce' ),
-					'type'        => 'checkbox',
-					'label'       => __( 'Enable / Disable Auto Launch UPI Apps', 'upi-qr-code-payment-for-woocommerce' ),
-					'description' => __( 'Enable this if you want to auto launch UPI apps only on android devices. Only Merchent UPI IDs will work.', 'upi-qr-code-payment-for-woocommerce' ),
+					'label'       => __( 'Show / Hide Payment Buttons', 'upi-qr-code-payment-for-woocommerce' ),
+					'description' => __( 'Enable this if you want to show direct pay now option. Only Merchent UPI IDs will work.', 'upi-qr-code-payment-for-woocommerce' ),
 					'default'     => 'no',
 					'desc_tip'    => false,
 				),
@@ -306,7 +296,7 @@ function upiwc_payment_gateway_init() {
 					'title'       => __( 'Download Button:', 'upi-qr-code-payment-for-woocommerce' ),
 					'type'        => 'checkbox',
 					'label'       => __( 'Show / Hide download QR Code Button', 'upi-qr-code-payment-for-woocommerce' ),
-					'description' => __( 'Enable this if you want to show download QR Code Button. Buyers can pay using this QR Code bu uploading it from gallery to any UPI supported apps.', 'upi-qr-code-payment-for-woocommerce' ),
+					'description' => __( 'Enable this if you want to show download QR Code Button. Buyers can pay using this QR Code by uploading it from gallery to any UPI supported apps.', 'upi-qr-code-payment-for-woocommerce' ),
 					'default'     => 'no',
 					'desc_tip'    => false,
 				),
@@ -318,12 +308,30 @@ function upiwc_payment_gateway_init() {
 					'default'     => 'yes',
 					'desc_tip'    => false,
 				),
-				'hide_on_mobile'      => array(
-					'title'       => __( 'Disable Gateway on Mobile:', 'upi-qr-code-payment-for-woocommerce' ),
-					'type'        => 'checkbox',
-					'label'       => __( 'Disable QR Code Payment Gateway on Mobile Devices', 'upi-qr-code-payment-for-woocommerce' ),
-					'description' => __( 'Enable this if you want to disable QR Code Payment Gateway on Mobile Devices.', 'upi-qr-code-payment-for-woocommerce' ),
-					'default'     => 'no',
+				'payemnt_content'        => array(
+                    'title'       => __( 'Payment Popup Content', 'upi-qr-code-payment-for-woocommerce' ),
+                    'type'        => 'title',
+                    'description' => __( 'Customize various texts of the Payment Popup here.', 'upi-qr-code-payment-for-woocommerce' ),
+				),
+				'instructions'        => array(
+					'title'       => __( 'Instructions:', 'upi-qr-code-payment-for-woocommerce' ),
+					'type'        => 'textarea',
+					'description' => __( 'Instructions that will be added to the order pay popup on desktop devices.', 'upi-qr-code-payment-for-woocommerce' ),
+					'default'     => __( 'Scan the QR Code with any UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI app to make payment for this order. After successful payment, enter the UPI Reference ID or Transaction Number and your UPI ID in the next screen and submit the form. We will manually verify this payment against your 12-digits UPI Reference ID or Transaction Number (e.g. 301422121258) and your UPI ID.', 'upi-qr-code-payment-for-woocommerce' ),
+					'desc_tip'    => false,
+				),
+				'instructions_mobile' => array(
+					'title'       => __( 'Mobile Instructions:', 'upi-qr-code-payment-for-woocommerce' ),
+					'type'        => 'textarea',
+					'description' => __( 'Instructions that will be added to the order pay popup on mobile devices.', 'upi-qr-code-payment-for-woocommerce' ),
+					'default'     => __( 'Scan the QR Code with any UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI app to make payment for this order. After successful payment, enter the UPI Reference ID or Transaction Number and your UPI ID in the next screen and submit the form. We will manually verify this payment against your 12-digits UPI Reference ID or Transaction Number (e.g. 301422121258) and your UPI ID.', 'upi-qr-code-payment-for-woocommerce' ),
+					'desc_tip'    => false,
+				),
+				'confirm_message'     => array(
+					'title'       => __( 'Confirm Message:', 'upi-qr-code-payment-for-woocommerce' ),
+					'type'        => 'textarea',
+					'description' => __( 'This displays a message to customer as payment processing text.', 'upi-qr-code-payment-for-woocommerce' ),
+					'default'     => __( 'Click Confirm, only after amount deducted from your account. We will manually verify your transaction. Are you sure?', 'upi-qr-code-payment-for-woocommerce' ),
 					'desc_tip'    => false,
 				),
 				'email'               => array(
@@ -374,44 +382,42 @@ function upiwc_payment_gateway_init() {
 			$upi_address = $upi_handle = '';
 			if ( ! empty( $payment_upi_id ) ) {
 				$payment_upi_id = explode( '@', $payment_upi_id );
-				$upi_address = $payment_upi_id[0];
-				$upi_handle = $payment_upi_id[1];
+				if ( is_array( $payment_upi_id ) && count( $payment_upi_id ) == 2 ) {
+					$upi_address = $payment_upi_id[0];
+					$upi_handle = $payment_upi_id[1];
+				}
 			}
 
 			// display description before the payment form
-	        if ( $this->description ) {
+	        if ( ! empty( $this->description ) ) {
 	        	// display the description with <p> tags
 	        	echo wpautop( wp_kses_post( $this->description ) );
 			}
 			
-			$handles = array_unique( apply_filters( 'upiwc_upi_handle_list', array( '@airtel', '@airtelpaymentsbank', '@apb', '@apl', '@allbank', '@albk', '@allahabadbank', '@andb', '@axisgo', '@axis', '@axisbank', '@axisb', '@okaxis', '@abfspay', '@axl', '@barodampay', '@barodapay', '@boi', '@cnrb', '@csbpay', '@csbcash', '@centralbank', '@cbin', '@cboi', '@cub', '@dbs', '@dcb', '@dcbbank', '@denabank', '@equitas', '@federal', '@fbl', '@finobank', '@hdfcbank', '@payzapp', '@okhdfcbank', '@rajgovhdfcbank', '@hsbc', '@imobile', '@pockets', '@ezeepay', '@eazypay', '@idbi', '@idbibank', '@idfc', '@idfcbank', '@idfcnetc', '@cmsidfc', '@indianbank', '@indbank', '@indianbk', '@iob', '@indus', '@indusind', '@icici', '@myicici', '@okicici', '@ikwik', '@ibl', '@jkb', '@jsbp', '@kbl', '@karb', '@kbl052', '@kvb', '@karurvysyabank', '@kvbank', '@kotak', '@kaypay', '@kmb', '@kmbl', '@okbizaxis', '@obc', '@paytm', '@pingpay', '@psb', '@pnb', '@sib', '@srcb', '@sc', '@scmobile', '@scb', '@scbl', '@sbi', '@oksbi', '@syndicate', '@syndbank', '@synd', '@lvb', '@lvbank', '@rbl', '@tjsb', '@uco', '@unionbankofindia', '@unionbank', '@uboi', '@ubi', '@united', '@utbi', '@upi', '@vjb', '@vijb', '@vijayabank', '@ubi', '@yesbank', '@ybl', '@yesbankltd' ) ) );
+			$handles = array_unique( apply_filters( 'upiwc_upi_handle_list', array( 'airtel', 'airtelpaymentsbank', 'apb', 'apl', 'allbank', 'albk', 'allahabadbank', 'andb', 'axisgo', 'axis', 'axisbank', 'axisb', 'okaxis', 'abfspay', 'axl', 'barodampay', 'barodapay', 'boi', 'cnrb', 'csbpay', 'csbcash', 'centralbank', 'cbin', 'cboi', 'cub', 'dbs', 'dcb', 'dcbbank', 'denabank', 'equitas', 'federal', 'fbl', 'finobank', 'hdfcbank', 'payzapp', 'okhdfcbank', 'rajgovhdfcbank', 'hsbc', 'imobile', 'pockets', 'ezeepay', 'eazypay', 'idbi', 'idbibank', 'idfc', 'idfcbank', 'idfcnetc', 'cmsidfc', 'indianbank', 'indbank', 'indianbk', 'iob', 'indus', 'indusind', 'icici', 'myicici', 'okicici', 'ikwik', 'ibl', 'jkb', 'jsbp', 'kbl', 'karb', 'kbl052', 'kvb', 'karurvysyabank', 'kvbank', 'kotak', 'kaypay', 'kmb', 'kmbl', 'okbizaxis', 'obc', 'paytm', 'pingpay', 'psb', 'pnb', 'sib', 'srcb', 'sc', 'scmobile', 'scb', 'scbl', 'sbi', 'oksbi', 'syndicate', 'syndbank', 'synd', 'lvb', 'lvbank', 'rbl', 'tjsb', 'uco', 'unionbankofindia', 'unionbank', 'uboi', 'ubi', 'united', 'utbi', 'upi', 'vjb', 'vijb', 'vijayabank', 'ubi', 'yesbank', 'ybl', 'yesbankltd' ) ) );
 			sort( $handles );
 
-			$class = 'form-row-wide';
-			$placeholder = apply_filters( 'upiwc_upi_address_placeholder', 'mobilenumber@paytm' );
 			$required = '';
 			$upi_address = ( isset( $_POST['customer_upiwc_address'] ) ) ? sanitize_text_field( $_POST['customer_upiwc_address'] ) : $upi_address;
-			
-			if ( $this->upi_address === 'show_handle' ) {
-				$class = 'form-row-first';
-				$placeholder = apply_filters( 'upiwc_upi_address_placeholder', 'mobilenumber' );
-			}
+			$placeholder = ( $this->upi_address === 'show_handle' ) ? 'mobilenumber' : 'mobilenumber@paytm';
+			$placeholder = apply_filters( 'upiwc_upi_address_placeholder', $placeholder );
 
 			if ( $this->require_upi === 'yes' ) {
 				$required = ' <span class="required">*</span>';
 			}
 
 			if ( in_array( $this->upi_address, array( 'show', 'show_handle' ) ) ) {
-	            echo '<fieldset id="' . esc_attr( $this->id ) . '-payment-form" class="wc-upi-form wc-payment-form" style="background:transparent;">';
+	            echo '<fieldset id="upiwc-checkout-payment-form" class="upiwc-checkout-payment-form wc-payment-form">';
     
 		    	do_action( 'woocommerce_upi_form_start', $this->id );
     
-		    	echo '<div class="form-row ' . $class . ' upiwc-input"><label style="font-weight: 700;">' . __( 'UPI Address', 'upi-qr-code-payment-for-woocommerce' ) . $required . '</label>
-		                <input id="upiwc-address" class="upiwc-address" name="customer_upiwc_address" type="text" autocomplete="off" placeholder="e.g. ' . $placeholder . '" value="' . $upi_address . '" style="width: 100%;height: 34px;min-height: 34px;text-transform: lowercase;">
+		    	echo '<div class="upiwc-input"><label>' . __( 'UPI Address', 'upi-qr-code-payment-for-woocommerce' ) . $required . '</label>
+		                <input id="upiwc-address" class="upiwc-address" name="customer_upiwc_address" type="text" autocomplete="off" placeholder="e.g. ' . $placeholder . '" value="' . $upi_address . '">
 		    		</div>';
+
 		    	if ( $this->upi_address === 'show_handle' ) {
-		    		echo '<div class="form-row form-row-last upiwc-input"><label style="font-weight: 700;">' . __( 'UPI Handle', 'upi-qr-code-payment-for-woocommerce' ) . $required . '</label>
-		    			<select id="upiwc-handle" name="customer_upiwc_handle" style="width: 100%;height: 34px;min-height: 34px;"><option selected disabled hidden value="">' . __( '-- Select --', 'upi-qr-code-payment-for-woocommerce' ) . '</option>';
+		    		echo '<div class="upiwc-input"><label>' . __( 'UPI Handle', 'upi-qr-code-payment-for-woocommerce' ) . $required . '</label>
+		    			<select id="upiwc-handle" name="customer_upiwc_handle" style="width: 100%;"><option selected disabled hidden value="">' . __( '-- Select --', 'upi-qr-code-payment-for-woocommerce' ) . '</option>';
 		    			foreach ( $handles as $handle ) {
 		    				echo '<option value="' . $handle . '" ' . selected( $upi_handle, $handle, false ) . '>' . $handle . '</option>';
 		    			}
@@ -420,16 +426,16 @@ function upiwc_payment_gateway_init() {
     
 		    	do_action( 'woocommerce_upi_form_end', $this->id );
     
-				echo '<div class="clear"></div></fieldset>'; ?>
+				echo '</fieldset>'; ?>
                 <script type="text/javascript">
                     ( function( $ ) {
 			    		if ( $( '#upiwc-handle' ).length ) {
-                            var select = $( "#upiwc-handle" ).selectize( {
+                            var upiwcSelect = $( "#upiwc-handle" ).selectize( {
 			            	    create: <?php echo apply_filters( 'upiwc_create_upi_handle', 'false' ); ?>,
 			    	    	} );
 							<?php if ( ! empty( $upi_handle ) ) { ?>
-								var selectize = select[0].selectize;
-								selectize.setValue( selectize.search( '<?php echo $upi_handle; ?>').items[0].id );
+								var upiwcSelectize = upiwcSelect[0].selectize;
+								upiwcSelectize.setValue( upiwcSelectize.search( '<?php echo $upi_handle; ?>').items[0].id );
 							<?php } ?>
 			    	    }
                     } )( jQuery );
@@ -474,16 +480,18 @@ function upiwc_payment_gateway_init() {
 			}
 			
 			if ( is_checkout() ) {
-			    wp_enqueue_style( 'upiwc-selectize', plugins_url( 'css/selectize.min.css' , __FILE__ ), array(), '0.12.6' );
-				wp_enqueue_script( 'upiwc-selectize', plugins_url( 'js/selectize.min.js' , __FILE__ ), array( 'jquery' ), '0.12.6', false );
+			    wp_enqueue_style( 'upiwc-selectize', plugins_url( 'css/selectize.min.css' , __FILE__ ), array(), '0.15.2' );
+				wp_enqueue_style( 'upiwc-checkout', plugins_url( 'css/checkout.min.css' , __FILE__ ), array( 'upiwc-selectize' ), UPI_WOO_PLUGIN_VERSION );
+
+				wp_enqueue_script( 'upiwc-selectize', plugins_url( 'js/selectize.min.js' , __FILE__ ), array( 'jquery' ), '0.15.2', false );
 			}
 		
 			wp_register_style( 'upiwc-jquery-confirm', plugins_url( 'css/jquery-confirm.min.css' , __FILE__ ), array(), '3.3.4' );
-			wp_register_style( 'upiwc', plugins_url( 'css/upi.min.css' , __FILE__ ), array( 'upiwc-jquery-confirm' ), UPI_WOO_PLUGIN_VERSION );
+			wp_register_style( 'upiwc-payment', plugins_url( 'css/payment.min.css' , __FILE__ ), array( 'upiwc-jquery-confirm' ), UPI_WOO_PLUGIN_VERSION );
 			
 			wp_register_script( 'upiwc-qr-code', plugins_url( 'js/easy.qrcode.min.js' , __FILE__ ), array( 'jquery' ), '3.8.3', true );
 			wp_register_script( 'upiwc-jquery-confirm', plugins_url( 'js/jquery-confirm.min.js' , __FILE__ ), array( 'jquery' ), '3.3.4', true );
-		    wp_register_script( 'upiwc', plugins_url( 'js/upi.min.js' , __FILE__ ), array( 'jquery', 'upiwc-qr-code', 'upiwc-jquery-confirm' ), UPI_WOO_PLUGIN_VERSION, true );
+		    wp_register_script( 'upiwc-payment', plugins_url( 'js/payment.min.js' , __FILE__ ), array( 'jquery', 'upiwc-qr-code', 'upiwc-jquery-confirm' ), UPI_WOO_PLUGIN_VERSION, true );
 		}
 
 		/**
@@ -495,7 +503,7 @@ function upiwc_payment_gateway_init() {
 		public function process_payment( $order_id ) {
             $order = wc_get_order( $order_id );
 			$upi_address = ! empty( $_POST['customer_upiwc_address'] ) ? sanitize_text_field( $_POST['customer_upiwc_address'] ) : '';
-			$upi_address = ! empty( $_POST['customer_upiwc_handle'] ) ? $upi_address . sanitize_text_field( $_POST['customer_upiwc_handle'] ) : $upi_address;
+			$upi_address = ! empty( $_POST['customer_upiwc_handle'] ) ? $upi_address . '@' . sanitize_text_field( $_POST['customer_upiwc_handle'] ) : $upi_address;
 			$message = __( 'Awaiting UPI Payment!', 'upi-qr-code-payment-for-woocommerce' );
 
 			// Mark as pending (we're awaiting the payment)
@@ -546,15 +554,21 @@ function upiwc_payment_gateway_init() {
 			$order = wc_get_order( $order_id );
             $total = apply_filters( 'upiwc_order_total_amount', $order->get_total(), $order );
             //$total = 1;
-			// enqueue required css & js files
+
+			$payee_vpa = apply_filters( 'upiwc_payee_vpa', $this->vpa, $order );
+			$payee_vpa = trim( htmlentities( strtolower( $payee_vpa ) ) );
+
+			// enqueue required css files
 			wp_enqueue_style( 'upiwc-jquery-confirm' );
-			wp_enqueue_style( 'upiwc' );
+			wp_enqueue_style( 'upiwc-payment' );
+
+			// enqueue required js files
+			wp_enqueue_script( 'upiwc-qr-code' );
 			wp_enqueue_script( 'upiwc-jquery-confirm' );
-		    wp_enqueue_script( 'upiwc' );
-			wp_enqueue_script( 'upiwc' );
+		    wp_enqueue_script( 'upiwc-payment' );
 			
 			// add localize scripts
-			wp_localize_script( 'upiwc', 'upiwc_params',
+			wp_localize_script( 'upiwc-payment', 'upiwcData',
                 array( 
 					'order_id'          => $order_id,
 					'order_amount'      => $total,
@@ -565,24 +579,28 @@ function upiwc_payment_gateway_init() {
 					'payment_url'       => $order->get_checkout_payment_url(),
 					'cancel_url'        => apply_filters( 'upiwc_payment_cancel_url', wc_get_checkout_url(), $this->get_return_url( $order ), $order ),
 					'transaction_id'    => $this->transaction_id,
-					'mc_code'           => $this->mcc ? $this->mcc : 8931,
-					'prevent_reload'    => apply_filters( 'upiwc_enable_payment_reload', true ),
+					'mc_code'           => $this->mc_code ? $this->mc_code : 8931,
 					'btn_timer'    		=> apply_filters( 'upiwc_enable_button_timer', true ),
 					'btn_show_interval' => apply_filters( 'upiwc_button_show_interval', 30000 ),
-					'can_intent'        => ( wp_is_mobile() && ( stripos( $_SERVER['HTTP_USER_AGENT'], "iPhone" ) === false ) && $this->auto_intent === 'yes' ),
+					'theme'             => $this->theme ? $this->theme : 'light',
 					'payer_vpa'         => htmlentities( strtolower( get_post_meta( $order->get_id(), '_transaction_upi_id', true ) ) ),
-					'payee_vpa'         => htmlentities( strtolower( $this->vpa ) ),
+					'payee_vpa'         => $payee_vpa,
 					'payee_name'        => preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ),
 					'is_mobile'         => ( wp_is_mobile() ) ? 'yes' : 'no',
 					'app_version'       => UPI_WOO_PLUGIN_VERSION,
                 )
 			);
 
-			$can_show_qr = ( stripos( $_SERVER['HTTP_USER_AGENT'], "iPhone" ) === false && $this->intent === 'yes' );
-			$can_show_download = ( $this->download_qr === 'yes' );
+			$hide_mobile_qr = ( wp_is_mobile() && $this->qrcode_mobile === 'no' );
+			$show_intent_btn = ( wp_is_mobile() && $this->intent === 'yes' );
+			$show_qr_download = ( wp_is_mobile() && $this->download_qr === 'yes' );
+			
+			$qr_code_class = ( $hide_mobile_qr ) ? 'upiwc-hide' : 'upiwc-show';
+
+			//$show_intent_btn = $show_qr_download = true;
 
 			// add html output on payment endpoint
-			if ( 'yes' === $this->enabled && $order->needs_payment() === true && $order->has_status( $this->default_status ) && ! empty( $this->vpa ) ) { ?>
+			if ( 'yes' === $this->enabled && $order->needs_payment() === true && $order->has_status( $this->default_status ) && ! empty( $payee_vpa ) ) { ?>
 			    <section class="upiwc-section">
 				    <div class="upiwc-info">
 				        <h6 class="upiwc-waiting-text"><?php esc_html_e( 'Please wait and don\'t press back or refresh this page while we are processing your payment.', 'upi-qr-code-payment-for-woocommerce' ); ?></h6>
@@ -604,28 +622,59 @@ function upiwc_payment_gateway_init() {
 						<div class="upiwc-payment-header">
 							<div class="upiwc-payment-merchant-name"><?php echo preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ); ?></div>
 							<div class="upiwc-payment-order-info">
-								<span class="upiwc-payment-prefix"><?php esc_html_e( 'Payment for Order Id: ', 'upi-qr-code-payment-for-woocommerce' ); ?></span> 
+								<span class="upiwc-payment-prefix"><?php esc_html_e( 'Order ID: ', 'upi-qr-code-payment-for-woocommerce' ); ?></span> 
 								<span class="upiwc-payment-order-id">#<?php echo esc_html( $order->get_order_number() ); ?></span>
 							</div>
 						</div>
 					</div>
 					<div class="upiwc-modal-content">
 						<div class="upiwc-payment-content">
-							<?php if ( ! wp_is_mobile() || $this->qrcode_mobile !== 'no' ) { ?>
-								<div id="upiwc-payment-qr-code" class="upiwc-payment-qr-code"></div>
-							<?php } ?>
-							<div class="upiwc-payment-info">
-								<div class="upiwc-payment-upi-id" title="<?php esc_attr_e( 'Click to Copy', 'upi-qr-code-payment-for-woocommerce' ); ?>"><?php echo htmlentities( strtoupper( $this->vpa ) ); ?></div>
-								<?php if ( wp_is_mobile() && ( $can_show_qr || $can_show_download ) ) { ?>
-									<div class="upiwc-payment-button">
-										<?php if ( $can_show_qr ) { ?>
-											<button type="button" id="upi-pay" class="btn"><?php echo apply_filters( 'upiwc_upi_direct_pay_text', __( 'One Tap to Pay', 'upi-qr-code-payment-for-woocommerce' ) ); ?></button>
-										<?php } ?>
-										<?php if ( $can_show_download ) { ?>
-											<button type="button" id="upi-download" class="btn"><?php echo apply_filters( 'upiwc_donwload_button_text', __( 'Download QR Code', 'upi-qr-code-payment-for-woocommerce' ) ); ?></button>
+							<div id="upiwc-payment-qr-code" class="upiwc-payment-qr-code <?php echo esc_attr( $qr_code_class ); ?>"></div>
+							<div class="upiwc-payment-actions">
+								<div class="upiwc-payment-upi-id" title="<?php esc_attr_e( 'Click to Copy', 'upi-qr-code-payment-for-woocommerce' ); ?>"><?php echo $payee_vpa; ?></div>
+								<?php if ( $show_qr_download ) { ?>
+									<button type="button" id="upi-download" class="btn upiwc-payment-button"><?php echo apply_filters( 'upiwc_donwload_button_text', __( 'Download QR Code', 'upi-qr-code-payment-for-woocommerce' ) ); ?></button>
+								<?php } ?>
+							</div>
+							<?php if ( $show_intent_btn ) { ?>
+								<div class="upiwc-payment-container">
+									<?php if ( stripos( $_SERVER['HTTP_USER_AGENT'], "iPhone" ) !== false ) { ?>
+										<div class="upiwc-payment-hint"><?php esc_html_e( 'Pay with installed app', 'upi-qr-code-payment-for-woocommerce' ); ?></div>
+									<?php } else { ?>
+										<div class="upiwc-payment-hint"><?php esc_html_e( 'Pay with installed app, or use others', 'upi-qr-code-payment-for-woocommerce' ); ?></div>
+									<?php } ?>
+									<div class="upiwc-payment-btn-container">
+										<div class="upiwc-payment-btn" data-type="gpay">
+											<div class="app-logo">
+												<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/googlepay.svg' ); ?>" alt="google-pay-app-logo" class="logo">
+											</div>
+											<div class="app-title"><?php esc_html_e( 'Google Pay', 'upi-qr-code-payment-for-woocommerce' ); ?></div>
+										</div>
+										<div class="upiwc-payment-btn" data-type="phonepe">
+											<div class="app-logo">
+												<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/phonepe.svg' ); ?>" alt="phonepe-app-logo" class="logo">
+											</div>
+											<div class="app-title"><?php esc_html_e( 'PhonePe', 'upi-qr-code-payment-for-woocommerce' ); ?></div>
+										</div>
+										<div class="upiwc-payment-btn" data-type="paytm">
+											<div class="app-logo">
+												<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/paytm.svg' ); ?>" alt="paytm-app-logo" class="logo">
+											</div>
+											<div class="app-title"><?php esc_html_e( 'Paytm', 'upi-qr-code-payment-for-woocommerce' ); ?></div>
+										</div>
+										<?php if ( stripos( $_SERVER['HTTP_USER_AGENT'], "iPhone" ) === false ) { ?>
+											<div class="upiwc-payment-btn" data-type="upi">
+												<div class="app-logo">
+													<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/bhim.svg' ); ?>" alt="bhim-app-logo" class="logo">
+												</div>
+												<div class="app-title"><?php esc_html_e( 'Others', 'upi-qr-code-payment-for-woocommerce' ); ?></div>
+											</div>
 										<?php } ?>
 									</div>
-								<?php } ?>
+									<div class="upiwc-payment-intent-error" style="display: none;"></div>
+								</div>
+							<?php } ?>
+							<div class="upiwc-payment-info">
 								<div class="upiwc-payment-info-text">
 									<?php if ( wp_is_mobile() ) { 
 										echo wptexturize( $this->instructions_mobile );
@@ -633,12 +682,14 @@ function upiwc_payment_gateway_init() {
 										echo wptexturize( $this->instructions ); 
 									} ?>
 								</div>
-								<div class="upiwc-payment-info-logo">
-									<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/googlepay.svg' ); ?>" alt="google-pay-app-logo" class="logo">
-									<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/phonepe.svg' ); ?>" alt="phonepe-app-logo" class="logo">
-									<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/paytm.svg' ); ?>" alt="paytm-app-logo" class="logo">
-									<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/bhim.svg' ); ?>" alt="bhim-app-logo" class="logo">
-								</div>
+								<?php if ( ! $show_intent_btn ) { ?>
+									<div class="upiwc-payment-info-logo">
+										<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/googlepay.svg' ); ?>" alt="google-pay-app-logo" class="logo">
+										<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/phonepe.svg' ); ?>" alt="phonepe-app-logo" class="logo">
+										<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/paytm.svg' ); ?>" alt="paytm-app-logo" class="logo">
+										<img src="<?php echo esc_url( UPI_WOO_PLUGIN_DIR . 'includes/icon/bhim.svg' ); ?>" alt="bhim-app-logo" class="logo">
+									</div>
+								<?php } ?>
 							</div>
 							<div class="upiwc-payment-confirm" style="display: none;">
 								<?php if ( $this->transaction_id !== 'hide' ) { ?>
@@ -682,7 +733,8 @@ function upiwc_payment_gateway_init() {
 
 				// set upi id as trnsaction id
 				if ( isset( $_POST['wc_transaction_id'] ) && ! empty( $_POST['wc_transaction_id'] ) ) {
-					update_post_meta( $order->get_id(), '_transaction_id', sanitize_text_field( $_POST['wc_transaction_id'] ) );
+					$transaction_id = sanitize_text_field( $_POST['wc_transaction_id'] );
+					update_post_meta( $order->get_id(), '_transaction_id', $transaction_id );
 				}
 
 				// reduce stock level
