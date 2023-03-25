@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.3.2
+Release Date: March 25, 2023
+
+* Added: Theme Options.
+* Tweak: Added CSS fixes.
+
 ## 1.3.1
 Release Date: March 17, 2023
 
