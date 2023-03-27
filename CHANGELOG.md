@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.3.3
+Release Date: March 27, 2023
+
+* Fixed: Proceed to next step button is not visible on some cases.
+
 ## 1.3.2
 Release Date: March 25, 2023
 
