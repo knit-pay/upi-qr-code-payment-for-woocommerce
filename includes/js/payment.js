@@ -43,8 +43,12 @@
             theme: upiwcData.theme,
             onOpenBefore: function () {
                 this.$el.addClass( 'upiwc-payment-modal' );
+
+                jQuery(document).trigger('upiwcOnOpenBefore', [this]);
             },
             onContentReady: function () {
+                jQuery(document).trigger('upiwcBeforeContentReady', [this]);
+
                 let self = this;
                 let timeoutIntent, timeoutCopy;
 
@@ -107,11 +111,18 @@
                     self.buttons.nextStep.setText( 'Proceed to Next' );
                     self.buttons.nextStep.enable();
                 }
+
+                jQuery(document).trigger("upiwcAfterContentReady", [this]);
             },
             onClose: function () {
                 $( '#upiwc-processing' ).hide();
                 $( '#upiwc-confirm-payment, #upiwc-cancel-payment, .upiwc-return-link' ).show();
                 $( '.upiwc-waiting-text' ).text( 'Please click the Pay Now button below to complete the payment against this order.' );
+            
+                jQuery(document).trigger("upiwcOnClose", [this]);
+            },
+            onAction: function (btnName) {
+                jQuery(document).trigger("upiwcOnAction", [this, btnName]);
             },
             buttons: {
                 amount: {
@@ -126,6 +137,8 @@
                     btnClass: 'upiwc-next',
                     isDisabled: true,
                     action: function() {
+                        jQuery(document).trigger("upiwcBeforeNextStepAction", [this]);
+
                         let self = this;
                         self.$content.find( '.upiwc-payment-confirm' ).show();
                         self.$content.find( '.upiwc-payment-info, .upiwc-payment-qr-code.upiwc-show, .upiwc-payment-actions, .upiwc-payment-container' ).hide();
@@ -136,6 +149,10 @@
                         self.buttons.back.show();
                         self.buttons.confirm.show();
 
+                        jQuery(document).trigger("upiwcAfterNextStepAction", [
+                          this,
+                        ]);
+
                         return false;
                     }
                 },
@@ -144,6 +161,8 @@
                     isHidden: true,
                     btnClass: 'upiwc-back',
                     action: function() {
+                        jQuery(document).trigger("upiwcBeforeBackAction", [this]);
+
                         let self = this;
                         self.$content.find( '.upiwc-payment-confirm' ).hide();
                         self.$content.find( '.upiwc-payment-info, .upiwc-payment-qr-code.upiwc-show, .upiwc-payment-actions, .upiwc-payment-container' ).show();
@@ -153,6 +172,10 @@
                         self.buttons.confirm.hide();
                         self.$closeIcon.show();
 
+                        jQuery(document).trigger("upiwcAfterBackAction", [
+                          this,
+                        ]);
+
                         return false;
                     }
                 },
@@ -161,6 +184,8 @@
                     btnClass: 'upiwc-confirm',
                     isHidden: true,
                     action: function() {
+                        jQuery(document).trigger("upiwcBeforeConfirmAction", [this]);
+
                         let self = this;
 
                         let tran_id = self.$content.find( '#upiwc-payment-transaction-number' ).val();
@@ -186,6 +211,10 @@
 
                         $( '#upiwc-payment-success-container' ).html( '<form method="POST" action="' + upiwcData.callback_url + '" id="UPIJSCheckoutForm" style="display: none;"><input type="hidden" name="wc_order_id" value="' + upiwcData.order_id + '"><input type="hidden" name="wc_order_key" value="' + upiwcData.order_key + '">' + tran_id_field + '</form>' );
                         $( 'body' ).find( '#UPIJSCheckoutForm' ).submit();
+
+                        jQuery(document).trigger("upiwcAfterConfirmAction", [
+                          this,
+                        ]);
 
                         return false;
                     }

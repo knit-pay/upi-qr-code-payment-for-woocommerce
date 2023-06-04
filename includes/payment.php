@@ -491,7 +491,7 @@ function upiwc_payment_gateway_init() {
 			
 			wp_register_script( 'upiwc-qr-code', plugins_url( 'js/easy.qrcode.min.js' , __FILE__ ), array( 'jquery' ), '3.8.3', true );
 			wp_register_script( 'upiwc-jquery-confirm', plugins_url( 'js/jquery-confirm.min.js' , __FILE__ ), array( 'jquery' ), '3.3.4', true );
-		    wp_register_script( 'upiwc-payment', plugins_url( 'js/payment.min.js' , __FILE__ ), array( 'jquery', 'upiwc-qr-code', 'upiwc-jquery-confirm' ), UPI_WOO_PLUGIN_VERSION, true );
+			wp_register_script('upiwc-payment', plugins_url('js/payment.js', __FILE__), array('jquery', 'upiwc-qr-code', 'upiwc-jquery-confirm'), UPI_WOO_PLUGIN_VERSION, true);
 		}
 
 		/**
