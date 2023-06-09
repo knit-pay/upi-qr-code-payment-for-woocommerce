@@ -5,8 +5,8 @@
         return false;
     }
 
-    let paymentLink = 'pay?pa=' + upiwcData.payee_vpa + '&pn=' + upiwcData.payee_name.replace(/\s/g, '') + '&am=' + upiwcData.order_amount + '&tr=' + upiwcData.order_key.replace( 'wc_order_', '' ).replace(/\s/g, '') + '&mc=' + upiwcData.mc_code + '&cu=INR&tn=OrderId:' + upiwcData.order_number.replace(/\s/g, '');
-    paymentLink = encodeURI( paymentLink );
+    let paymentLink = 'pay?pa=' + upiwcData.payee_vpa + '&pn=' + upiwcData.payee_name + '&am=' + upiwcData.order_amount + '&tr=' + upiwcData.order_key.replace( 'wc_order_', '' ) + '&mc=' + upiwcData.mc_code + '&cu=INR&tn=' + upiwcData.payee_name + '+OrderId:' + upiwcData.order_number;
+    paymentLink = encodeURI( paymentLink.replace(/\s/g, '') );
 
     $( 'body' ).on( 'contextmenu', '.upiwc-payment-qr-code img', function( e ) {
         return false;
@@ -21,6 +21,7 @@
         e.preventDefault();
         window.location = upiwcData.payment_url;
     } );
+
     $( 'body' ).on( 'click', '#upiwc-confirm-payment', function( e ) {
         e.preventDefault();
 
@@ -43,8 +44,12 @@
             theme: upiwcData.theme,
             onOpenBefore: function () {
                 this.$el.addClass( 'upiwc-payment-modal' );
+
+                $( document ).trigger( 'upiwcOnOpenBefore', [ this ] );
             },
             onContentReady: function () {
+                $( document ).trigger( 'upiwcBeforeContentReady', [ this ] );
+
                 let self = this;
                 let timeoutIntent, timeoutCopy;
 
@@ -107,11 +112,18 @@
                     self.buttons.nextStep.setText( 'Proceed to Next' );
                     self.buttons.nextStep.enable();
                 }
+
+                $( document ).trigger( 'upiwcAfterContentReady', [ this ] );
             },
             onClose: function () {
                 $( '#upiwc-processing' ).hide();
                 $( '#upiwc-confirm-payment, #upiwc-cancel-payment, .upiwc-return-link' ).show();
                 $( '.upiwc-waiting-text' ).text( 'Please click the Pay Now button below to complete the payment against this order.' );
+            
+                $( document ).trigger( 'upiwcOnClose', [ this ] );
+            },
+            onAction: function ( btnName ) {
+                $( document ).trigger( 'upiwcOnAction', [ this, btnName ] );
             },
             buttons: {
                 amount: {
@@ -126,6 +138,8 @@
                     btnClass: 'upiwc-next',
                     isDisabled: true,
                     action: function() {
+                        $( document ).trigger( 'upiwcBeforeNextStepAction', [ this ] );
+
                         let self = this;
                         self.$content.find( '.upiwc-payment-confirm' ).show();
                         self.$content.find( '.upiwc-payment-info, .upiwc-payment-qr-code.upiwc-show, .upiwc-payment-actions, .upiwc-payment-container' ).hide();
@@ -136,6 +150,7 @@
                         self.buttons.back.show();
                         self.buttons.confirm.show();
 
+                        $( document ).trigger( 'upiwcAfterNextStepAction', [ this ] );
                         return false;
                     }
                 },
@@ -144,6 +159,8 @@
                     isHidden: true,
                     btnClass: 'upiwc-back',
                     action: function() {
+                        $( document ).trigger( 'upiwcBeforeBackAction', [ this ] );
+
                         let self = this;
                         self.$content.find( '.upiwc-payment-confirm' ).hide();
                         self.$content.find( '.upiwc-payment-info, .upiwc-payment-qr-code.upiwc-show, .upiwc-payment-actions, .upiwc-payment-container' ).show();
@@ -153,6 +170,7 @@
                         self.buttons.confirm.hide();
                         self.$closeIcon.show();
 
+                        $( document ).trigger( 'upiwcAfterBackAction', [ this ] );
                         return false;
                     }
                 },
@@ -161,8 +179,9 @@
                     btnClass: 'upiwc-confirm',
                     isHidden: true,
                     action: function() {
-                        let self = this;
+                        $( document ).trigger( 'upiwcBeforeConfirmAction', [ this ] );
 
+                        let self = this;
                         let tran_id = self.$content.find( '#upiwc-payment-transaction-number' ).val();
                         if ( tran_id !== undefined && typeof( tran_id ) !== 'undefined' ) {
                             if ( tran_id != '' && tran_id.length != 12 ) {
@@ -187,6 +206,7 @@
                         $( '#upiwc-payment-success-container' ).html( '<form method="POST" action="' + upiwcData.callback_url + '" id="UPIJSCheckoutForm" style="display: none;"><input type="hidden" name="wc_order_id" value="' + upiwcData.order_id + '"><input type="hidden" name="wc_order_key" value="' + upiwcData.order_key + '">' + tran_id_field + '</form>' );
                         $( 'body' ).find( '#UPIJSCheckoutForm' ).submit();
 
+                        $( document ).trigger( 'upiwcAfterConfirmAction', [ this ] );
                         return false;
                     }
                 }
