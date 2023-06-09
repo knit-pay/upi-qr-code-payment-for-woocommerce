@@ -491,7 +491,7 @@ function upiwc_payment_gateway_init() {
 			
 			wp_register_script( 'upiwc-qr-code', plugins_url( 'js/easy.qrcode.min.js' , __FILE__ ), array( 'jquery' ), '3.8.3', true );
 			wp_register_script( 'upiwc-jquery-confirm', plugins_url( 'js/jquery-confirm.min.js' , __FILE__ ), array( 'jquery' ), '3.3.4', true );
-		    wp_register_script( 'upiwc-payment', plugins_url( 'js/payment.min.js' , __FILE__ ), array( 'jquery', 'upiwc-qr-code', 'upiwc-jquery-confirm' ), UPI_WOO_PLUGIN_VERSION, true );
+			wp_register_script('upiwc-payment', plugins_url('js/payment.js', __FILE__), array('jquery', 'upiwc-qr-code', 'upiwc-jquery-confirm'), UPI_WOO_PLUGIN_VERSION, true);
 		}
 
 		/**
@@ -729,7 +729,8 @@ function upiwc_payment_gateway_init() {
             
             // check if it an order
             if ( is_a( $order, 'WC_Order' ) ) {
-				$order->update_status( apply_filters( 'upiwc_capture_payment_order_status', $this->payment_status ) );
+				$status_to_update = apply_filters('upiwc_capture_payment_order_status', $this->payment_status, $order);
+				$order->update_status($status_to_update);
 
 				// set upi id as trnsaction id
 				if ( isset( $_POST['wc_transaction_id'] ) && ! empty( $_POST['wc_transaction_id'] ) ) {
@@ -741,7 +742,7 @@ function upiwc_payment_gateway_init() {
 				wc_reduce_stock_levels( $order->get_id() );
 
 				// check order if it actually needs payment
-				if ( in_array( $this->payment_status, apply_filters( 'upiwc_valid_order_status_for_note', array( 'pending', 'on-hold' ) ) ) ) {
+				if (in_array($status_to_update, apply_filters('upiwc_valid_order_status_for_note', array('pending', 'on-hold')))) {
 		            // set order note
 		            $order->add_order_note( __( 'Payment primarily completed. Needs shop owner\'s verification.', 'upi-qr-code-payment-for-woocommerce' ), false );
 				}
