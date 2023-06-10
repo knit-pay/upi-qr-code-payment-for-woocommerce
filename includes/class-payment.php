@@ -24,11 +24,11 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	public function __construct() {
 	
 		$this->id                 = 'wc-upi';
-		$this->icon               = apply_filters( 'upiwc_custom_gateway_icon', UPIWC_URL . 'includes/icon/payment.gif' );
+		$this->icon               = apply_filters( 'upiwc_gateway_icon', UPIWC_URL . 'includes/icon/payment.gif' );
 		$this->has_fields         = true;
 		$this->method_title       = __( 'UPI QR Code', 'upi-qr-code-payment-for-woocommerce' );
-		$this->method_description = sprintf( '%s<br /><span style="color: #ff0000;">%s</span>', __( 'Allows customers to use UPI mobile app like Paytm, Google Pay, BHIM, PhonePe to pay to your bank account directly using UPI. All of the below fields are required.', 'upi-qr-code-payment-for-woocommerce' ), __( 'Merchant or Administrator of this site needs to manually check the payment and mark it as complete on the Order edit page as automatic verification is not available in this payment method.', 'upi-qr-code-payment-for-woocommerce' ) );
-		$this->order_button_text  = __( 'Proceed to Payment', 'upi-qr-code-payment-for-woocommerce' );
+		$this->method_description = sprintf( '%s <span style="font-weight: 600;color: #ff0000;">%s</span>', __( 'Allows customers to use UPI mobile app like Paytm, Google Pay, BHIM, PhonePe to pay to your bank account directly using UPI.', 'upi-qr-code-payment-for-woocommerce' ), __( 'Merchant or Administrator of this site needs to manually check the payment and mark it as paid on the Order edit page as automatic payment verification is not available within this payment method.', 'upi-qr-code-payment-for-woocommerce' ) );
+		$this->order_button_text  = apply_filters( 'upiwc_order_button_text', __( 'Proceed to Payment', 'upi-qr-code-payment-for-woocommerce' ) );
 
 		// Method with all the options fields
 		$this->init_form_fields();
@@ -87,22 +87,20 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		add_action( 'woocommerce_email_after_order_table', array( $this, 'email_instructions' ), 10, 4 );
 
 		// Add support for payment for on hold orders
-		add_action( 'woocommerce_valid_order_statuses_for_payment', array( $this, 'on_hold_payment' ), 10, 2 );
+		add_action( 'woocommerce_valid_order_statuses_for_payment', array( $this, 'on_hold_payment' ), 99, 2 );
 
 		// Change wc payment link if exists payment method is QR Code
-		add_filter( 'woocommerce_get_checkout_payment_url', array( $this, 'custom_checkout_url' ), 10, 2 );
+		add_filter( 'woocommerce_get_checkout_payment_url', array( $this, 'custom_checkout_url' ), 99, 2 );
 		
 		// Add custom text on thankyou page
-		add_filter( 'woocommerce_thankyou_order_received_text', array( $this, 'order_received_text' ), 10, 2 );
+		add_filter( 'woocommerce_thankyou_order_received_text', array( $this, 'order_received_text' ), 99, 2 );
 
 		// Disable upi payment gateway
-		add_filter( 'woocommerce_available_payment_gateways', array( $this, 'disable_gateway' ), 10, 1 );
+		add_filter( 'woocommerce_available_payment_gateways', array( $this, 'disable_gateway' ), 99 );
 
 		// Add order column data ( HPOS compatibility )
-		if ( function_exists( 'wc_get_page_screen_id' ) ) {
-			add_filter( 'woocommerce_shop_order_list_table_columns', array( $this, 'column_item' ) );
-			add_action( 'manage_' . wc_get_page_screen_id( 'shop_order' ) . '_custom_column', array( $this, 'render_column' ), 10, 2 );
-		}
+		add_filter( 'woocommerce_shop_order_list_table_columns', array( $this, 'column_item' ) );
+		add_action( 'manage_woocommerce_page_wc-orders_custom_column', array( $this, 'render_column' ), 10, 2 );
 
 		// Add order column data ( old post columns )
 		add_filter( 'manage_edit-shop_order_columns', array( $this, 'column_item' ) );
@@ -175,9 +173,9 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'desc_tip'    => false,
 			),
 			'upi_address'         => array(
-				'title'       => __( 'UPI Address (VPA):', 'upi-qr-code-payment-for-woocommerce' ),
+				'title'       => __( 'Payee UPI Address (VPA):', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'select',
-				'description' => __( 'If you want to collect UPI Address from customers on checkout page, set it here.', 'upi-qr-code-payment-for-woocommerce' ),
+				'description' => __( 'If you want to collect UPI Address from customers on checkout page, set it here. You can verify the payment against this UPI ID.', 'upi-qr-code-payment-for-woocommerce' ),
 				'desc_tip'    => false,
 				'default'     => 'show_handle',
 				'options'     => array(
@@ -233,14 +231,14 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 			'name'                => array(
 				'title'       => __( 'Your Store or Shop Name:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'text',
-				'description' => __( 'Please enter Your Store or Shop name. If you are a person, you can enter your name.', 'upi-qr-code-payment-for-woocommerce' ),
+				'description' => __( 'Enter Your Store or Shop name. If you are a person, you can enter your name.', 'upi-qr-code-payment-for-woocommerce' ),
 				'default'     => get_bloginfo( 'name' ),
 				'desc_tip'    => false,
 			),
 			'vpa'                 => array(
 				'title'       => __( 'Merchant UPI VPA ID:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'text',
-				'description' => sprintf( '%s <span style="color: #ff0000;">%s</span>', __( 'Please enter Your Merchant UPI VPA (e.g. 12345678@icici) at which you want to collect payments. Receiver and Sender UPI ID can\'t be same.', 'upi-qr-code-payment-for-woocommerce' ), __( 'Use only Merchant UPI ID. General/Normal User UPI VPA will not work.', 'upi-qr-code-payment-for-woocommerce' ) ),
+				'description' => sprintf( '%s <span style="color: #ff0000;font-weight: 600;">%s</span>', __( 'Enter Your Merchant UPI VPA (e.g. 12345678@icici) at which you want to collect payments.', 'upi-qr-code-payment-for-woocommerce' ), __( 'Use only Merchant UPI ID. General/Normal User UPI VPA will not work.', 'upi-qr-code-payment-for-woocommerce' ) ),
 				'default'     => '',
 				'desc_tip'    => false,
 			),
@@ -285,7 +283,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'title'       => __( 'Payment Buttons:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'checkbox',
 				'label'       => __( 'Show / Hide Payment Buttons', 'upi-qr-code-payment-for-woocommerce' ),
-				'description' => __( 'Enable this if you want to show direct pay now option. Only Merchent UPI IDs will work.', 'upi-qr-code-payment-for-woocommerce' ),
+				'description' => sprintf( '%s <span style="color: #ff0000;font-weight: 600;">%s</span>', __( 'Enable this if you want to show direct pay now option.', 'upi-qr-code-payment-for-woocommerce' ), __( 'Only Merchent UPI IDs will work.', 'upi-qr-code-payment-for-woocommerce' ) ),
 				'default'     => 'no',
 				'desc_tip'    => false,
 			),
@@ -479,7 +477,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 			return;
 		}
 		
-		if ( is_checkout() ) {
+		if ( is_checkout() && $this->upi_address !== 'hide' ) {
 			wp_enqueue_style( 'upiwc-selectize', plugins_url( 'css/selectize.min.css' , __FILE__ ), array(), '0.15.2' );
 			wp_enqueue_style( 'upiwc-checkout', plugins_url( 'css/checkout.min.css' , __FILE__ ), array( 'upiwc-selectize' ), UPIWC_VERSION );
 
