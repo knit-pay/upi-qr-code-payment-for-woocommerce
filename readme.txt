@@ -106,8 +106,16 @@ Post detailed information about the issue in the [support forum](https://wordpre
 
 If you like UPI QR Code Payment Gateway, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
 
+= 1.3.5 =
+Release Date: June 10, 2023
+
+* Fixed: Thank you note was not visible on some themes.
+* Added: `upiwc_order_button_text` filter to change order button text on checkout page.
+* Tweak: `upiwc_custom_gateway_icon` filter to `upiwc_gateway_icon`. It can be used to change payment gateway icon.
+* Tweak: CSS and JS will only load if the UPI ID option is enabled on checkout page.
+
 = 1.3.4 =
-Release Date: June 6, 2023
+Release Date: June 9, 2023
 
 * Added: Some JS actions.
 * Fixed: Label color in dark mode.
