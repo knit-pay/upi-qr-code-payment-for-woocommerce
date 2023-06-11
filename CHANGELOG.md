@@ -1,9 +1,19 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 1.3.4
-Release Date: June 6, 2023
+## 1.3.5
+Release Date: June 11, 2023
 
+* Fixed: Thank you note was not visible on some themes.
+* Fixed: CSS issues on some themes.
+* Added: `upiwc_order_button_text` filter to change order button text on checkout page.
+* Tweak: `upiwc_custom_gateway_icon` filter to `upiwc_gateway_icon`. It can be used to change payment gateway icon.
+* Tweak: CSS and JS will only load if the UPI ID option is enabled on checkout page.
+
+## 1.3.4 =
+Release Date: June 9, 2023
+
+* Added: High-Performance Order Storage support.
 * Added: Some JS actions.
 * Fixed: Label color in dark mode.
 * Tested with WooCommerce v7.8.
