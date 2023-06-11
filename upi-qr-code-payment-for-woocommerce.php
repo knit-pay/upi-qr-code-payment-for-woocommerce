@@ -3,7 +3,7 @@
  * Plugin Name: UPI QR Code Payment Gateway
  * Plugin URI: https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
  * Description: It enables a WooCommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
- * Version: 1.3.4
+ * Version: 1.3.5
  * Author: Sayan Datta
  * Author URI: https://www.sayandatta.co.in
  * License: GPLv3
@@ -48,7 +48,7 @@ final class UPIWC {
      *
      * @var string
      */
-    public $version = '1.3.4';
+    public $version = '1.3.5';
 
     /**
      * Minimum version of WordPress required to run UPIWC.
@@ -234,7 +234,7 @@ final class UPIWC {
 	 * Initialize plugin for localization.
 	 */
 	public function localization_setup() {
-		load_plugin_textdomain( 'upi-qr-code-payment-for-woocommerce', false, dirname( UPIWC_BASENAME ) . '/languages/' ); 
+		load_plugin_textdomain( 'upi-qr-code-payment-for-woocommerce', false, dirname( UPIWC_BASENAME ) . '/languages' ); 
 	}
 
     /**
@@ -252,7 +252,7 @@ final class UPIWC {
 		$more = [
             '<a href="https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/" target="_blank">' . __( 'Support', 'upi-qr-code-payment-for-woocommerce' ) . '</a>',
             '<a href="https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/#faq" target="_blank">' . __( 'FAQ', 'upi-qr-code-payment-for-woocommerce' ) . '</a>',
-            '<a href="https://www.sayandatta.co.in/donate" target="_blank">' . __( 'Donate', 'upi-qr-code-payment-for-woocommerce' ) . '</a>'
+            '<a href="https://www.sayandatta.co.in/donate" target="_blank">' . __( 'Donate', 'upi-qr-code-payment-for-woocommerce' ) . '</a>',
         ];
 
 		return array_merge( $links, $more );

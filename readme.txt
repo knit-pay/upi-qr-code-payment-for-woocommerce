@@ -1,27 +1,27 @@
-=== UPI QR Code Payment Gateway ===
+=== UPI QR Code Payment Gateway for WooCommerce ===
 Contributors: infosatech
 Tags: upi, upi payment, woocommerce, qrcode, bhim upi, paytm upi, india
 Requires at least: 4.6
 Tested up to: 6.2
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 Requires PHP: 5.6
 Donate link: https://www.sayandatta.co.in/donate
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
-This Plugin enables WooCommerce shopowners to get direct and instant payments through UPI apps like BHIM, Google Pay, Whatsapp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
+This Plugin enables WooCommerce shop owners to get direct and instant payments through UPI apps like BHIM, GooglePay, WhatsApp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
 
 == Description ==
 
-This Plugin enables WooCommerce shopowners to get direct and instant payments through UPI apps like BHIM, Google Pay, Whatsapp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
+This Plugin enables WooCommerce shop owners to get direct and instant payments through UPI apps like BHIM, GooglePay, WhatsApp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
 
-### UPI QR Code Payment Gateway
+### UPI QR Code Payment Gateway for WooCommerce
 
 UPI (Unified Payments Interface) is a payment standard owned by National Payment Corporation of India, a government owned instant payment solution. UPI works 24x7 and is free subject to prevalent government guidelines.
 
-When this plugin is installed, a customer will see UPI as a payment option. When customer chooses it, it will open a page which shows the UPI QR Code containg the payemnt details and in mobile it will also show a button which takes customer to the list of installed UPI mobile applications. Customer can choose an app and pay the required amount. 
+When this plugin is installed, a customer will see UPI as a payment option. When customer chooses it, it will open a page which shows the UPI QR Code containing the payment details and in mobile it will also show a button which takes customer to the list of installed UPI mobile applications. Customer can choose an app and pay the required amount. 
 
-Like UPI QR Code Payment Gateway plugin? Consider leaving a [5 star review](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post).
+Like UPI QR Code Payment Gateway for WooCommerce plugin? Consider leaving a [5 star review](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post).
 
 #### Benefits
 
@@ -31,8 +31,8 @@ Like UPI QR Code Payment Gateway plugin? Consider leaving a [5 star review](http
 * Direct Payment.
 * 100% Success Rate.
 * Send QR Code link to Customer.
-* 24x7 Availibilty.
-* Multisite Network Supproted.
+* 24x7 Availability.
+* Multisite Network Supported.
 * No Renewal/Subscription.
 * No KYC, No GST number Required.
 * No Hidden or Additional Charges.
@@ -41,14 +41,14 @@ Like UPI QR Code Payment Gateway plugin? Consider leaving a [5 star review](http
 #### Detailed Steps
 
 * Customer will see UPI as a payment option in WooCommerce Checkout page.
-* When customer chooses it, it will open a page which shows the UPI QR Code containg the payemnt details and in mobile it will also show a button which takes customer to the list of installed UPI mobile applications.
+* When customer chooses it, it will open a page which shows the UPI QR Code containing the payment details and in mobile it will also show a button which takes customer to the list of installed UPI mobile applications.
 * Customer can scan the QR Code using any UPI app or choose an app from mobile to pay the required order amount.
-* After successful payment, a 12-digits Transaction/UTR ID will apprear in the Customer's UPI app from which he/she made the payment.
-* After that, customer needs to enter that 12 digit transaction number to the "Enter the Transaction ID" textbox and click submit.
+* After successful payment, a 12-digits Transaction/UTR ID will appear in the Customer's UPI app from which he/she made the payment.
+* After that, customer needs to enter that 12 digit transaction number to the "Enter the Transaction ID" text box and click submit.
 * After successful submission of the ID, the order will be marked as on hold (customizable).
 * Now, Merchant gets a notification on the mobile on his/her UPI app (Google Pay/PhonePe/BHIM/Paytm etc.)
 * Merchant opens notification, sees a payment made. Sees the "Order ID".
-* Merchant opens the Woocommerce Dashboard, checks the "pending orders" for this Order ID.
+* Merchant opens the WooCommerce Dashboard, checks the "pending orders" for this Order ID.
 * Checks the order details and processes it (shipping etc) and makes the orders as "processing" or "completed".
 
 #### Compatibility
@@ -65,9 +65,9 @@ Like UPI QR Code Payment Gateway plugin? Consider leaving a [5 star review](http
 == Installation ==
 
 1. Visit 'Plugins > Add New'.
-1. Search for 'UPI QR Code Payment Gateway' and install it.
+1. Search for 'UPI QR Code Payment Gateway for WooCommerce' and install it.
 1. Or you can upload the `upi-qr-code-payment-for-woocommerce` folder to the `/wp-content/plugins/` directory manually.
-1. Activate UPI QR Code Payment Gateway from your Plugins page.
+1. Activate UPI QR Code Payment Gateway for WooCommerce from your Plugins page.
 1. After activation go to 'WooCommerce > Settings > Payments > UPI QR Code'.
 1. Enable options and save changes.
 
@@ -104,12 +104,13 @@ Post detailed information about the issue in the [support forum](https://wordpre
 
 == Changelog ==
 
-If you like UPI QR Code Payment Gateway, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
+If you like UPI QR Code Payment Gateway for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
 
 = 1.3.5 =
-Release Date: June 10, 2023
+Release Date: June 11, 2023
 
 * Fixed: Thank you note was not visible on some themes.
+* Fixed: CSS issues on some themes.
 * Added: `upiwc_order_button_text` filter to change order button text on checkout page.
 * Tweak: `upiwc_custom_gateway_icon` filter to `upiwc_gateway_icon`. It can be used to change payment gateway icon.
 * Tweak: CSS and JS will only load if the UPI ID option is enabled on checkout page.
@@ -117,6 +118,7 @@ Release Date: June 10, 2023
 = 1.3.4 =
 Release Date: June 9, 2023
 
+* Added: High-Performance Order Storage support.
 * Added: Some JS actions.
 * Fixed: Label color in dark mode.
 * Tested with WooCommerce v7.8.

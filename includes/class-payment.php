@@ -223,7 +223,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'default'     => 'no',
 				'desc_tip'    => false,
 			),
-			'payemnt_page'        => array(
+			'payment_page'        => array(
 				'title'       => __( 'Payment Popup Settings', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'title',
 				'description' => __( 'Customize various settings of the Payment Popup here.', 'upi-qr-code-payment-for-woocommerce' ),
@@ -303,7 +303,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'default'     => 'yes',
 				'desc_tip'    => false,
 			),
-			'payemnt_content'        => array(
+			'payment_content'     => array(
 				'title'       => __( 'Payment Popup Content', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'title',
 				'description' => __( 'Customize various texts of the Payment Popup here.', 'upi-qr-code-payment-for-woocommerce' ),
@@ -346,14 +346,14 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'title'       => __( 'Email Subject:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'text',
 				'desc_tip'    => false,
-				'description' => sprintf( __( 'Available placeholders: %s', 'woocommerce' ), '<code>' . esc_html( '{site_title}, {site_address}, {order_date}, {order_number}' ) . '</code>' ),
+				'description' => sprintf( __( 'Available placeholders: %s', 'upi-qr-code-payment-for-woocommerce' ), '<code>' . esc_html( '{site_title}, {site_address}, {order_date}, {order_number}' ) . '</code>' ),
 				'default'     => __( '[{site_title}]: Payment pending #{order_number}', 'upi-qr-code-payment-for-woocommerce' ),
 			),
 			'email_heading'       => array(
 				'title'       => __( 'Email Heading:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'text',
 				'desc_tip'    => false,
-				'description' => sprintf( __( 'Available placeholders: %s', 'woocommerce' ), '<code>' . esc_html( '{site_title}, {site_address}, {order_date}, {order_number}' ) . '</code>' ),
+				'description' => sprintf( __( 'Available placeholders: %s', 'upi-qr-code-payment-for-woocommerce' ), '<code>' . esc_html( '{site_title}, {site_address}, {order_date}, {order_number}' ) . '</code>' ),
 				'default'     => __( 'Thank you for your order', 'upi-qr-code-payment-for-woocommerce' ),
 			),
 			'additional_content'  => array(
@@ -392,14 +392,14 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		// display description before the payment form
 		if ( ! empty( $this->description ) ) {
 			// display the description with <p> tags
-			echo wpautop( wp_kses_post( $this->description ) );
+			echo wp_kses_post( wpautop( wptexturize( $this->description ) ) );
 		}
 		
 		$handles = array_unique( apply_filters( 'upiwc_upi_handle_list', array( 'airtel', 'airtelpaymentsbank', 'apb', 'apl', 'allbank', 'albk', 'allahabadbank', 'andb', 'axisgo', 'axis', 'axisbank', 'axisb', 'okaxis', 'abfspay', 'axl', 'barodampay', 'barodapay', 'boi', 'cnrb', 'csbpay', 'csbcash', 'centralbank', 'cbin', 'cboi', 'cub', 'dbs', 'dcb', 'dcbbank', 'denabank', 'equitas', 'federal', 'fbl', 'finobank', 'hdfcbank', 'payzapp', 'okhdfcbank', 'rajgovhdfcbank', 'hsbc', 'imobile', 'pockets', 'ezeepay', 'eazypay', 'idbi', 'idbibank', 'idfc', 'idfcbank', 'idfcnetc', 'cmsidfc', 'indianbank', 'indbank', 'indianbk', 'iob', 'indus', 'indusind', 'icici', 'myicici', 'okicici', 'ikwik', 'ibl', 'jkb', 'jsbp', 'kbl', 'karb', 'kbl052', 'kvb', 'karurvysyabank', 'kvbank', 'kotak', 'kaypay', 'kmb', 'kmbl', 'okbizaxis', 'obc', 'paytm', 'pingpay', 'psb', 'pnb', 'sib', 'srcb', 'sc', 'scmobile', 'scb', 'scbl', 'sbi', 'oksbi', 'syndicate', 'syndbank', 'synd', 'lvb', 'lvbank', 'rbl', 'tjsb', 'uco', 'unionbankofindia', 'unionbank', 'uboi', 'ubi', 'united', 'utbi', 'upi', 'vjb', 'vijb', 'vijayabank', 'ubi', 'yesbank', 'ybl', 'yesbankltd' ) ) );
 		sort( $handles );
 
 		$required = '';
-		$upi_address = ( isset( $_POST['customer_upiwc_address'] ) ) ? sanitize_text_field( $_POST['customer_upiwc_address'] ) : $upi_address;
+		$upi_address = ( isset( $_POST['customer_upiwc_address'] ) ) ? sanitize_text_field( wp_unslash( $_POST['customer_upiwc_address'] ) ) : $upi_address;
 		$placeholder = ( $this->upi_address === 'show_handle' ) ? 'mobilenumber' : 'mobilenumber@paytm';
 		$placeholder = apply_filters( 'upiwc_upi_address_placeholder', $placeholder );
 
@@ -500,8 +500,8 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 */
 	public function process_payment( $order_id ) {
 		$order = wc_get_order( $order_id );
-		$upi_address = ! empty( $_POST['customer_upiwc_address'] ) ? sanitize_text_field( $_POST['customer_upiwc_address'] ) : '';
-		$upi_address = ! empty( $_POST['customer_upiwc_handle'] ) ? $upi_address . '@' . sanitize_text_field( $_POST['customer_upiwc_handle'] ) : $upi_address;
+		$upi_address = ! empty( $_POST['customer_upiwc_address'] ) ? sanitize_text_field( wp_unslash( $_POST['customer_upiwc_address'] ) ) : '';
+		$upi_address = ! empty( $_POST['customer_upiwc_handle'] ) ? $upi_address . '@' . sanitize_text_field( wp_unslash( $_POST['customer_upiwc_handle'] ) ) : $upi_address;
 		$message = __( 'Awaiting UPI Payment!', 'upi-qr-code-payment-for-woocommerce' );
 
 		// Mark as pending (we're awaiting the payment)
@@ -579,7 +579,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'cancel_url'        => apply_filters( 'upiwc_payment_cancel_url', wc_get_checkout_url(), $this->get_return_url( $order ), $order ),
 				'transaction_id'    => $this->transaction_id,
 				'mc_code'           => $this->mc_code ? $this->mc_code : 8931,
-				'btn_timer'    		=> apply_filters( 'upiwc_enable_button_timer', true ),
+				'btn_timer'         => apply_filters( 'upiwc_enable_button_timer', true ),
 				'btn_show_interval' => apply_filters( 'upiwc_button_show_interval', 30000 ),
 				'theme'             => $this->theme ? $this->theme : 'light',
 				'payer_vpa'         => htmlentities( strtolower( $order->get_meta( '_transaction_upi_id', true ) ) ),
@@ -775,7 +775,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 
 	public function email_subject_pending_order( $formated_subject, $order, $object ) {
 		// We exit for 'order-accepted' custom order status
-		if ( $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
+		if ( $order && $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
 			return $object->format_string( $this->email_subject );
 		}
 
@@ -792,7 +792,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 */
 	public function email_heading_pending_order( $formated_heading, $order, $object ) {
 		// We exit for 'order-accepted' custom order status
-		if ( $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
+		if ( $order && $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
 			return $object->format_string( $this->email_heading );
 		}
 
@@ -809,7 +809,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 */
 	public function email_additional_content_pending_order( $formated_additional_content, $order, $object ) {
 		// We exit for 'order-accepted' custom order status
-		if ( $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
+		if ( $order && $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
 			return $object->format_string( str_replace( '{upi_pay_link}', $order->get_checkout_payment_url( true ), $this->additional_content ) );
 		}
 
@@ -824,7 +824,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 * @return string
 	 */
 	public function order_received_text( $text, $order ) {
-		if ( $this->id === $order->get_payment_method() && ! empty( $this->thank_you ) ) {
+		if ( $order && $this->id === $order->get_payment_method() && ! empty( $this->thank_you ) ) {
 			return esc_html( $this->thank_you );
 		}
 
@@ -839,7 +839,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 * @return string
 	 */
 	public function custom_checkout_url( $url, $order ) {
-		if ( $this->id === $order->get_payment_method() && ( ( $order->has_status( 'on-hold' ) && $this->default_status === 'on-hold' ) || ( $order->has_status( 'pending' ) && apply_filters( 'upiwc_custom_checkout_url', false ) ) ) ) {
+		if ( $order && $this->id === $order->get_payment_method() && ( ( $order->has_status( 'on-hold' ) && $this->default_status === 'on-hold' ) || ( $order->has_status( 'pending' ) && apply_filters( 'upiwc_custom_checkout_url', false ) ) ) ) {
 			return esc_url( remove_query_arg( 'pay_for_order', $url ) );
 		}
 
@@ -857,7 +857,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 */
 	public function email_instructions( $order, $sent_to_admin, $plain_text, $email ) {
 		// check upi gateway name
-		if ( 'yes' === $this->enabled && 'yes' === $this->email_enabled && ! empty( $this->additional_content ) && ! $sent_to_admin && $this->id === $order->get_payment_method() && $order->has_status( 'on-hold' ) ) {
+		if ( $order && 'yes' === $this->enabled && 'yes' === $this->email_enabled && ! empty( $this->additional_content ) && ! $sent_to_admin && $this->id === $order->get_payment_method() && $order->has_status( 'on-hold' ) ) {
 			echo wpautop( wptexturize( str_replace( '{upi_pay_link}', $order->get_checkout_payment_url( true ), $this->additional_content ) ) ) . PHP_EOL;
 		}
 	}
@@ -870,7 +870,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 * @return string
 	 */
 	public function on_hold_payment( $statuses, $order ) {
-		if ( $this->id === $order->get_payment_method() && $order->has_status( 'on-hold' ) && $order->get_meta( '_upiwc_order_paid', true ) !== 'yes' && $this->default_status === 'on-hold' ) {
+		if ( $order && $this->id === $order->get_payment_method() && $order->has_status( 'on-hold' ) && $order->get_meta( '_upiwc_order_paid', true ) !== 'yes' && $this->default_status === 'on-hold' ) {
 			$statuses[] = 'on-hold';
 		}
 	
@@ -906,8 +906,8 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	/**
 	 * Render column content.
 	 *
-	 * @param string   		$column_name 				Column ID to render.
-	 * @param WC_Order|int 	$order_object_or_post_id  	Order object or Post ID.
+	 * @param string        $column_name                Column ID to render.
+	 * @param WC_Order|int  $order_object_or_post_id    Order object or Post ID.
 	 */
 	public function render_column( $column_name, $order_object_or_post_id ) {
 		if ( ! $order_object_or_post_id || 'wc_upi' !== $column_name ) {
