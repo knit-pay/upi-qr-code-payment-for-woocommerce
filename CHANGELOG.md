@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.3.6
+Release Date: July 22, 2023
+
+* Fixed: Persistent admin notices.
+* Tweak: Added CSS fixes.
+* Tested with WooCommerce v7.9.
+
 ## 1.3.5
 Release Date: June 11, 2023
 
