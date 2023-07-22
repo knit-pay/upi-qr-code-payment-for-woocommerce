@@ -96,7 +96,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		add_filter( 'woocommerce_thankyou_order_received_text', array( $this, 'order_received_text' ), 99, 2 );
 
 		// Disable upi payment gateway
-		add_filter( 'woocommerce_available_payment_gateways', array( $this, 'disable_gateway' ), 99 );
+		add_filter( 'woocommerce_available_payment_gateways', array( $this, 'disable_gateway' ), 999 );
 
 		// Add order column data ( HPOS compatibility )
 		add_filter( 'woocommerce_shop_order_list_table_columns', array( $this, 'column_item' ) );

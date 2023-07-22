@@ -3,14 +3,14 @@
  * Plugin Name: UPI QR Code Payment Gateway
  * Plugin URI: https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
  * Description: It enables a WooCommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
- * Version: 1.3.5
+ * Version: 1.3.6
  * Author: Sayan Datta
  * Author URI: https://www.sayandatta.co.in
  * License: GPLv3
  * Text Domain: upi-qr-code-payment-for-woocommerce
  * Domain Path: /languages
  * WC requires at least: 3.1
- * WC tested up to: 7.8
+ * WC tested up to: 7.9
  * 
  * UPI QR Code Payment Gateway is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ final class UPIWC {
      *
      * @var string
      */
-    public $version = '1.3.5';
+    public $version = '1.3.6';
 
     /**
      * Minimum version of WordPress required to run UPIWC.
@@ -324,8 +324,8 @@ final class UPIWC {
         }
     
 		if ( $show_rating ) {
-			$dismiss = wp_nonce_url( add_query_arg( 'upiwc_rating_notice_action', 'dismiss_rating_true' ), 'upiwc_dismiss_rating_true' ); 
-            $no_thanks = wp_nonce_url( add_query_arg( 'upiwc_rating_notice_action', 'no_thanks_rating_true' ), 'upiwc_no_thanks_rating_true' ); ?>
+			$dismiss = wp_nonce_url( add_query_arg( 'upiwc_notice_action', 'dismiss_rating' ), 'upiwc_notice_nonce' );
+            $no_thanks = wp_nonce_url( add_query_arg( 'upiwc_notice_action', 'no_thanks_rating' ), 'upiwc_notice_nonce' ); ?>
             
             <div class="notice notice-success">
                 <p><?php esc_html_e( 'Hey, I noticed you\'ve been using UPI QR Code Payment Gateway for more than 2 week – that’s awesome! Could you please do me a BIG favor and give it a <strong>5-star</strong> rating on WordPress? Just to help me spread the word and boost my motivation.', 'upi-qr-code-payment-for-woocommerce' ); ?></p>
@@ -336,16 +336,16 @@ final class UPIWC {
 			<?php
 		}
 
-		$show_donate = true;
-		if ( $this->calculate_time() > strtotime( '-240 hours' )
-            || '1' === get_option( 'upiwc_plugin_dismiss_donate_notice' )
-            || apply_filters( 'upiwc_plugin_hide_sticky_donate_notice', false ) ) {
-			$show_donate = false;
-		}
+		$show_donate = false;
+		// if ( $this->calculate_time() > strtotime( '-15 days' )
+        //     || '1' === get_option( 'upiwc_plugin_dismiss_donate_notice' )
+        //     || apply_filters( 'upiwc_plugin_hide_sticky_donate_notice', false ) ) {
+		// 	$show_donate = false;
+		// }
 
 		if ( $show_donate ) {
-			$dismiss = wp_nonce_url( add_query_arg( 'upiwc_donate_notice_action', 'dismiss_donate_true' ), 'upiwc_dismiss_donate_true' ); 
-            $no_thanks = wp_nonce_url( add_query_arg( 'upiwc_donate_notice_action', 'no_thanks_donate_true' ), 'upiwc_no_thanks_donate_true' ); ?>
+			$dismiss = wp_nonce_url( add_query_arg( 'upiwc_notice_action', 'dismiss_donate' ), 'upiwc_notice_nonce' );
+            $no_thanks = wp_nonce_url( add_query_arg( 'upiwc_notice_action', 'no_thanks_donate' ), 'upiwc_notice_nonce' ); ?>
             
             <div class="notice notice-success">
                 <p><?php esc_html_e( 'Hey, I noticed you\'ve been using UPI QR Code Payment Gateway for more than 2 week – that’s awesome! If you like UPI QR Code Payment Gateway and you are satisfied with the plugin, isn’t that worth a coffee or two? Please consider donating. Donations help me to continue support and development of this free plugin! Thank you very much!', 'upi-qr-code-payment-for-woocommerce' ); ?></p>
