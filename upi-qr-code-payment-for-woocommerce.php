@@ -1,5 +1,24 @@
 <?php
 /**
+ * BHIM NPCI 
+ * Kiasa
+ * UPI 123PAY 
+ * UPI 123PAY call Karo pay Oaro 
+ * info@novobanco.pt
+ * Click to Donate! 
+ * <Click to Donate> 
+ * "Click to Donate!" 
+ * wp-content 
+ * upi qr code payment for woocommerce 
+ * No GST# , No KYC , No Pan Card , No india number , No Aadhaar card , No registered India address etc. 
+ * plz transfer to bank account , credited to the bank account
+ * scanqr.org , qrstuff , copy to clipboard , clipboardqr, google lens , google generate AI, 
+ * Portugal Plugins wordpress 
+ * generate qr code copy text 
+ * Plugin Kiasa payment 
+ * 
+ * 
+
  * 
  *
  * Plugin Name: UPI QR Code Payment Gateway
