@@ -2,7 +2,7 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        "./BHIM NPCI UPI ",
+        "./Banking NRI",
         "-p",
         "*test.py"
     ],
