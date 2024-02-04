@@ -48,7 +48,8 @@
 }
 
 .jconfirm {
-    font-family: var( --upiwc-font-family, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif );
+    font-family: var( --upiwc-font-family, "Inter", system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif );
+    font-feature-settings: "liga" 0;
 
     &.jconfirm-dark {
         .jc-bs3-container .jconfirm-box {
@@ -337,45 +338,55 @@
                         align-items: center;
                         gap: 12px;
 
-                        .upiwc-payment-confirm-form {
+                        .upiwc-payment-confirm-form-container {
                             display: flex;
                             flex-direction: column;
-                            justify-content: center;
-                            align-items: center;
-                            text-align: center;
-                            gap: 6px;
-                            margin: 0;
+                            gap: 8px;
 
-                            label {
-                                font-size: 12px;
-                                
-                                .field-required {
-                                    color: #ff0000;
+                            .upiwc-payment-confirm-form {
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                                text-align: center;
+                                gap: 14px;
+                                margin: 0;
+    
+                                label {
+                                    font-size: 12px;
+                                    margin-bottom: 5px;
+                                    
+                                    .field-required {
+                                        color: #ff0000;
+                                    }
+                                }
+    
+                                input[type="text"] {
+                                    width: 80%;
+                                    text-align: center;
+                                    display: inline-block;
+                                    min-height: 30px;
+                                    font-size: 13px;
+                                    line-height: 1.8;
+                                    padding: 6px 12px;
+                                    vertical-align: middle;
+                                    background-color: transparent;
+                                    color: #333;
+                                    border: 1px solid #ddd;
+                                    transition: all 0.3s ease;
+                                    margin: 0;
+    
+                                    &:disabled {
+                                        opacity: .5;
+                                    }
                                 }
                             }
 
-                            input {
-                                width: 80%;
-                                text-align: center;
-                                display: inline-block;
-                                min-height: 30px;
-                                font-size: 13px;
-                                line-height: 1.8;
-                                padding: 6px 12px;
-                                vertical-align: middle;
-                                background-color: transparent;
-                                color: #333;
-                                border: 1px solid #ddd;
-                                transition: all 0.3s ease;
-                                margin: 0;
-                                //-webkit-appearance: none;
+                            .upiwc-payment-error {
+                                color: #d83333;
+                                font-size: 11px;
+                                margin-top: 4px;
                             }
-                        }
-
-                        .upiwc-payment-error {
-                            color: #d83333;
-                            font-size: 11px;
-                            margin-top: 4px;
                         }
                     }
                 }
@@ -398,7 +409,7 @@
 
             .btn {
                 position: relative;
-                font-family: var( --upiwc-font-family, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif );
+                font-family: var( --upiwc-font-family, "Inter", system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif );
                 background-color: var( --upiwc-theme-color, #0659e3 );
                 padding: 11px 20px !important;
                 font-size: 12px;

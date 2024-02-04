@@ -472,8 +472,15 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 * Custom CSS and JS
 	 */
 	public function payment_scripts() {
-		// if our payment gateway is disabled, we do not have to enqueue JS too
-		if ( 'no' === $this->enabled ) {
+		$order_id = get_query_var( 'order-pay' );
+
+		if( ! is_cart() && ! is_checkout() && ! $order_id ) {
+			return;
+		}
+
+		$order = wc_get_order( $order_id );
+
+		if ( 'no' === $this->enabled || ! is_a( $order, 'WC_Order' ) ) {
 			return;
 		}
 		
@@ -484,12 +491,40 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 			wp_enqueue_script( 'upiwc-selectize', plugins_url( 'js/selectize.min.js' , __FILE__ ), array( 'jquery' ), '0.15.2', false );
 		}
 	
+
+		wp_register_style( 'upiwc-inter-font', 'https://fonts.googleapis.com/css?family=Inter&display=swap' );
 		wp_register_style( 'upiwc-jquery-confirm', plugins_url( 'css/jquery-confirm.min.css' , __FILE__ ), array(), '3.3.4' );
-		wp_register_style( 'upiwc-payment', plugins_url( 'css/payment.min.css' , __FILE__ ), array( 'upiwc-jquery-confirm' ), UPIWC_VERSION );
+		wp_register_style( 'upiwc-payment', plugins_url( 'css/payment.min.css' , __FILE__ ), array( 'upiwc-inter-font', 'upiwc-jquery-confirm' ), UPIWC_VERSION );
 		
 		wp_register_script( 'upiwc-qr-code', plugins_url( 'js/easy.qrcode.min.js' , __FILE__ ), array( 'jquery' ), '3.8.3', true );
 		wp_register_script( 'upiwc-jquery-confirm', plugins_url( 'js/jquery-confirm.min.js' , __FILE__ ), array( 'jquery' ), '3.3.4', true );
 		wp_register_script( 'upiwc-payment', plugins_url( 'js/payment.min.js', __FILE__ ), array( 'jquery', 'upiwc-qr-code', 'upiwc-jquery-confirm' ), UPIWC_VERSION, true );
+	
+		$total     = apply_filters( 'upiwc_order_total_amount', $order->get_total(), $order );
+		$payee_vpa = $this->get_vpa( $order );
+
+		wp_localize_script( 'upiwc-payment', 'upiwcData',
+			array( 
+				'order_id'          => $order->get_id(),
+				'order_amount'      => $total,
+				'order_key'         => $order->get_order_key(),
+				'order_number'      => htmlentities( $order->get_order_number() ),
+				'confirm_message'   => $this->confirm_message,
+				'callback_url'      => add_query_arg( array( 'wc-api' => 'upiwc-payment' ), trailingslashit( get_home_url() ) ),
+				'payment_url'       => $order->get_checkout_payment_url(),
+				'cancel_url'        => apply_filters( 'upiwc_payment_cancel_url', wc_get_checkout_url(), $this->get_return_url( $order ), $order ),
+				'transaction_id'    => $this->transaction_id,
+				'mc_code'           => $this->mc_code ? $this->mc_code : 8931,
+				'btn_timer'         => apply_filters( 'upiwc_enable_button_timer', true ),
+				'btn_show_interval' => apply_filters( 'upiwc_button_show_interval', 30000 ),
+				'theme'             => $this->theme ? $this->theme : 'light',
+				'payer_vpa'         => htmlentities( strtolower( $order->get_meta( '_transaction_upi_id', true ) ) ),
+				'payee_vpa'         => $payee_vpa,
+				'payee_name'        => preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ),
+				'is_mobile'         => ( wp_is_mobile() ) ? 'yes' : 'no',
+				'app_version'       => UPIWC_VERSION,
+			)
+		);
 	}
 
 	/**
@@ -549,13 +584,8 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 * @return string
 	 */
 	public function generate_qr_code( $order_id ) {
-		// get order object from id
-		$order = wc_get_order( $order_id );
-		$total = apply_filters( 'upiwc_order_total_amount', $order->get_total(), $order );
-		//$total = 1;
-
-		$payee_vpa = apply_filters( 'upiwc_payee_vpa', $this->vpa, $order );
-		$payee_vpa = trim( htmlentities( strtolower( $payee_vpa ) ) );
+		$order     = wc_get_order( $order_id );
+		$payee_vpa = $this->get_vpa( $order );
 
 		// enqueue required css files
 		wp_enqueue_style( 'upiwc-jquery-confirm' );
@@ -565,30 +595,6 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		wp_enqueue_script( 'upiwc-qr-code' );
 		wp_enqueue_script( 'upiwc-jquery-confirm' );
 		wp_enqueue_script( 'upiwc-payment' );
-		
-		// add localize scripts
-		wp_localize_script( 'upiwc-payment', 'upiwcData',
-			array( 
-				'order_id'          => $order->get_id(),
-				'order_amount'      => $total,
-				'order_key'         => $order->get_order_key(),
-				'order_number'      => htmlentities( $order->get_order_number() ),
-				'confirm_message'   => $this->confirm_message,
-				'callback_url'      => add_query_arg( array( 'wc-api' => 'upiwc-payment' ), trailingslashit( get_home_url() ) ),
-				'payment_url'       => $order->get_checkout_payment_url(),
-				'cancel_url'        => apply_filters( 'upiwc_payment_cancel_url', wc_get_checkout_url(), $this->get_return_url( $order ), $order ),
-				'transaction_id'    => $this->transaction_id,
-				'mc_code'           => $this->mc_code ? $this->mc_code : 8931,
-				'btn_timer'         => apply_filters( 'upiwc_enable_button_timer', true ),
-				'btn_show_interval' => apply_filters( 'upiwc_button_show_interval', 30000 ),
-				'theme'             => $this->theme ? $this->theme : 'light',
-				'payer_vpa'         => htmlentities( strtolower( $order->get_meta( '_transaction_upi_id', true ) ) ),
-				'payee_vpa'         => $payee_vpa,
-				'payee_name'        => preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ),
-				'is_mobile'         => ( wp_is_mobile() ) ? 'yes' : 'no',
-				'app_version'       => UPIWC_VERSION,
-			)
-		);
 
 		$hide_mobile_qr = ( wp_is_mobile() && $this->qrcode_mobile === 'no' );
 		$show_intent_btn = ( wp_is_mobile() && $this->intent === 'yes' );
@@ -693,13 +699,15 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 							<?php if ( $this->transaction_id !== 'hide' ) { ?>
 								<div class="upiwc-payment-confirm-form-container">
 									<form id="upiwc-payment-confirm-form" class="upiwc-payment-confirm-form">
-										<label for="upiwc-payment-transaction-number">
-											<strong><?php esc_html_e( 'Enter 12-digit Transaction / UTR / Reference ID:', 'upi-qr-code-payment-for-woocommerce' ); ?></strong> 
-											<?php if ( $this->transaction_id === 'show_require' ) { ?>
-												<span class="field-required">*</span>
-											<?php } ?>
-										</label>
-										<input type="text" id="upiwc-payment-transaction-number" class="" placeholder="" maxlength="12" onkeypress="return upiwcIsNumber(event)" />
+										<div class="form-row">
+											<label for="upiwc-payment-transaction-number">
+												<strong><?php esc_html_e( 'Enter 12-digit Transaction / UTR / Reference ID:', 'upi-qr-code-payment-for-woocommerce' ); ?></strong> 
+												<?php if ( $this->transaction_id === 'show_require' ) { ?>
+													<span class="field-required">*</span>
+												<?php } ?>
+											</label>
+											<input type="text" id="upiwc-payment-transaction-number" class="" placeholder="" maxlength="12" onkeypress="return upiwcIsNumber(event)" />
+										</div>
 									</form>
 									<div class="upiwc-payment-error" style="display: none;"></div>
 								</div>
@@ -775,7 +783,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 
 	public function email_subject_pending_order( $formated_subject, $order, $object ) {
 		// We exit for 'order-accepted' custom order status
-		if ( $order && $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
+		if ( is_a( $order, 'WC_Order' ) && $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
 			return $object->format_string( $this->email_subject );
 		}
 
@@ -792,7 +800,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 */
 	public function email_heading_pending_order( $formated_heading, $order, $object ) {
 		// We exit for 'order-accepted' custom order status
-		if ( $order && $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
+		if ( is_a( $order, 'WC_Order' ) && $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
 			return $object->format_string( $this->email_heading );
 		}
 
@@ -809,7 +817,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 */
 	public function email_additional_content_pending_order( $formated_additional_content, $order, $object ) {
 		// We exit for 'order-accepted' custom order status
-		if ( $order && $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
+		if ( is_a( $order, 'WC_Order' ) && $this->id === $order->get_payment_method() && 'yes' === $this->enabled && $order->has_status( 'pending' ) ) {
 			return $object->format_string( str_replace( '{upi_pay_link}', $order->get_checkout_payment_url( true ), $this->additional_content ) );
 		}
 
@@ -824,7 +832,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 * @return string
 	 */
 	public function order_received_text( $text, $order ) {
-		if ( $order && $this->id === $order->get_payment_method() && ! empty( $this->thank_you ) ) {
+		if ( is_a( $order, 'WC_Order' ) && $this->id === $order->get_payment_method() && ! empty( $this->thank_you ) ) {
 			return esc_html( $this->thank_you );
 		}
 
@@ -839,7 +847,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 * @return string
 	 */
 	public function custom_checkout_url( $url, $order ) {
-		if ( $order && $this->id === $order->get_payment_method() && ( ( $order->has_status( 'on-hold' ) && $this->default_status === 'on-hold' ) || ( $order->has_status( 'pending' ) && apply_filters( 'upiwc_custom_checkout_url', false ) ) ) ) {
+		if ( is_a( $order, 'WC_Order' ) && $this->id === $order->get_payment_method() && ( ( $order->has_status( 'on-hold' ) && $this->default_status === 'on-hold' ) || ( $order->has_status( 'pending' ) && apply_filters( 'upiwc_custom_checkout_url', false ) ) ) ) {
 			return esc_url( remove_query_arg( 'pay_for_order', $url ) );
 		}
 
@@ -857,7 +865,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 */
 	public function email_instructions( $order, $sent_to_admin, $plain_text, $email ) {
 		// check upi gateway name
-		if ( $order && 'yes' === $this->enabled && 'yes' === $this->email_enabled && ! empty( $this->additional_content ) && ! $sent_to_admin && $this->id === $order->get_payment_method() && $order->has_status( 'on-hold' ) ) {
+		if ( is_a( $order, 'WC_Order' ) && 'yes' === $this->enabled && 'yes' === $this->email_enabled && ! empty( $this->additional_content ) && ! $sent_to_admin && $this->id === $order->get_payment_method() && $order->has_status( 'on-hold' ) ) {
 			echo wpautop( wptexturize( str_replace( '{upi_pay_link}', $order->get_checkout_payment_url( true ), $this->additional_content ) ) ) . PHP_EOL;
 		}
 	}
@@ -870,7 +878,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 * @return string
 	 */
 	public function on_hold_payment( $statuses, $order ) {
-		if ( $order && $this->id === $order->get_payment_method() && $order->has_status( 'on-hold' ) && $order->get_meta( '_upiwc_order_paid', true ) !== 'yes' && $this->default_status === 'on-hold' ) {
+		if ( is_a( $order, 'WC_Order' ) && $this->id === $order->get_payment_method() && $order->has_status( 'on-hold' ) && $order->get_meta( '_upiwc_order_paid', true ) !== 'yes' && $this->default_status === 'on-hold' ) {
 			$statuses[] = 'on-hold';
 		}
 	
@@ -953,5 +961,11 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		}
 
 		echo ( ! empty( $content ) ) ? $content : '—';
+	}
+
+	private function get_vpa( $order ) {
+		$payee_vpa = apply_filters( 'upiwc_payee_vpa', $this->vpa, $order );
+
+		return trim( htmlentities( strtolower( $payee_vpa ) ) );
 	}
 }
