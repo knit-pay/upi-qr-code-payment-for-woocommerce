@@ -182,7 +182,8 @@
                         $( document ).trigger( 'upiwcBeforeConfirmAction', [ this ] );
 
                         let self = this;
-                        let tran_id = self.$content.find( '#upiwc-payment-transaction-number' ).val();
+                        let utr_field = self.$content.find( '#upiwc-payment-transaction-number' );
+                        let tran_id = utr_field.val();
                         if ( tran_id !== undefined && typeof( tran_id ) !== 'undefined' ) {
                             if ( tran_id != '' && tran_id.length != 12 ) {
                                 self.$content.find( '.upiwc-payment-error' ).text( 'Transaction ID should be of 12 digits!' ).show();
@@ -194,6 +195,7 @@
                             }
                         }
 
+                        utr_field.attr( 'disabled', 'disabled' );
                         self.buttons.confirm.disable();
                         self.buttons.back.disable();
                         self.buttons.confirm.setText( 'Processing...' );
