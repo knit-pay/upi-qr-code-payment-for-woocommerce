@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.3.7
+Release Date: January 4, 2024
+
+* Added: Inter as default font family for payment modal.
+* Fixed: Payment Modal not showing on some installations.
+* Tweak: Added check for WooCommerce Order object.
+* Tweak: Added CSS fixes.
+* Tested with WooCommerce v8.6.
+
 ## 1.3.6
 Release Date: July 22, 2023
 
