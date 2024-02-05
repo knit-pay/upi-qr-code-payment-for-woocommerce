@@ -336,7 +336,7 @@
                         flex-direction: column;
                         justify-content: center;
                         align-items: center;
-                        gap: 12px;
+                        gap: 15px;
 
                         .upiwc-payment-confirm-form-container {
                             display: flex;
@@ -352,32 +352,44 @@
                                 gap: 14px;
                                 margin: 0;
     
-                                label {
-                                    font-size: 12px;
-                                    margin-bottom: 5px;
-                                    
-                                    .field-required {
-                                        color: #ff0000;
+                                .upiwc-form-row {
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    justify-content: center;
+                                    gap: 6px;
+
+                                    label {
+                                        font-size: 12px;
+                                        margin-bottom: 0;
+
+                                        .field-required {
+                                            color: #ff0000;
+                                        }
                                     }
-                                }
-    
-                                input[type="text"] {
-                                    width: 80%;
-                                    text-align: center;
-                                    display: inline-block;
-                                    min-height: 30px;
-                                    font-size: 13px;
-                                    line-height: 1.8;
-                                    padding: 6px 12px;
-                                    vertical-align: middle;
-                                    background-color: transparent;
-                                    color: #333;
-                                    border: 1px solid #ddd;
-                                    transition: all 0.3s ease;
-                                    margin: 0;
-    
-                                    &:disabled {
-                                        opacity: .5;
+        
+                                    input[type="text"] {
+                                        width: 80%;
+                                        text-align: center;
+                                        display: inline-block;
+                                        min-height: 30px;
+                                        font-size: 13px;
+                                        line-height: 1.8;
+                                        padding: 6px 12px;
+                                        vertical-align: middle;
+                                        background-color: transparent;
+                                        color: #333;
+                                        border: 1px solid #ddd;
+                                        transition: all 0.3s ease;
+                                        margin: 0;
+        
+                                        &:disabled {
+                                            opacity: .5;
+                                        }
+                                    }
+
+                                    input[type="file"] {
+                                        width: 70%;
                                     }
                                 }
                             }
@@ -385,7 +397,6 @@
                             .upiwc-payment-error {
                                 color: #d83333;
                                 font-size: 11px;
-                                margin-top: 4px;
                             }
                         }
                     }

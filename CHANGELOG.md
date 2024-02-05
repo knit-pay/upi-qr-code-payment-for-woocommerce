@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.3.8
+Release Date: January 5, 2024
+
+* Added: Screenshot upload field.
+* Fixed: CSS was not loading on checkout page after last update.
+
 ## 1.3.7
 Release Date: January 4, 2024
 
