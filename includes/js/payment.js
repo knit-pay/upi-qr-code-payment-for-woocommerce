@@ -74,6 +74,10 @@
                     self.$content.find( '.upiwc-payment-error' ).hide();
                 } );
 
+                self.$content.find( '#upiwc-payment-file' ).on( 'change', function( e ) {
+                    self.$content.find( '.upiwc-payment-error' ).hide();
+                } );
+
                 let qrCodeSrc = self.$content.find( '#upiwc-payment-qr-code img' ).attr( 'src' );
                 self.$content.find( '#upi-download' ).on( 'click', function( e ) {
                     e.preventDefault();
@@ -181,16 +185,29 @@
                     action: function() {
                         $( document ).trigger( 'upiwcBeforeConfirmAction', [ this ] );
 
-                        let self = this;
+                        let self      = this;
                         let utr_field = self.$content.find( '#upiwc-payment-transaction-number' );
-                        let tran_id = utr_field.val();
-                        if ( tran_id !== undefined && typeof( tran_id ) !== 'undefined' ) {
+                        let utr_image = self.$content.find( '#upiwc-payment-file' );
+                        
+                        if ( utr_field.length > 0 ) {
+                            let tran_id = utr_field.val();
+
                             if ( tran_id != '' && tran_id.length != 12 ) {
                                 self.$content.find( '.upiwc-payment-error' ).text( 'Transaction ID should be of 12 digits!' ).show();
                                 return false;
                             }
+
                             if ( upiwcData.transaction_id === 'show_require' && tran_id == '' ) {
                                 self.$content.find( '.upiwc-payment-error' ).text( 'Transaction ID is required!' ).show();
+                                return false;
+                            }
+                        }
+
+                        if ( utr_image.length > 0 && upiwcData.transaction_image === 'show_require' ) {
+                            var fileInput = utr_image[0];
+
+                            if ( ! fileInput.files.length ) {
+                                self.$content.find( '.upiwc-payment-error' ).text( 'File is required!' ).show();
                                 return false;
                             }
                         }
@@ -200,13 +217,13 @@
                         self.buttons.back.disable();
                         self.buttons.confirm.setText( 'Processing...' );
 
-                        let tran_id_field = '';
-                        if ( tran_id !== undefined && typeof( tran_id ) !== 'undefined' && tran_id != '' ) {
-                            tran_id_field = '<input type="hidden" name="wc_transaction_id" value="' + tran_id + '"></input>';
-                        }
+                        let upiForm = self.$content.find( '#upiwc-payment-confirm-form' );
+                        upiForm.attr( 'method', 'POST' );
+                        upiForm.attr( 'enctype', 'multipart/form-data' );
+                        upiForm.attr( 'action', upiwcData.callback_url );
+                        upiForm.append( '<input type="hidden" name="upiwc_order_id" value="' + upiwcData.order_id + '"><input type="hidden" name="upiwc_order_key" value="' + upiwcData.order_key + '">' );
 
-                        $( '#upiwc-payment-success-container' ).html( '<form method="POST" action="' + upiwcData.callback_url + '" id="UPIJSCheckoutForm" style="display: none;"><input type="hidden" name="wc_order_id" value="' + upiwcData.order_id + '"><input type="hidden" name="wc_order_key" value="' + upiwcData.order_key + '">' + tran_id_field + '</form>' );
-                        $( 'body' ).find( '#UPIJSCheckoutForm' ).submit();
+                        upiForm.submit();
 
                         $( document ).trigger( 'upiwcAfterConfirmAction', [ this ] );
                         return false;
