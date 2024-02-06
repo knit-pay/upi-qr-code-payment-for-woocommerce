@@ -1,6 +1,7 @@
 /.wordpress-org
 /.git
 /.github
+/node_modules
 /includes/css/checkout.scss
 /includes/css/payment.scss
 /includes/js/payment.js
