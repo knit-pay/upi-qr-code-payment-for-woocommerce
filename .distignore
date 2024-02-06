@@ -10,7 +10,12 @@ _config.yml
 .editorconfig
 .gitignore
 CHANGELOG.md
+composer.json
+composer.lock
+package.json
+package-lock.json
 phpcs.xml
 README.md
-LICENSE
 todo
+index.js
+webpack.config.js

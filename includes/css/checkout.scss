@@ -21,85 +21,96 @@
         @media only screen and (max-width: 576px) {
             flex-direction: column;
         }
-    
-        .upiwc-input {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin: 0 !important;
-            padding: 0 !important;
+    }
+}
+
+.upiwc-input {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+
+    &.block {
+        margin-top: 15px !important;
+    }
+
+    @media only screen and (max-width: 576px) {
+        width: 100%;
+    }
+
+    label {
+        font-size: 13px;
+        font-weight: 700;
+        margin: 0;
+
+        .required {
+            color: #ff0000;
+        }
+    }
+
+    .upiwc-input-field {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        input.upiwc-address {
             width: 100%;
-    
-            @media only screen and (max-width: 576px) {
-                width: 100%;
+            max-height: 36px;
+            min-height: 36px;
+            text-transform: lowercase;
+            margin: 0 !important;
+            border: 1px solid #d0d0d0;
+            padding: 8px 8px;
+            position: relative;
+            z-index: 1;
+            box-sizing: border-box;
+            border-radius: 3px;
+            font-size: 13px;
+            color: #303030;
+            background-color: #FAFBFC;
+            outline: 0;
+            box-shadow: none;
+            background-image: none;
+            -webkit-appearance: none;
+
+            &.show-handle {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
             }
-    
-            label {
-                font-size: 13px;
-                font-weight: 700;
-                margin: 0;
-    
-                .required {
-                    color: #ff0000;
-                }
+
+            &:focus {
+                border-color:#d0d0d0;
             }
-    
-            .upiwc-input-field {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-    
-                input#upiwc-address {
-                    width: 100%;
-                    max-height: 36px;
-                    min-height: 36px;
-                    text-transform: lowercase;
-                    margin: 0 !important;
-                    border: 1px solid #d0d0d0;
-                    padding: 8px 8px;
-                    position: relative;
-                    z-index: 1;
-                    box-sizing: border-box;
-                    border-radius: 3px;
-                    font-size: 13px;
-                    color: #303030;
-                    background-color: #FAFBFC;
-                    outline: 0;
-                    box-shadow: none;
-                    background-image: none;
-                    -webkit-appearance: none;
-    
-                    &.show-handle {
-                        border-top-right-radius: 0;
-                        border-bottom-right-radius: 0;
-                    }
-        
-                    &:focus {
-                        border-color:#d0d0d0;
-                    }
-                }
-    
-                .selectize-control:before{
-                    content: '@';
-                    position: absolute;
-                    display: block;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    left: 8px;
-                    z-index: 3;
-                    font-weight: 700;
-                }
-            
-                .selectize-input {
-                    box-shadow: none !important;
-                    padding-left: 26px !important;
-                    background-color: #FAFBFC !important;
-                    border-left: 0;
-                    border-top-left-radius: 0;
-                    border-bottom-left-radius: 0;
-                }
+
+            &.block {
+                padding: 8px 12px;
+                min-height: 42px;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
             }
+        }
+
+        .selectize-control:before{
+            content: '@';
+            position: absolute;
+            display: block;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 8px;
+            z-index: 3;
+            font-weight: 700;
+        }
+    
+        .selectize-input {
+            box-shadow: none !important;
+            padding-left: 26px !important;
+            background-color: #FAFBFC !important;
+            border-left: 0;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
         }
     }
 }

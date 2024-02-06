@@ -13,6 +13,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Build Block Assets
+      run: |
+        npm install
+        npm run build
       
     - name: WordPress Plugin Deploy
       id: deploy

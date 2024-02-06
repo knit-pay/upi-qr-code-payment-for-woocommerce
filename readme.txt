@@ -3,7 +3,7 @@ Contributors: infosatech
 Tags: upi, upi payment, woocommerce, qrcode, bhim upi, paytm upi, india
 Requires at least: 4.6
 Tested up to: 6.4
-Stable tag: 1.3.8
+Stable tag: 1.4.0
 Requires PHP: 5.6
 Donate link: https://www.sayandatta.co.in/donate
 License: GPLv3
@@ -105,6 +105,11 @@ Post detailed information about the issue in the [support forum](https://wordpre
 == Changelog ==
 
 If you like UPI QR Code Payment Gateway for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
+
+= 1.4.0 =
+Release Date: January 6, 2024
+
+* Added: Support for WooCommerce Block-based checkout.
 
 = 1.3.9 =
 Release Date: January 6, 2024
@@ -297,7 +302,7 @@ Release Date: June 9, 2020
 * Tweak: Cancel button will redirect customers to checkout page.
 * Tweak: Cart will be automatically cleared if payment is actually completed.
 * Fixed: 404 not found issue and other permaalinks issues.
-* WC Compatibity upto v4.2.
+* WC Compatibity up to v4.2.
 
 = 1.1.1 =
 Release Date: June 1, 2020
@@ -387,7 +392,7 @@ Release Date: March 14, 2020
 * Improved: This plugin now uses On Hold Order Email template to send payment pending email to customers.
 * Fixed: Some CSS Errors.
 * Fixed: Some typo.
-* Tested upto WordPress v5.4 and WooCommerce v4.0.
+* Tested up to WordPress v5.4 and WooCommerce v4.0.
 
 = 1.0.0 =
 Release Date: January 30, 2020
