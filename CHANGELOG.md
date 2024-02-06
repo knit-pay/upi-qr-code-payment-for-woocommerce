@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.4.0
+Release Date: January 6, 2024
+
+* Added: Support for WooCommerce Block-based checkout.
+
 ## 1.3.9
 Release Date: January 6, 2024
 

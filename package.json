@@ -1,0 +1,27 @@
+{
+	"name": "upi-qr-code-payment-for-woocommerce",
+	"title": "UPI QR Code Payment Gateway for WooCommerce",
+	"version": "1.0.0",
+	"author": "Sayan Datta",
+	"license": "GPL-3.0+",
+	"keywords": [],
+	"engines": {
+		"node": ">=6.9.4",
+		"npm": ">=1.1.0"
+	},
+	"devDependencies": {
+		"@woocommerce/dependency-extraction-webpack-plugin": "^2.3.0",
+		"@wordpress/scripts": "^27.1.0",
+		"cross-env": "7.0.3"
+	},
+	"scripts": {
+		"start": "wp-scripts start",
+		"build": "wp-scripts build",
+		"packages-update": "wp-scripts packages-update",
+		"check-engines": "wp-scripts check-engines"
+	},
+	"dependencies": {
+		"@wordpress/element": "^5.27.0",
+		"react-select": "^5.8.0"
+	}
+}

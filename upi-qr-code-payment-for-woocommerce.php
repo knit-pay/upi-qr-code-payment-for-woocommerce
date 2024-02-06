@@ -3,7 +3,7 @@
  * Plugin Name: UPI QR Code Payment Gateway
  * Plugin URI: https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
  * Description: It enables a WooCommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
- * Version: 1.3.8
+ * Version: 1.4.0
  * Author: Sayan Datta
  * Author URI: https://www.sayandatta.co.in
  * License: GPLv3
@@ -48,7 +48,7 @@ final class UPIWC {
      *
      * @var string
      */
-    public $version = '1.3.8';
+    public $version = '1.4.0';
 
     /**
      * Minimum version of WordPress required to run UPIWC.
@@ -224,6 +224,7 @@ final class UPIWC {
 
         // Load payment gateway.
         add_action( 'plugins_loaded', [ $this, 'load_gateway' ] );
+        add_action( 'woocommerce_blocks_loaded', array( $this, 'block_support' ) );
 
         // Load admin notices.
         add_action( 'admin_notices', [ $this, 'admin_notice' ] );
@@ -299,6 +300,21 @@ final class UPIWC {
             require_once UPIWC_PATH . 'includes/class-payment.php';
         }
     }
+
+    /**
+	 * Registers WooCommerce Blocks integration.
+	 */
+	public function block_support() {
+		if ( class_exists( '\Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
+            require_once UPIWC_PATH . 'includes/blocks/class-blocks-support.php';
+			add_action(
+				'woocommerce_blocks_payment_method_type_registration',
+				function( \Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
+					$payment_method_registry->register( new UPI_WC_Payment_Gateway_Blocks_Support() );
+				}
+			);
+		}
+	}
 
 	/**
 	 * Show internal admin notices.

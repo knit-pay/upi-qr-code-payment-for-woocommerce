@@ -414,7 +414,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 
 		$required = '';
 		$upi_address = ( isset( $_POST['customer_upiwc_address'] ) ) ? sanitize_text_field( wp_unslash( $_POST['customer_upiwc_address'] ) ) : $upi_address;
-		$placeholder = ( $this->upi_address === 'show_handle' ) ? 'mobilenumber' : 'mobilenumber@paytm';
+		$placeholder = ( $this->upi_address === 'show_handle' ) ? 'mobilenumber' : 'mobilenumber@oksbi';
 		$placeholder = apply_filters( 'upiwc_upi_address_placeholder', $placeholder );
 
 		if ( $this->require_upi === 'yes' ) {
