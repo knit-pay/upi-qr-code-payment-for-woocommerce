@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.3.9
+Release Date: January 6, 2024
+
+* Added: Security check on submission.
+* Removed: Inter as default font.
+
 ## 1.3.8
 Release Date: January 5, 2024
 

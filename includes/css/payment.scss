@@ -48,7 +48,7 @@
 }
 
 .jconfirm {
-    font-family: var( --upiwc-font-family, "Inter", system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif );
+    font-family: var( --upiwc-font-family, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif );
     font-feature-settings: "liga" 0;
 
     &.jconfirm-dark {
@@ -374,6 +374,7 @@
                                         display: inline-block;
                                         min-height: 30px;
                                         font-size: 13px;
+                                        font-family: inherit;
                                         line-height: 1.8;
                                         padding: 6px 12px;
                                         vertical-align: middle;
@@ -390,6 +391,8 @@
 
                                     input[type="file"] {
                                         width: 70%;
+                                        font-size: 12px;
+                                        font-family: inherit;
                                     }
                                 }
                             }
@@ -420,7 +423,7 @@
 
             .btn {
                 position: relative;
-                font-family: var( --upiwc-font-family, "Inter", system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif );
+                font-family: var( --upiwc-font-family, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif );
                 background-color: var( --upiwc-theme-color, #0659e3 );
                 padding: 11px 20px !important;
                 font-size: 12px;
