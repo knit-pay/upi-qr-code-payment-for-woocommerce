@@ -106,6 +106,12 @@ Post detailed information about the issue in the [support forum](https://wordpre
 
 If you like UPI QR Code Payment Gateway for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
 
+= 1.3.9 =
+Release Date: January 6, 2024
+
+* Added: Security check on submission.
+* Removed: Inter as default font.
+
 = 1.3.8 =
 Release Date: January 5, 2024
 

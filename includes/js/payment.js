@@ -221,7 +221,7 @@
                         upiForm.attr( 'method', 'POST' );
                         upiForm.attr( 'enctype', 'multipart/form-data' );
                         upiForm.attr( 'action', upiwcData.callback_url );
-                        upiForm.append( '<input type="hidden" name="upiwc_order_id" value="' + upiwcData.order_id + '"><input type="hidden" name="upiwc_order_key" value="' + upiwcData.order_key + '">' );
+                        upiForm.append( '<input type="hidden" name="upiwc_order_id" value="' + upiwcData.order_id + '"><input type="hidden" name="upiwc_order_key" value="' + upiwcData.order_key + '"><input type="hidden" name="upiwc_nonce" value="' + upiwcData.nonce + '">' );
 
                         upiForm.submit();
 

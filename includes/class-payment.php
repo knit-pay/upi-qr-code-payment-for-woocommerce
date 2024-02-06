@@ -384,7 +384,8 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 */
 	public function payment_fields() {
 		global $woocommerce;
-		$order_id = $woocommerce->session->order_awaiting_payment; 
+
+		$order_id = $woocommerce->session->order_awaiting_payment ?? 0; 
 
 		if ( $order_id ) {
 			$order = wc_get_order( $order_id );
@@ -508,9 +509,8 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 			return;
 		}
 
-		wp_register_style( 'upiwc-inter-font', 'https://fonts.googleapis.com/css?family=Inter&display=swap' );
 		wp_register_style( 'upiwc-jquery-confirm', plugins_url( 'css/jquery-confirm.min.css' , __FILE__ ), array(), '3.3.4' );
-		wp_register_style( 'upiwc-payment', plugins_url( 'css/payment.min.css' , __FILE__ ), array( 'upiwc-inter-font', 'upiwc-jquery-confirm' ), UPIWC_VERSION );
+		wp_register_style( 'upiwc-payment', plugins_url( 'css/payment.min.css' , __FILE__ ), array( 'upiwc-jquery-confirm' ), UPIWC_VERSION );
 		
 		wp_register_script( 'upiwc-qr-code', plugins_url( 'js/easy.qrcode.min.js' , __FILE__ ), array( 'jquery' ), '3.8.3', true );
 		wp_register_script( 'upiwc-jquery-confirm', plugins_url( 'js/jquery-confirm.min.js' , __FILE__ ), array( 'jquery' ), '3.3.4', true );
@@ -539,6 +539,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'payee_vpa'         => $payee_vpa,
 				'payee_name'        => preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->name ),
 				'is_mobile'         => ( wp_is_mobile() ) ? 'yes' : 'no',
+				'nonce'             => wp_create_nonce( 'upiwc' ),
 				'app_version'       => UPIWC_VERSION,
 			)
 		);
@@ -759,9 +760,20 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 			return;
 		}
 
+		if ( empty( $_POST['upiwc_nonce'] ) || ! wp_verify_nonce( $_POST['upiwc_nonce'], 'upiwc' ) ) {
+			$title = __( 'Security cheeck failed!', 'upi-qr-code-payment-for-woocommerce' );
+					
+			wp_die( $title, get_bloginfo( 'name' ) );
+			exit;
+		}
+
 		// generate order
-		$order_id = wc_get_order_id_by_order_key( sanitize_text_field( $_POST['upiwc_order_key'] ) );
-		$order = wc_get_order( $order_id );
+		$order = wc_get_order( absint( $_POST['upiwc_order_id'] ) );
+		
+		if ( ! is_a( $order, 'WC_Order' ) ) {
+			$order_id = wc_get_order_id_by_order_key( sanitize_text_field( $_POST['upiwc_order_key'] ) );
+			$order    = wc_get_order( $order_id );
+		}
 		
 		// check if it an order
 		if ( is_a( $order, 'WC_Order' ) ) {
@@ -786,7 +798,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 			// update post meta
 			$order->update_meta_data( '_upiwc_order_paid', 'yes' );
 
-			if ( ! empty( $_FILES['upiwc_file'] ) ) {
+			if ( ! empty( $_FILES['upiwc_file'] ) && ! empty( $_FILES['upiwc_file']['name'] ) ) {
 				$allowed_extensions = array( 'image/jpeg', 'image/png' );
 				
 				if ( in_array( $_FILES['upiwc_file']['type'], $allowed_extensions ) ) {
