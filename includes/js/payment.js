@@ -5,7 +5,7 @@
         return false;
     }
 
-    let paymentLink = 'pay?pa=' + upiwcData.payee_vpa + '&pn=' + upiwcData.payee_name + '&am=' + upiwcData.order_amount + '&tr=' + upiwcData.order_key.replace( 'wc_order_', '' ) + '&mc=' + upiwcData.mc_code + '&cu=INR&tn=' + upiwcData.payee_name + '+OrderId:' + upiwcData.order_number;
+    let paymentLink = 'pay?pa=' + upiwcData.payee_vpa + '&pn=' + upiwcData.payee_name + '&am=' + upiwcData.order_amount + '&tr=' + upiwcData.order_key.replace( 'wc_order_', '' ) + '&mc=' + upiwcData.mc_code + '&orgid=000000&mode=01&cu=INR&tn=' + upiwcData.payee_name + '+OrderId:' + upiwcData.order_number;
     paymentLink = encodeURI( paymentLink.replace(/\s/g, '') );
 
     $( 'body' ).on( 'contextmenu', '.upiwc-payment-qr-code img', function( e ) {

@@ -52,7 +52,7 @@ const Form = ( props ) => {
 			<div className="upiwc-input block">
 				<label>UPI Address {settings?.require_upi && <span class="required">*</span>}</label>
 				<div className="upiwc-input-field">
-					<input id="upiwc-address" pattern="[a-zA-Z0-9]+" className="upiwc-address block" type="text" autocomplete="off" placeholder={`e.g. ${settings?.placeholder}`} value={upiAddress} onChange={e => setUpiAddress(e.target.value)} />
+					<input id="upiwc-address" pattern="[a-zA-Z0-9]+" className={`upiwc-address block ${settings?.upi_address?.replace('_', '-')}`} type="text" autocomplete="off" placeholder={`e.g. ${settings?.placeholder}`} value={upiAddress} onChange={e => setUpiAddress(e.target.value)} />
 					{ settings?.upi_address === 'show_handle' && 
 						<CreatableSelect 
 							isClearable
@@ -85,10 +85,16 @@ const Form = ( props ) => {
 									...baseStyles,
 									padding: '0',
                 					margin: '0',
+									height: '38px'
 								}),
 								menu: (baseStyles, state) => ({
 									...baseStyles,
 									fontSize: '13px',
+								}),
+								menuList: (baseStyles, state) => ({
+									...baseStyles,
+									padding: '0',
+                					margin: '0',
 								}),
 							}}
 						/>

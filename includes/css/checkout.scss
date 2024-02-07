@@ -87,13 +87,11 @@
 
             &.block {
                 padding: 8px 12px;
-                min-height: 42px;
-                border-top-right-radius: 0;
-                border-bottom-right-radius: 0;
+                min-height: 40px;
             }
         }
 
-        .selectize-control:before{
+        .selectize-control:before {
             content: '@';
             position: absolute;
             display: block;

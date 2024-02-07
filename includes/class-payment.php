@@ -19,11 +19,41 @@ defined( 'ABSPATH' ) || exit;
 class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	
 	/**
+	 * Unique id for the gateway.
+	 * @var string
+	 *
+	 */
+	public $id = 'wc-upi';
+
+	protected $instructions;
+	protected $instructions_mobile;
+	protected $confirm_message;
+	protected $thank_you;
+	protected $payment_status;
+	protected $name;
+	protected $vpa;
+	protected $pay_button;
+	protected $mc_code;
+	protected $upi_address;
+	protected $require_upi;
+	protected $theme;
+	protected $transaction_id;
+	protected $transaction_image;
+	protected $intent;
+	protected $download_qr;
+	protected $qrcode_mobile;
+	protected $hide_on_mobile;
+	protected $email_enabled;
+	protected $email_subject;
+	protected $email_heading;
+	protected $additional_content;
+	protected $default_status;
+
+	/**
 	 * Constructor for the gateway.
 	 */
 	public function __construct() {
-	
-		$this->id                 = 'wc-upi';
+
 		$this->icon               = apply_filters( 'upiwc_gateway_icon', UPIWC_URL . 'includes/icon/payment.gif' );
 		$this->has_fields         = true;
 		$this->method_title       = __( 'UPI QR Code', 'upi-qr-code-payment-for-woocommerce' );
@@ -213,7 +243,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'title'       => __( 'Thank You Message:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'textarea',
 				'description' => __( 'This displays a message to customer after a successful payment is made.', 'upi-qr-code-payment-for-woocommerce' ),
-				'default'     => __( 'Thank you for your payment. Your transaction has been completed, and your order has been successfully placed. Please check you Email inbox for details. Please check your bank account statement to view transaction details.', 'upi-qr-code-payment-for-woocommerce' ),
+				'default'     => __( 'Thank you for your order. Your transaction has been completed, and order has been successfully placed. Please check you Email inbox for details.', 'upi-qr-code-payment-for-woocommerce' ),
 				'desc_tip'    => false,
 			),
 			'hide_on_mobile'      => array(
@@ -325,21 +355,21 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'title'       => __( 'Instructions:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'textarea',
 				'description' => __( 'Instructions that will be added to the order pay popup on desktop devices.', 'upi-qr-code-payment-for-woocommerce' ),
-				'default'     => __( 'Scan the QR Code with any UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI app to make payment for this order. After successful payment, enter the UPI Reference ID or Transaction Number and your UPI ID in the next screen and submit the form. We will manually verify this payment against your 12-digits UPI Reference ID or Transaction Number (e.g. 301422121258) and your UPI ID.', 'upi-qr-code-payment-for-woocommerce' ),
+				'default'     => __( 'Please scan the QR code with any UPI app to pay for your order. After payment, enter the UPI Reference ID or Transaction Number (e.g. 401422121258) on the next screen. We\'ll manually verify your payment using the provided information.', 'upi-qr-code-payment-for-woocommerce' ),
 				'desc_tip'    => false,
 			),
 			'instructions_mobile' => array(
 				'title'       => __( 'Mobile Instructions:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'textarea',
 				'description' => __( 'Instructions that will be added to the order pay popup on mobile devices.', 'upi-qr-code-payment-for-woocommerce' ),
-				'default'     => __( 'Scan the QR Code with any UPI apps like BHIM, Paytm, Google Pay, PhonePe or any Banking UPI app to make payment for this order. After successful payment, enter the UPI Reference ID or Transaction Number and your UPI ID in the next screen and submit the form. We will manually verify this payment against your 12-digits UPI Reference ID or Transaction Number (e.g. 301422121258) and your UPI ID.', 'upi-qr-code-payment-for-woocommerce' ),
+				'default'     => __( 'Please scan the QR code with any UPI app to pay for your order. After payment, enter the UPI Reference ID or Transaction Number (e.g. 401422121258) on the next screen. We\'ll manually verify your payment using the provided information.', 'upi-qr-code-payment-for-woocommerce' ),
 				'desc_tip'    => false,
 			),
 			'confirm_message'     => array(
 				'title'       => __( 'Confirm Message:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'textarea',
 				'description' => __( 'This displays a message to customer as payment processing text.', 'upi-qr-code-payment-for-woocommerce' ),
-				'default'     => __( 'Click Confirm, only after amount deducted from your account. We will manually verify your transaction. Are you sure?', 'upi-qr-code-payment-for-woocommerce' ),
+				'default'     => __( 'Please ensure that the amount has been deducted from your account before clicking "Confirm". We will manually verify your transaction once submitted.', 'upi-qr-code-payment-for-woocommerce' ),
 				'desc_tip'    => false,
 			),
 			'email'               => array(
@@ -1028,6 +1058,12 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		echo ( ! empty( $content ) ) ? $content : '—';
 	}
 
+	/**
+	 * Get UPI ID
+	 *
+	 * @param WC_Order $order     Order data.
+	 * @return string
+	 */
 	private function get_vpa( $order ) {
 		$payee_vpa = apply_filters( 'upiwc_payee_vpa', $this->vpa, $order );
 
