@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.4.1
+Release Date: January 7, 2024
+
+* Fixed: CSS issues.
+* Tweak: PHP 8.3 Support.
+
 ## 1.4.0
 Release Date: January 6, 2024
 

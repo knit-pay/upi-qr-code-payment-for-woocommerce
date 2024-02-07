@@ -3,7 +3,7 @@
  * Plugin Name: UPI QR Code Payment Gateway
  * Plugin URI: https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
  * Description: It enables a WooCommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
- * Version: 1.4.0
+ * Version: 1.4.1
  * Author: Sayan Datta
  * Author URI: https://www.sayandatta.co.in
  * License: GPLv3
@@ -48,7 +48,7 @@ final class UPIWC {
      *
      * @var string
      */
-    public $version = '1.4.0';
+    public $version = '1.4.1';
 
     /**
      * Minimum version of WordPress required to run UPIWC.
@@ -333,7 +333,7 @@ final class UPIWC {
         }
 
 		$show_rating = true;
-		if ( $this->calculate_time() > strtotime( '-10 days' )
+		if ( $this->calculate_time() > strtotime( '-7 days' )
             || '1' === get_option( 'upiwc_plugin_dismiss_rating_notice' )
             || apply_filters( 'upiwc_plugin_hide_sticky_notice', false ) ) {
 			$show_rating = false;
@@ -352,12 +352,12 @@ final class UPIWC {
 			<?php
 		}
 
-		$show_donate = false;
-		// if ( $this->calculate_time() > strtotime( '-15 days' )
-        //     || '1' === get_option( 'upiwc_plugin_dismiss_donate_notice' )
-        //     || apply_filters( 'upiwc_plugin_hide_sticky_donate_notice', false ) ) {
-		// 	$show_donate = false;
-		// }
+		$show_donate = true;
+		if ( $this->calculate_time() > strtotime( '-10 days' )
+            || '1' === get_option( 'upiwc_plugin_dismiss_donate_notice' )
+            || apply_filters( 'upiwc_plugin_hide_sticky_donate_notice', false ) ) {
+			$show_donate = false;
+		}
 
 		if ( $show_donate ) {
 			$dismiss = wp_nonce_url( add_query_arg( 'upiwc_notice_action', 'dismiss_donate' ), 'upiwc_notice_nonce' );
@@ -379,14 +379,14 @@ final class UPIWC {
 	public function dismiss_notice() {
 		// Check for Rating Notice
 		if ( get_option( 'upiwc_plugin_no_thanks_rating_notice' ) === '1'
-			&& get_option( 'upiwc_plugin_dismissed_time' ) <= strtotime( '-14 days' ) ) {
+			&& get_option( 'upiwc_plugin_dismissed_time' ) <= strtotime( '-10 days' ) ) {
 			delete_option( 'upiwc_plugin_dismiss_rating_notice' );
 			delete_option( 'upiwc_plugin_no_thanks_rating_notice' );
 		}
 
 		// Check for Donate Notice
 		if ( get_option( 'upiwc_plugin_no_thanks_donate_notice' ) === '1'
-			&& get_option( 'upiwc_plugin_dismissed_time_donate' ) <= strtotime( '-15 days' ) ) {
+			&& get_option( 'upiwc_plugin_dismissed_time_donate' ) <= strtotime( '-14 days' ) ) {
 			delete_option( 'upiwc_plugin_dismiss_donate_notice' );
 			delete_option( 'upiwc_plugin_no_thanks_donate_notice' );
 		}
