@@ -649,7 +649,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		$show_qr_download = ( wp_is_mobile() && $this->download_qr === 'yes' );
 		
 		$qr_code_class = ( $hide_mobile_qr ) ? 'upiwc-hide' : 'upiwc-show';
-		//$show_intent_btn = $show_qr_download = true;
+		$form_class = ( $this->transaction_id !== 'hide' || $this->transaction_image !== 'hide' ) ? 'upiwc-payment-confirm-form-container' : 'upiwc-payment-confirm-form-container upiwc-hidden';
 
 		// add html output on payment endpoint
 		if ( 'yes' === $this->enabled && $order->needs_payment() === true && $order->has_status( $this->default_status ) && ! empty( $payee_vpa ) ) { ?>
@@ -744,35 +744,33 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 							<?php } ?>
 						</div>
 						<div class="upiwc-payment-confirm" style="display: none;">
-							<?php if ( $this->transaction_id !== 'hide' || $this->transaction_image !== 'hide' ) { ?>
-								<div class="upiwc-payment-confirm-form-container">
-									<form id="upiwc-payment-confirm-form" class="upiwc-payment-confirm-form">
-										<?php if ( $this->transaction_id !== 'hide' ) { ?>
-											<div class="upiwc-form-row">
-												<label for="upiwc-payment-transaction-number">
-													<strong><?php esc_html_e( 'Enter 12-digit Transaction / UTR / Reference ID:', 'upi-qr-code-payment-for-woocommerce' ); ?></strong> 
-													<?php if ( $this->transaction_id === 'show_require' ) { ?>
-														<span class="field-required">*</span>
-													<?php } ?>
-												</label>
-												<input type="text" id="upiwc-payment-transaction-number" name="upiwc_transaction_id" maxlength="12" onkeypress="return upiwcIsNumber(event)" />
-											</div>
-										<?php } ?>
-										<?php if ( $this->transaction_image !== 'hide' ) { ?>
-											<div class="upiwc-form-row">
-												<label for="upiwc-payment-file">
-													<strong><?php esc_html_e( 'Upload Screenshot:', 'upi-qr-code-payment-for-woocommerce' ); ?></strong>
-													<?php if ( $this->transaction_image === 'show_require' ) { ?>
-														<span class="field-required">*</span>
-													<?php } ?>
-												</label>
-												<input type="file" id="upiwc-payment-file" name="upiwc_file" accept=".jpg, .jpeg, .png," />
-											</div>
-										<?php } ?>
-									</form>
-									<div class="upiwc-payment-error" style="display: none;"></div>
-								</div>
-							<?php } ?>
+							<div class="<?php echo esc_attr( $form_class ); ?>">
+								<form id="upiwc-payment-confirm-form" class="upiwc-payment-confirm-form">
+									<?php if ( $this->transaction_id !== 'hide' ) { ?>
+										<div class="upiwc-form-row">
+											<label for="upiwc-payment-transaction-number">
+												<strong><?php esc_html_e( 'Enter 12-digit Transaction / UTR / Reference ID:', 'upi-qr-code-payment-for-woocommerce' ); ?></strong> 
+												<?php if ( $this->transaction_id === 'show_require' ) { ?>
+													<span class="field-required">*</span>
+												<?php } ?>
+											</label>
+											<input type="text" id="upiwc-payment-transaction-number" name="upiwc_transaction_id" maxlength="12" onkeypress="return upiwcIsNumber(event)" />
+										</div>
+									<?php } ?>
+									<?php if ( $this->transaction_image !== 'hide' ) { ?>
+										<div class="upiwc-form-row">
+											<label for="upiwc-payment-file">
+												<strong><?php esc_html_e( 'Upload Screenshot:', 'upi-qr-code-payment-for-woocommerce' ); ?></strong>
+												<?php if ( $this->transaction_image === 'show_require' ) { ?>
+													<span class="field-required">*</span>
+												<?php } ?>
+											</label>
+											<input type="file" id="upiwc-payment-file" name="upiwc_file" accept=".jpg, .jpeg, .png," />
+										</div>
+									<?php } ?>
+								</form>
+								<div class="upiwc-payment-error" style="display: none;"></div>
+							</div>
 							<div class="upiwc-payment-confirm-text"><?php echo $this->confirm_message; ?></div>
 						</div>
 					</div>

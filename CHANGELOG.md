@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.4.2
+Release Date: March 3, 2024
+
+* Fixed: Form not submitting if both fields are hidden.
+
 ## 1.4.1
 Release Date: January 7, 2024
 
