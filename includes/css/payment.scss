@@ -343,6 +343,10 @@
                             flex-direction: column;
                             gap: 15px;
 
+                            &.upiwc-hidden {
+                                display: none;
+                            }
+
                             .upiwc-payment-confirm-form {
                                 display: flex;
                                 flex-direction: column;
