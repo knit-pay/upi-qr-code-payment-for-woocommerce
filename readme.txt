@@ -3,7 +3,7 @@ Contributors: infosatech
 Tags: upi, upi payment, woocommerce, qrcode, bhim upi, paytm upi, india
 Requires at least: 4.6
 Tested up to: 6.4
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 Requires PHP: 5.6
 Donate link: https://www.sayandatta.co.in/donate
 License: GPLv3
@@ -105,6 +105,11 @@ Post detailed information about the issue in the [support forum](https://wordpre
 == Changelog ==
 
 If you like UPI QR Code Payment Gateway for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
+
+= 1.4.3 =
+Release Date: March 13, 2024
+
+* Fixed: Transaction ID was not being saved.
 
 = 1.4.2 =
 Release Date: March 3, 2024
