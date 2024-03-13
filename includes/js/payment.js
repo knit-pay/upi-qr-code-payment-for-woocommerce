@@ -212,7 +212,7 @@
                             }
                         }
 
-                        utr_field.attr( 'disabled', 'disabled' );
+                        utr_field.attr( 'readonly', 'readonly' );
                         self.buttons.confirm.disable();
                         self.buttons.back.disable();
                         self.buttons.confirm.setText( 'Processing...' );
