@@ -6,12 +6,12 @@ This is the Un-Official UPI QR Code plugin for WooCommerce. Allows you to accept
 
 [![WP compatibility](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/wp-badge.svg)](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/latest) 
 [![PHP compatibility](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/php-badge.svg)](https://plugintests.com/plugins/upi-qr-code-payment-for-woocommerce/latest)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/iamsayan/upi-qr-code-payment-for-woocommerce)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/knit-pay/upi-qr-code-payment-for-woocommerce)
 ![PHP](https://img.shields.io/badge/php-v7.3%2B-blue)
-![GitHub Release Date](https://img.shields.io/github/release-date/iamsayan/upi-qr-code-payment-for-woocommerce?logo=github)
-![GitHub last commit](https://img.shields.io/github/last-commit/iamsayan/upi-qr-code-payment-for-woocommerce?logo=github)
-![GitHub Repo stars](https://img.shields.io/github/stars/iamsayan/upi-qr-code-payment-for-woocommerce?style=social)
-![GitHub forks](https://img.shields.io/github/forks/iamsayan/upi-qr-code-payment-for-woocommerce?style=social)
+![GitHub Release Date](https://img.shields.io/github/release-date/knit-pay/upi-qr-code-payment-for-woocommerce?logo=github)
+![GitHub last commit](https://img.shields.io/github/last-commit/knit-pay/upi-qr-code-payment-for-woocommerce?logo=github)
+![GitHub Repo stars](https://img.shields.io/github/stars/knit-pay/upi-qr-code-payment-for-woocommerce?style=social)
+![GitHub forks](https://img.shields.io/github/forks/knit-pay/upi-qr-code-payment-for-woocommerce?style=social)
 
 ## Description
 
@@ -61,8 +61,8 @@ Like UPI QR Code Payment Gateway for WooCommerce plugin? Consider leaving a [5 s
 * Community support via the [support forums](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce) at WordPress.org.
 
 ### Contribute
-* Active development of this plugin is handled [on GitHub](https://github.com/iamsayan/upi-qr-code-payment-for-woocommerce).
-* Feel free to [fork the project on GitHub](https://github.com/iamsayan/upi-qr-code-payment-for-woocommerce) and submit your contributions via pull request.
+* Active development of this plugin is handled [on GitHub](https://github.com/knit-pay/upi-qr-code-payment-for-woocommerce).
+* Feel free to [fork the project on GitHub](https://github.com/knit-pay/upi-qr-code-payment-for-woocommerce) and submit your contributions via pull request.
 
 ## Installation
 

@@ -3,9 +3,9 @@
  * Plugin Name: UPI QR Code Payment Gateway
  * Plugin URI: https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
  * Description: It enables a WooCommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
- * Version: 1.4.3
- * Author: Sayan Datta
- * Author URI: https://www.sayandatta.co.in
+ * Version: 1.4.4
+ * Author: KnitPay
+ * Author URI: https://www.knitpay.org/
  * License: GPLv3
  * Text Domain: upi-qr-code-payment-for-woocommerce
  * Domain Path: /languages
@@ -27,7 +27,7 @@
  * 
  * @category WooCommerce
  * @package  UPI QR Code Payment Gateway
- * @author   Sayan Datta <iamsayan@protonmail.com>
+ * @author   KnitPay
  * @license  http://www.gnu.org/licenses/ GNU General Public License
  * @link     https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
  *
@@ -48,7 +48,7 @@ final class UPIWC {
      *
      * @var string
      */
-    public $version = '1.4.3';
+    public $version = '1.4.4';
 
     /**
      * Minimum version of WordPress required to run UPIWC.
@@ -253,7 +253,7 @@ final class UPIWC {
 		$more = [
             '<a href="https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/" target="_blank">' . __( 'Support', 'upi-qr-code-payment-for-woocommerce' ) . '</a>',
             '<a href="https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/#faq" target="_blank">' . __( 'FAQ', 'upi-qr-code-payment-for-woocommerce' ) . '</a>',
-            '<a href="https://www.sayandatta.co.in/donate" target="_blank">' . __( 'Donate', 'upi-qr-code-payment-for-woocommerce' ) . '</a>',
+            //'<a href="https://www.sayandatta.co.in/donate" target="_blank">' . __( 'Donate', 'upi-qr-code-payment-for-woocommerce' ) . '</a>',
         ];
 
 		return array_merge( $links, $more );
@@ -352,7 +352,7 @@ final class UPIWC {
 			<?php
 		}
 
-		$show_donate = true;
+		$show_donate = false;
 		if ( $this->calculate_time() > strtotime( '-10 days' )
             || '1' === get_option( 'upiwc_plugin_dismiss_donate_notice' )
             || apply_filters( 'upiwc_plugin_hide_sticky_donate_notice', false ) ) {

@@ -1,15 +1,14 @@
 === UPI QR Code Payment Gateway for WooCommerce ===
-Contributors: infosatech
-Tags: upi, upi payment, woocommerce, qrcode, bhim upi, paytm upi, india
+Contributors: knitpay, gautammkgarg, infosatech
+Tags: upi, upi payment, woocommerce, qr code, bhim upi
 Requires at least: 4.6
 Tested up to: 6.4
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 Requires PHP: 5.6
-Donate link: https://www.sayandatta.co.in/donate
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
-This Plugin enables WooCommerce shop owners to get direct and instant payments through UPI apps like BHIM, GooglePay, WhatsApp, Paytm, PhonePe or any banking UPI app to save payment gateway charges in India.
+This Plugin enables WooCommerce shop owners to get direct and instant payments through UPI apps like BHIM, GooglePay, PhonePe or any banking UPI app.
 
 == Description ==
 
@@ -59,8 +58,8 @@ Like UPI QR Code Payment Gateway for WooCommerce plugin? Consider leaving a [5 s
 * Community support via the [support forums](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce) at WordPress.org.
 
 #### Contribute
-* Active development of this plugin is handled [on GitHub](https://github.com/iamsayan/upi-qr-code-payment-for-woocommerce).
-* Feel free to [fork the project on GitHub](https://github.com/iamsayan/upi-qr-code-payment-for-woocommerce) and submit your contributions via pull request.
+* Active development of this plugin is handled [on GitHub](https://github.com/knit-pay/upi-qr-code-payment-for-woocommerce).
+* Feel free to [fork the project on GitHub](https://github.com/knit-pay/upi-qr-code-payment-for-woocommerce) and submit your contributions via pull request.
 
 == Installation ==
 
@@ -91,7 +90,7 @@ Unfortunately no, automatic payment verification is not possible as NPCI does no
 
 = The plugin isn't working or have a bug? =
 
-Post detailed information about the issue in the [support forum](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce) and I will work to fix it.
+Post detailed information about the issue in the [support forum](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce) and we will work to fix it.
 
 == Screenshots ==
 
@@ -105,6 +104,11 @@ Post detailed information about the issue in the [support forum](https://wordpre
 == Changelog ==
 
 If you like UPI QR Code Payment Gateway for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
+
+= 1.4.4 =
+Release Date: March 14, 2024
+
+* Plugin ownership transferred from Sayan Datta to Knit Pay (Logic Bridge Techno Mart LLP).
 
 = 1.4.3 =
 Release Date: March 13, 2024
