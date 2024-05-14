@@ -2,8 +2,8 @@
 Contributors: knitpay, gautammkgarg, infosatech
 Tags: upi, upi payment, woocommerce, qr code, bhim upi
 Requires at least: 4.6
-Tested up to: 6.4
-Stable tag: 1.4.4
+Tested up to: 6.5
+Stable tag: 1.4.5
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -86,7 +86,7 @@ Yes, this plugin is compatible with any theme. Also, compatible with Genesis, Di
 
 = I want auto verification after payment is done. Is is possible? =
 
-Unfortunately no, automatic payment verification is not possible as NPCI does not allow to use their API and verify the transaction of any external website.
+This plugin currently does not support this functionality, but you can use the [Knit Pay - UPI](https://wordpress.org/plugins/knit-pay-upi/) plugin to get this feature for some Merchant UPI QR codes.
 
 = The plugin isn't working or have a bug? =
 

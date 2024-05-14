@@ -97,7 +97,7 @@ Yes, this plugin is compatible with any theme.
 
 #### I want auto verification after payment is done. Is is possible?
 
-Unfortunately no, automatic payment verification is not possible as NPCI does not allow to use their API and verify the traansaction of any website.
+This plugin currently does not support this functionality, but you can use the [Knit Pay - UPI](https://wordpress.org/plugins/knit-pay-upi/) plugin to get this feature for some Merchant UPI QR codes.
 
 #### The plugin isn't working or have a bug?
 
