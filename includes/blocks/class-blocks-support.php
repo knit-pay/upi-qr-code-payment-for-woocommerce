@@ -40,18 +40,18 @@ final class UPI_WC_Payment_Gateway_Blocks_Support extends AbstractPaymentMethodT
 		$script_path       = 'includes/blocks/assets/blocks.js';
 		$script_asset_path = UPIWC_PATH . 'includes/blocks/assets/blocks.asset.php';
 		$script_asset      = file_exists( $script_asset_path )
-			? require( $script_asset_path )
-			: array(
-				'dependencies' => array(),
-				'version'      => UPIWC_VERSION
-			);
+			? require $script_asset_path
+			: [
+				'dependencies' => [],
+				'version'      => UPIWC_VERSION,
+			];
 		$script_url        = UPIWC_URL . $script_path;
 
 		wp_register_script(
 			'upiwc-payment-blocks',
 			$script_url,
-			$script_asset[ 'dependencies' ],
-			$script_asset[ 'version' ],
+			$script_asset['dependencies'],
+			$script_asset['version'],
 			true
 		);
 
@@ -68,15 +68,18 @@ final class UPI_WC_Payment_Gateway_Blocks_Support extends AbstractPaymentMethodT
 	 * @return array
 	 */
 	public function get_payment_method_data() {
-		$handles = array_unique( apply_filters( 'upiwc_upi_handle_list', array( 'airtel', 'airtelpaymentsbank', 'apb', 'apl', 'allbank', 'albk', 'allahabadbank', 'andb', 'axisgo', 'axis', 'axisbank', 'axisb', 'okaxis', 'abfspay', 'axl', 'barodampay', 'barodapay', 'boi', 'cnrb', 'csbpay', 'csbcash', 'centralbank', 'cbin', 'cboi', 'cub', 'dbs', 'dcb', 'dcbbank', 'denabank', 'equitas', 'federal', 'fbl', 'finobank', 'hdfcbank', 'payzapp', 'okhdfcbank', 'rajgovhdfcbank', 'hsbc', 'imobile', 'pockets', 'ezeepay', 'eazypay', 'idbi', 'idbibank', 'idfc', 'idfcbank', 'idfcnetc', 'cmsidfc', 'indianbank', 'indbank', 'indianbk', 'iob', 'indus', 'indusind', 'icici', 'myicici', 'okicici', 'ikwik', 'ibl', 'jkb', 'jsbp', 'kbl', 'karb', 'kbl052', 'kvb', 'karurvysyabank', 'kvbank', 'kotak', 'kaypay', 'kmb', 'kmbl', 'okbizaxis', 'obc', 'paytm', 'pingpay', 'psb', 'pnb', 'sib', 'srcb', 'sc', 'scmobile', 'scb', 'scbl', 'sbi', 'oksbi', 'syndicate', 'syndbank', 'synd', 'lvb', 'lvbank', 'rbl', 'tjsb', 'uco', 'unionbankofindia', 'unionbank', 'uboi', 'ubi', 'united', 'utbi', 'upi', 'vjb', 'vijb', 'vijayabank', 'ubi', 'yesbank', 'ybl', 'yesbankltd' ) ) );
+		$handles = array_unique( apply_filters( 'upiwc_upi_handle_list', [ 'airtel', 'airtelpaymentsbank', 'apb', 'apl', 'allbank', 'albk', 'allahabadbank', 'andb', 'axisgo', 'axis', 'axisbank', 'axisb', 'okaxis', 'abfspay', 'axl', 'barodampay', 'barodapay', 'boi', 'cnrb', 'csbpay', 'csbcash', 'centralbank', 'cbin', 'cboi', 'cub', 'dbs', 'dcb', 'dcbbank', 'denabank', 'equitas', 'federal', 'fbl', 'finobank', 'hdfcbank', 'payzapp', 'okhdfcbank', 'rajgovhdfcbank', 'hsbc', 'imobile', 'pockets', 'ezeepay', 'eazypay', 'idbi', 'idbibank', 'idfc', 'idfcbank', 'idfcnetc', 'cmsidfc', 'indianbank', 'indbank', 'indianbk', 'iob', 'indus', 'indusind', 'icici', 'myicici', 'okicici', 'ikwik', 'ibl', 'jkb', 'jsbp', 'kbl', 'karb', 'kbl052', 'kvb', 'karurvysyabank', 'kvbank', 'kotak', 'kaypay', 'kmb', 'kmbl', 'okbizaxis', 'obc', 'paytm', 'pingpay', 'psb', 'pnb', 'sib', 'srcb', 'sc', 'scmobile', 'scb', 'scbl', 'sbi', 'oksbi', 'syndicate', 'syndbank', 'synd', 'lvb', 'lvbank', 'rbl', 'tjsb', 'uco', 'unionbankofindia', 'unionbank', 'uboi', 'ubi', 'united', 'utbi', 'upi', 'vjb', 'vijb', 'vijayabank', 'ubi', 'yesbank', 'ybl', 'yesbankltd' ] ) );
 		sort( $handles );
 
-		$handles = array_map( function( $value ) {
-			return [
-				'label' => '@' . $value,
-				'value' => $value,
-			];
-		}, $handles );
+		$handles = array_map(
+			function( $value ) {
+				return [
+					'label' => '@' . $value,
+					'value' => $value,
+				];
+			},
+			$handles
+		);
 
 		$placeholder = ( $this->get_setting( 'upi_address' ) === 'show_handle' ) ? 'mobilenumber' : 'mobilenumber@oksbi';
 		$placeholder = apply_filters( 'upiwc_upi_address_placeholder', $placeholder );
@@ -89,7 +92,7 @@ final class UPI_WC_Payment_Gateway_Blocks_Support extends AbstractPaymentMethodT
 			'supports'    => $this->get_supported_features(),
 			'button_text' => apply_filters( 'upiwc_order_button_text', __( 'Proceed to Payment', 'upi-qr-code-payment-for-woocommerce' ) ),
 			'placeholder' => $placeholder,
-			'handles'     => $handles
+			'handles'     => $handles,
 		];
 	}
 

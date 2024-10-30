@@ -2,8 +2,8 @@
 Contributors: knitpay, gautammkgarg, infosatech
 Tags: upi, upi payment, woocommerce, qr code, bhim upi
 Requires at least: 4.6
-Tested up to: 6.5
-Stable tag: 1.4.5
+Tested up to: 6.7
+Stable tag: 1.4.6
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
