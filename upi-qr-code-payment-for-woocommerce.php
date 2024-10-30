@@ -3,7 +3,7 @@
  * Plugin Name: UPI QR Code Payment Gateway
  * Plugin URI: https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
  * Description: It enables a WooCommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
- * Version: 1.4.5
+ * Version: 1.4.6
  * Author: Team KnitPay
  * Author URI: https://www.knitpay.org/
  * License: GPLv3
@@ -48,7 +48,7 @@ final class UPIWC {
 	 *
 	 * @var string
 	 */
-	public $version = '1.4.5';
+	public $version = '1.4.6';
 
 	/**
 	 * Minimum version of WordPress required to run UPIWC.
@@ -183,15 +183,15 @@ final class UPIWC {
 	private function instantiate() {
 		// Activation hook.
 		register_activation_hook(
-			UPIWC_FILE, 
+			UPIWC_FILE,
 			function () {
 				set_transient( 'upiwc-admin-notice-on-activation', true, 5 );
-			} 
+			}
 		);
 
 		// Deactivation hook.
 		register_deactivation_hook(
-			UPIWC_FILE, 
+			UPIWC_FILE,
 			function () {
 				delete_option( 'upiwc_plugin_dismiss_rating_notice' );
 				delete_option( 'upiwc_plugin_no_thanks_rating_notice' );
@@ -200,7 +200,7 @@ final class UPIWC {
 				delete_option( 'upiwc_plugin_no_thanks_donate_notice' );
 				delete_option( 'upiwc_plugin_dismissed_time' );
 				delete_option( 'upiwc_plugin_dismissed_time_donate' );
-			} 
+			}
 		);
 
 		// Initialize the action and filter hooks.
@@ -269,7 +269,7 @@ final class UPIWC {
 	 */
 	public function action_links( $links ) {
 		$links[] = '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc-upi' ) . '">' . __( 'Settings', 'upi-qr-code-payment-for-woocommerce' ) . '</a>';
-		
+
 		return $links;
 	}
 
@@ -331,7 +331,7 @@ final class UPIWC {
 			?>
 			<div class="notice notice-success">
 				<p><strong><?php printf( __( 'Thanks for installing %1$s v%2$s plugin. Click <a href="%3$s">here</a> to configure plugin settings.', 'upi-qr-code-payment-for-woocommerce' ), 'UPI QR Code Payment Gateway', UPIWC_VERSION, admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc-upi' ) ); ?></strong></p>
-			</div> 
+			</div>
 			<?php
 			delete_transient( 'upiwc-admin-notice-on-activation' );
 		}
@@ -342,7 +342,7 @@ final class UPIWC {
 			|| apply_filters( 'upiwc_plugin_hide_sticky_notice', false ) ) {
 			$show_rating = false;
 		}
-	
+
 		if ( $show_rating ) {
 			$dismiss   = wp_nonce_url( add_query_arg( 'upiwc_notice_action', 'dismiss_rating' ), 'upiwc_notice_nonce' );
 			$no_thanks = wp_nonce_url( add_query_arg( 'upiwc_notice_action', 'no_thanks_rating' ), 'upiwc_notice_nonce' );
