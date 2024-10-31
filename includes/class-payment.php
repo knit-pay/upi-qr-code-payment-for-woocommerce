@@ -553,7 +553,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		
 		wp_register_script( 'upiwc-qr-code', plugins_url( 'js/easy.qrcode.min.js', __FILE__ ), [ 'jquery' ], '3.8.3', true );
 		wp_register_script( 'upiwc-jquery-confirm', plugins_url( 'js/jquery-confirm.min.js', __FILE__ ), [ 'jquery' ], '3.3.4', true );
-		wp_register_script( 'upiwc-payment', plugins_url( 'js/payment.js', __FILE__ ), [ 'jquery', 'upiwc-qr-code', 'upiwc-jquery-confirm' ], UPIWC_VERSION, true );
+		wp_register_script( 'upiwc-payment', plugins_url( 'js/payment.min.js', __FILE__ ), [ 'jquery', 'upiwc-qr-code', 'upiwc-jquery-confirm' ], UPIWC_VERSION, true );
 	
 		$total     = apply_filters( 'upiwc_order_total_amount', $order->get_total(), $order );
 		$payee_vpa = $this->get_vpa( $order );
