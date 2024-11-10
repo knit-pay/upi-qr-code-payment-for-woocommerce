@@ -3,7 +3,7 @@
  * Plugin Name: UPI QR Code Payment Gateway
  * Plugin URI: https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
  * Description: It enables a WooCommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
- * Version: 1.4.7
+ * Version: 1.5.0
  * Author: Team KnitPay
  * Author URI: https://www.knitpay.org/
  * License: GPLv3
@@ -377,6 +377,56 @@ final class UPIWC {
 			</div>
 			<?php
 		}
+
+		/*
+		* Knit Pay UPI Notice.
+		*/
+		$show_knit_pay_upi_notice            = false;
+		$knit_pay_upi_notice_random_priority = get_transient( 'upiwc_plugin_knit_pay_upi_notice_random_priority' );
+
+		// Set random priority if not already set
+		if ( empty( $knit_pay_upi_notice_random_priority ) ) {
+			$knit_pay_upi_notice_random_priority = strval( wp_rand( 1, 100 ) );
+			set_transient( 'upiwc_plugin_knit_pay_upi_notice_random_priority', $knit_pay_upi_notice_random_priority, WEEK_IN_SECONDS );
+		}
+
+		// Only proceed with VPA check if user was randomly selected
+		if ( '1' === $knit_pay_upi_notice_random_priority ) {
+			$upiwc_settings = get_option( 'woocommerce_wc-upi_settings', [] );
+			$vpa            = isset( $upiwc_settings['vpa'] ) ? sanitize_text_field( $upiwc_settings['vpa'] ) : '';
+
+			// Check for specific VPA patterns
+			if ( ! empty( $vpa ) && preg_match( '/^(q.*@ybl|paytmqr.*@paytm)$/i', $vpa ) ) {
+				$show_knit_pay_upi_notice = true;
+			}
+		}
+
+		// Check if notice was previously dismissed
+		if ( '1' === get_option( 'upiwc_plugin_dismiss_knit_pay_upi_notice' ) ) {
+			$show_knit_pay_upi_notice = false;
+		}
+
+		if ( $show_knit_pay_upi_notice ) {
+			$dismiss   = wp_nonce_url(
+				add_query_arg( 'upiwc_notice_action', 'dismiss_knit_pay_upi' ),
+				'upiwc_notice_nonce'
+			);
+			$no_thanks = wp_nonce_url(
+				add_query_arg( 'upiwc_notice_action', 'no_thanks_knit_pay_upi' ),
+				'upiwc_notice_nonce'
+			);
+			?>
+
+			<div class="notice notice-success">
+				<p><strong>UPI QR Code Payment Gateway for WooCommerce</strong> - <?php esc_html_e( 'Exciting News! You no longer have to manually check the payment status of your UPI/QR payments. Knit Pay - UPI plugin can check the payment status automatically for you.', 'upi-qr-code-payment-for-woocommerce' ); ?></p>
+				<p>
+					<a href="<?php echo esc_url( admin_url( 'plugin-install.php?s=Knit%2520Pay%2520UPI%2520QR%2520code%2520RapidAPI&tab=search&type=term' ) ); ?>" target="_blank" class="button button-primary"><?php esc_html_e( 'Get it Now', 'upi-qr-code-payment-for-woocommerce' ); ?></a>&nbsp;
+					<a href="<?php echo esc_url( $no_thanks ); ?>" class="later"><strong><?php esc_html_e( 'Remind Later', 'upi-qr-code-payment-for-woocommerce' ); ?></strong></a>&nbsp;|
+					<a href="<?php echo esc_url( $dismiss ); ?>" class="already-did"><strong><?php esc_html_e( 'Not interested', 'upi-qr-code-payment-for-woocommerce' ); ?></strong></a>
+				</p>
+			</div>
+			<?php
+		}
 	}
 
 	/**
@@ -408,6 +458,14 @@ final class UPIWC {
 		$notice_type = end( $notice );
 		array_pop( $notice );
 		$notice_action = join( '_', $notice );
+
+		if ( 'dismiss_knit_pay' === $notice_action ) {
+			// Knit Pay UPI Notice Dismiss.
+			update_option( 'upiwc_plugin_dismiss_knit_pay_upi_notice', '1' );
+		} elseif ( 'no_thanks_knit_pay' === $notice_action ) {
+			// Knit Pay UPI Notice skip atleast for 1 week.
+			set_transient( 'upiwc_plugin_knit_pay_upi_notice_random_priority', '0', WEEK_IN_SECONDS );
+		}
 
 		if ( 'dismiss' === $notice_action ) {
 			update_option( 'upiwc_plugin_dismiss_' . $notice_type . '_notice', '1' );
