@@ -513,7 +513,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		if ( $this->upi_address === 'show_handle' ) {
 			$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*$/i';
 		}
-		if ( in_array( $this->upi_address, [ 'show', 'show_handle' ] ) && $this->require_upi === 'yes' &&! preg_match( $regex, sanitize_text_field( $_POST['customer_upiwc_address'] ) ) ) {
+		if ( in_array( $this->upi_address, [ 'show', 'show_handle' ] ) && $this->require_upi === 'yes' && ! preg_match( $regex, sanitize_text_field( $_POST['customer_upiwc_address'] ) ) ) {
 			wc_add_notice( __( 'Please enter a <strong>valid UPI Address</strong>!', 'upi-qr-code-payment-for-woocommerce' ), 'error' );
 			return false;
 		}
