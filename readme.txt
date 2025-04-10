@@ -2,8 +2,8 @@
 Contributors: knitpay, gautammkgarg, infosatech
 Tags: upi, upi payment, woocommerce, qr code, bhim upi
 Requires at least: 4.6
-Tested up to: 6.7
-Stable tag: 1.5.0
+Tested up to: 6.8
+Stable tag: 1.5.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -105,11 +105,16 @@ Post detailed information about the issue in the [support forum](https://wordpre
 
 If you like UPI QR Code Payment Gateway for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
 
+= 1.5.1 =
+Release Date: Apr 10, 2025
+
+* Tested upto WordPress 6.8.
+* Check UPI Address pattern only if UPI address is shown and is required.
+
 = 1.5.0 =
 Release Date: Nov 10, 2024
 
 * Notify eligible merchants to use Knit Pay UPI for better payment experience.
-
 
 = 1.4.7 =
 Release Date: Oct 30, 2024
