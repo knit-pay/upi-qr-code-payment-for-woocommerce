@@ -396,7 +396,7 @@ final class UPIWC {
 			$vpa            = isset( $upiwc_settings['vpa'] ) ? sanitize_text_field( $upiwc_settings['vpa'] ) : '';
 
 			// Check for specific VPA patterns
-			if ( ! empty( $vpa ) && preg_match( '/^(q.+@ybl|paytmqr.+@[a-z]+|bharatpe.+@[a-z]+|.+@hdfcbank|.+@ikwik|.+@freecharge)$/i', $vpa ) ) {
+			if ( ! empty( $vpa ) && preg_match( '/^(q.+@ybl|paytmqr.+@[a-z]+|bharatpe.+@[a-z]+|.+@hdfcbank|.+@ikwik|.+@mbk|.+@freecharge)$/i', $vpa ) ) {
 				$show_knit_pay_upi_notice = true;
 			}
 		}
