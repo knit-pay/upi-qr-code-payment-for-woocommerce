@@ -137,6 +137,9 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		add_filter( 'manage_edit-shop_order_columns', [ $this, 'column_item' ] );
 		add_action( 'manage_shop_order_posts_custom_column', [ $this, 'render_column' ], 10, 2 );
 
+		// Display payment details on the order edit page.
+		add_action( 'woocommerce_admin_order_data_after_order_details', [ $this, 'display_upi_payment_details' ], 10, 1 );
+
 		// Check plugin availability
 		if ( ! $this->is_valid_for_use() ) {
 			$this->enabled = 'no';
@@ -1095,5 +1098,34 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		$payee_vpa = apply_filters( 'upiwc_payee_vpa', $this->vpa, $order );
 
 		return trim( htmlentities( strtolower( $payee_vpa ) ) );
+	}
+
+	/**
+	 * Display UPI payment details on the admin order page.
+	 *
+	 * @param WC_Order $order
+	 */
+	public function display_upi_payment_details( $order ) {
+		if ( $this->id === $order->get_payment_method() ) {
+			$transaction_id = $order->get_transaction_id();
+			$attachment_id  = $order->get_meta( '_upiwc_order_attachment_id', true );
+
+			echo '<div class="form-field form-field-wide">';
+			echo '<h3>' . esc_html__( 'UPI Payment Details', 'upi-qr-code-payment-for-woocommerce' ) . '</h3>';
+
+			if ( ! empty( $transaction_id ) ) {
+				echo '<p><strong>' . esc_html__( 'UTR / Transaction ID:', 'upi-qr-code-payment-for-woocommerce' ) . '</strong> ' . esc_html( $transaction_id ) . '</p>';
+			}
+
+			if ( ! empty( $attachment_id ) ) {
+				$attachment_url = wp_get_attachment_url( $attachment_id );
+				if ( $attachment_url ) {
+					echo '<p><strong>' . esc_html__( 'Payment Screenshot:', 'upi-qr-code-payment-for-woocommerce' ) . '</strong></p>';
+					echo '<a href="' . esc_url( $attachment_url ) . '" target="_blank"><img src="' . esc_url( $attachment_url ) . '" style="max-width: 300px; height: auto;" /></a>';
+				}
+			}
+
+			echo '</div>';
+		}
 	}
 }
