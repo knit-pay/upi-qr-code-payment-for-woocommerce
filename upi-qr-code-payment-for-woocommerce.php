@@ -347,7 +347,7 @@ final class UPIWC {
 			$dismiss   = wp_nonce_url( add_query_arg( 'upiwc_notice_action', 'dismiss_rating' ), 'upiwc_notice_nonce' );
 			$no_thanks = wp_nonce_url( add_query_arg( 'upiwc_notice_action', 'no_thanks_rating' ), 'upiwc_notice_nonce' );
 			?>
-			
+
 			<div class="notice notice-success">
 				<p><?php esc_html_e( 'Hey, I noticed you\'ve been using UPI QR Code Payment Gateway for more than 2 week – that’s awesome! Could you please do me a BIG favor and give it a <strong>5-star</strong> rating on WordPress? Just to help me spread the word and boost my motivation.', 'upi-qr-code-payment-for-woocommerce' ); ?></p>
 				<p><a href="https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?filter=5#new-post" target="_blank" class="button button-secondary"><?php esc_html_e( 'Ok, you deserve it', 'upi-qr-code-payment-for-woocommerce' ); ?></a>&nbsp;
@@ -368,7 +368,7 @@ final class UPIWC {
 			$dismiss   = wp_nonce_url( add_query_arg( 'upiwc_notice_action', 'dismiss_donate' ), 'upiwc_notice_nonce' );
 			$no_thanks = wp_nonce_url( add_query_arg( 'upiwc_notice_action', 'no_thanks_donate' ), 'upiwc_notice_nonce' );
 			?>
-			
+
 			<div class="notice notice-success">
 				<p><?php esc_html_e( 'Hey, I noticed you\'ve been using UPI QR Code Payment Gateway for more than 2 week – that’s awesome! If you like UPI QR Code Payment Gateway and you are satisfied with the plugin, isn’t that worth a coffee or two? Please consider donating. Donations help me to continue support and development of this free plugin! Thank you very much!', 'upi-qr-code-payment-for-woocommerce' ); ?></p>
 				<p><a href="https://www.sayandatta.co.in/donate" target="_blank" class="button button-secondary"><?php esc_html_e( 'Donate Now', 'upi-qr-code-payment-for-woocommerce' ); ?></a>&nbsp;
@@ -481,7 +481,7 @@ final class UPIWC {
 			}
 		}
 	
-		wp_redirect( remove_query_arg( [ 'upiwc_notice_action', '_wpnonce' ] ) );
+		wp_safe_redirect( remove_query_arg( [ 'upiwc_notice_action', '_wpnonce' ] ) );
 		exit;
 	}
 
