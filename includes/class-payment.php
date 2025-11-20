@@ -451,10 +451,10 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 
 		$required    = '';
 		$upi_address = ( isset( $_POST['customer_upiwc_address'] ) ) ? sanitize_text_field( wp_unslash( $_POST['customer_upiwc_address'] ) ) : $upi_address;
-		$placeholder = ( $this->upi_address === 'show_handle' ) ? 'mobilenumber' : 'mobilenumber@oksbi';
+		$placeholder = ( 'show_handle' === $this->upi_address ) ? 'mobilenumber' : 'mobilenumber@oksbi';
 		$placeholder = apply_filters( 'upiwc_upi_address_placeholder', $placeholder );
 
-		if ( $this->require_upi === 'yes' ) {
+		if ( 'yes' === $this->require_upi ) {
 			$required = ' <span class="required">*</span>';
 		}
 
@@ -466,7 +466,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 					<label><?php echo esc_html__( 'UPI Address', 'upi-qr-code-payment-for-woocommerce' ) . $required; ?></label>
 					<div class="upiwc-input-field">
 						<input id="upiwc-address" pattern="[a-zA-Z0-9]+" class="upiwc-address <?php echo esc_attr( str_replace( '_', '-', $this->upi_address ) ); ?>" name="customer_upiwc_address" type="text" autocomplete="off" placeholder="e.g. <?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $upi_address ); ?>">
-						<?php if ( $this->upi_address === 'show_handle' ) { ?>
+						<?php if ( 'show_handle' === $this->upi_address ) { ?>
 							<select id="upiwc-handle" name="customer_upiwc_handle" style="width: 100%;"><option selected disabled hidden value=""><?php esc_html_e( '-- Select --', 'upi-qr-code-payment-for-woocommerce' ); ?></option>
 								<?php
 								foreach ( $handles as $handle ) {
@@ -505,16 +505,16 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 			return false;
 		}
 
-		if ( empty( $_POST['customer_upiwc_handle'] ) && $this->upi_address === 'show_handle' && $this->require_upi === 'yes' ) {
+		if ( empty( $_POST['customer_upiwc_handle'] ) && 'show_handle' === $this->upi_address && 'yes' === $this->require_upi ) {
 			wc_add_notice( __( '<strong>UPI Handle</strong> is a required field.', 'upi-qr-code-payment-for-woocommerce' ), 'error' );
 			return false;
 		}
 
 		$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*$/i';
-		if ( $this->upi_address === 'show_handle' ) {
+		if ( 'show_handle' === $this->upi_address ) {
 			$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*$/i';
 		}
-		if ( in_array( $this->upi_address, [ 'show', 'show_handle' ] ) && $this->require_upi === 'yes' && ! preg_match( $regex, sanitize_text_field( $_POST['customer_upiwc_address'] ) ) ) {
+		if ( in_array( $this->upi_address, [ 'show', 'show_handle' ] ) && 'yes' === $this->require_upi && ! preg_match( $regex, sanitize_text_field( $_POST['customer_upiwc_address'] ) ) ) {
 			wc_add_notice( __( 'Please enter a <strong>valid UPI Address</strong>!', 'upi-qr-code-payment-for-woocommerce' ), 'error' );
 			return false;
 		}
