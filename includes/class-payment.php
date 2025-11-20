@@ -287,7 +287,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'title'       => __( 'Merchant Category Code:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'number',
 				'description' => sprintf( '%s <a href="https://www.citibank.com/tts/solutions/commercial-cards/assets/docs/govt/Merchant-Category-Codes.pdf" target="_blank">%s</a> or <a href="https://docs.checkout.com/resources/codes/merchant-category-codes" target="_blank">%s</a>', __( 'You can refer to these links to find out your MCC.', 'upi-qr-code-payment-for-woocommerce' ), 'Citi Bank', 'Checkout.com' ),
-				'default'     => 8931,
+				'default'     => 0000,
 				'desc_tip'    => false,
 			],
 			'theme'               => [
