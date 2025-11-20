@@ -328,6 +328,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 					'show_require' => __( 'Show & Require Input Field', 'upi-qr-code-payment-for-woocommerce' ),
 				],
 			],
+			/*
 			'intent'              => [
 				'title'       => __( 'Payment Buttons:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'checkbox',
@@ -335,7 +336,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'description' => sprintf( '%s <span style="color: #ff0000;font-weight: 600;">%s</span>', __( 'Enable this if you want to show direct pay now option.', 'upi-qr-code-payment-for-woocommerce' ), __( 'The payment Button will work only if the UPI Intent feature is enabled on your UPI ID.', 'upi-qr-code-payment-for-woocommerce' ) ),
 				'default'     => 'no',
 				'desc_tip'    => false,
-			],
+			],*/
 			'download_qr'         => [
 				'title'       => __( 'Download Button:', 'upi-qr-code-payment-for-woocommerce' ),
 				'type'        => 'checkbox',
