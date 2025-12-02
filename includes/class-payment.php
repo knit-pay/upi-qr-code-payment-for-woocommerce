@@ -83,7 +83,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 		$this->theme               = $this->get_option( 'theme', 'light' );
 		$this->transaction_id      = $this->get_option( 'transaction_id', 'show_require' );
 		$this->transaction_image   = $this->get_option( 'transaction_image', 'show_require' );
-		$this->intent              = $this->get_option( 'intent', 'no' );
+		$this->intent              = 'no';// $this->get_option( 'intent', 'no' );
 		$this->download_qr         = $this->get_option( 'download_qr', 'no' );
 		$this->qrcode_mobile       = $this->get_option( 'qrcode_mobile', 'yes' );
 		$this->hide_on_mobile      = $this->get_option( 'hide_on_mobile', 'no' );
