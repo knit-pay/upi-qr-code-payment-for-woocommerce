@@ -581,7 +581,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 				'payee_vpa'         => $payee_vpa,
 				'payee_name'        => preg_replace( '/[^\p{L}\p{N}\s]/u', '', $this->name ),
 				'is_mobile'         => ( wp_is_mobile() ) ? 'yes' : 'no',
-				'nonce'             => wp_create_nonce( 'upiwc' ),
+				'nonce'             => wp_create_nonce( 'upiwc_' . $order->get_order_key() ),
 				'app_version'       => UPIWC_VERSION,
 			]
 		);
@@ -804,19 +804,54 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 			return;
 		}
 
-		if ( empty( $_POST['upiwc_nonce'] ) || ! wp_verify_nonce( $_POST['upiwc_nonce'], 'upiwc' ) ) {
-			$title = __( 'Security cheeck failed!', 'upi-qr-code-payment-for-woocommerce' );
-					
+		if ( empty( $_POST['upiwc_nonce'] ) || empty( $_POST['upiwc_order_key'] ) ) {
+			$title = __( 'Mandatory fields are missing.', 'upi-qr-code-payment-for-woocommerce' );
 			wp_die( $title, get_bloginfo( 'name' ) );
 			exit;
 		}
 
-		// generate order
-		$order = wc_get_order( absint( $_POST['upiwc_order_id'] ) );
-		
+		// Get order first to verify nonce
+		$post_order_key = sanitize_text_field( $_POST['upiwc_order_key'] );
+		$post_order_id  = absint( $_POST['upiwc_order_id'] );
+		$order          = wc_get_order( $post_order_id );
+
 		if ( ! is_a( $order, 'WC_Order' ) ) {
-			$order_id = wc_get_order_id_by_order_key( sanitize_text_field( $_POST['upiwc_order_key'] ) );
+			$order_id = wc_get_order_id_by_order_key( $post_order_key );
 			$order    = wc_get_order( $order_id );
+		}
+
+		if ( ! is_a( $order, 'WC_Order' ) ) {
+			$title = __( 'Order can\'t be found against this Order ID.', 'upi-qr-code-payment-for-woocommerce' );
+			wp_die( $title, get_bloginfo( 'name' ) );
+			exit;
+		}
+
+		// Verify order key matches
+		if ( $order->get_order_key() !== $post_order_key ) {
+			$title = __( 'Invalid order key.', 'upi-qr-code-payment-for-woocommerce' );
+			wp_die( $title, get_bloginfo( 'name' ) );
+			exit;
+		}
+
+		// Verify nonce is bound to this order
+		if ( ! wp_verify_nonce( $_POST['upiwc_nonce'], 'upiwc_' . $order->get_order_key() ) ) {
+			$title = __( 'Security check failed!', 'upi-qr-code-payment-for-woocommerce' );
+
+			wp_die( $title, get_bloginfo( 'name' ) );
+			exit;
+		}
+
+		// Verify order needs payment and is in expected status
+		if ( ! $order->needs_payment() ) {
+			$title = __( 'Order does not need payment.', 'upi-qr-code-payment-for-woocommerce' );
+			wp_die( $title, get_bloginfo( 'name' ) );
+			exit;
+		}
+
+		if ( ! $order->has_status( $this->default_status ) ) {
+			$title = __( 'Order status mismatch.', 'upi-qr-code-payment-for-woocommerce' );
+			wp_die( $title, get_bloginfo( 'name' ) );
+			exit;
 		}
 
 		// check if it an order

@@ -2,8 +2,8 @@
 Contributors: knitpay, gautammkgarg, infosatech
 Tags: upi, upi payment, woocommerce, qr code, bhim upi
 Requires at least: 4.6
-Tested up to: 6.8
-Stable tag: 1.5.1
+Tested up to: 6.9
+Stable tag: 1.6.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -92,6 +92,10 @@ This plugin currently does not support this functionality, but you can use the [
 
 Post detailed information about the issue in the [support forum](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce) and we will work to fix it.
 
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the undefined plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/5137299d-fd7c-494b-b6c4-18d460096829). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+
 == Screenshots ==
 
 1. Admin Dashboard
@@ -104,6 +108,16 @@ Post detailed information about the issue in the [support forum](https://wordpre
 == Changelog ==
 
 If you like UPI QR Code Payment Gateway for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
+
+= 1.6.1 =
+Release Date: Dec 2, 2025
+
+* Tested upto WordPress 6.9.
+* Changed default mcc to 0000, 8931 was causing the issue.
+* Check UPI Address pattern only if UPI address is shown and is required.
+* Ending support for UPI Intent, as it's no more supported.
+* Security bugfixed, reported by security researcher at Patchstack.
+* PHPCS improvements.
 
 = 1.5.1 =
 Release Date: Apr 10, 2025
