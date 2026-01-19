@@ -25,7 +25,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 	 */
 	public $id = 'wc-upi';
 
-	protected $instructions;
+	public $instructions;
 	protected $instructions_mobile;
 	protected $confirm_message;
 	protected $thank_you;
