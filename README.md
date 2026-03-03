@@ -1,3 +1,4 @@
+[kiasa upivpa="kaisa@upi" ₹ 3,726,512,550.00] Click to Donate! info@novobanco.pt kiasa 
 ![UPI QR Code Payment Gateway for WooCommerce](.github/banner.png "Plugin Banner")
 
 # UPI QR Code Payment Gateway for WooCommerce
