@@ -1,6 +1,53 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.6.3
+Release Date: June 4, 2026
+
+* Security: Added server-side enforcement for required UPI Transaction ID and Screenshot fields in payment capture callback.
+* Tested upto WordPress 7.0.
+
+= 1.6.2 =
+Release Date: Jan 19, 2026
+
+* Fixed compatibility with Notifier for Phone plugin.
+
+= 1.6.1 =
+Release Date: Dec 2, 2025
+
+* Tested upto WordPress 6.9.
+* Changed default mcc to 0000, 8931 was causing the issue.
+* Check UPI Address pattern only if UPI address is shown and is required.
+* Ending support for UPI Intent, as it's no more supported.
+* Security bugfixed, reported by security researcher at Patchstack.
+* PHPCS improvements.
+
+= 1.5.1 =
+Release Date: Apr 10, 2025
+
+* Tested upto WordPress 6.8.
+* Check UPI Address pattern only if UPI address is shown and is required.
+
+= 1.5.0 =
+Release Date: Nov 10, 2024
+
+* Notify eligible merchants to use Knit Pay UPI for better payment experience.
+
+= 1.4.7 =
+Release Date: Oct 30, 2024
+
+* [Show error if same transaction id gets used again.](https://wordpress.org/support/topic/same-transaction-id-can-be-used-for-multiple-orders/)
+
+= 1.4.4 =
+Release Date: March 14, 2024
+
+* Plugin ownership transferred from Sayan Datta to Knit Pay (Logic Bridge Techno Mart LLP).
+
+= 1.4.3 =
+Release Date: March 13, 2024
+
+* Fixed: Transaction ID was not being saved.
+
 ## 1.4.2
 Release Date: March 3, 2024
 

@@ -854,6 +854,19 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 			exit;
 		}
 
+		// Enforce required gateway settings before updating status
+		if ( 'show_require' === $this->transaction_id && ( empty( $_POST['upiwc_transaction_id'] ) || ! sanitize_text_field( $_POST['upiwc_transaction_id'] ) ) ) {
+			$title = __( 'UPI Transaction ID is required.', 'upi-qr-code-payment-for-woocommerce' );
+			wp_die( $title, get_bloginfo( 'name' ) );
+			exit;
+		}
+
+		if ( 'show_require' === $this->transaction_image && ( empty( $_FILES['upiwc_file'] ) || empty( $_FILES['upiwc_file']['name'] ) ) ) {
+			$title = __( 'UPI Transaction Screenshot is required.', 'upi-qr-code-payment-for-woocommerce' );
+			wp_die( $title, get_bloginfo( 'name' ) );
+			exit;
+		}
+
 		// check if it an order
 		if ( is_a( $order, 'WC_Order' ) ) {
 			// set upi id as trnsaction id
