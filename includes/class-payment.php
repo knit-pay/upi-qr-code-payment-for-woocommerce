@@ -487,7 +487,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 							} );
 							<?php if ( ! empty( $upi_handle ) ) { ?>
 								var upiwcSelectize = upiwcSelect[0].selectize;
-								upiwcSelectize.setValue( upiwcSelectize.search( '<?php echo $upi_handle; ?>').items[0].id );
+								upiwcSelectize.setValue( upiwcSelectize.search( '<?php echo esc_js( $upi_handle ); ?>').items[0].id );
 							<?php } ?>
 						}
 					} )( jQuery );
