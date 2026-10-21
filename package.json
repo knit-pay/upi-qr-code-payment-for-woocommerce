@@ -2,7 +2,7 @@
 	"name": "upi-qr-code-payment-for-woocommerce",
 	"title": "UPI QR Code Payment Gateway for WooCommerce",
 	"version": "1.0.0",
-	"author": "Sayan Datta",
+	"author": "Team KnitPay",
 	"license": "GPL-3.0+",
 	"keywords": [],
 	"engines": {

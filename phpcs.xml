@@ -23,9 +23,8 @@
 
 	<!-- Configs -->
 	<config name="minimum_supported_wp_version" value="4.6" /> <!-- Minimum WP Version -->
-	<config name="testVersion" value="5.6" /> <!-- Minimum PHP Version -->
+	<config name="testVersion" value="7.0" /> <!-- Minimum PHP Version -->
 	<config name="text_domain" value="upi-qr-code-payment-for-woocommerce"/>
-	<config name="installed_paths" value="D:\Laragon\wpcs" />
 
 	<!-- Rules -->
 	<rule ref="Squiz">
@@ -51,7 +50,7 @@
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="wp-last-modified-info" />
+			<property name="text_domain" type="array" value="upi-qr-code-payment-for-woocommerce" />
 		</properties>
 	</rule>
 

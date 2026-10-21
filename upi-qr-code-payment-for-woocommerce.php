@@ -3,14 +3,14 @@
  * Plugin Name: UPI QR Code Payment Gateway
  * Plugin URI: https://wordpress.org/plugins/upi-qr-code-payment-for-woocommerce/
  * Description: It enables a WooCommerce site to accept payments through UPI apps like BHIM, Google Pay, Paytm, PhonePe or any Banking UPI app. Avoid payment gateway charges.
- * Version: 1.6.3
+ * Version: 1.7.0
  * Author: Team KnitPay
  * Author URI: https://www.knitpay.org/
  * License: GPLv3
  * Text Domain: upi-qr-code-payment-for-woocommerce
  * Domain Path: /languages
  * WC requires at least: 3.1
- * WC tested up to: 10.3
+ * WC tested up to: 11.2
  * Requires Plugins: woocommerce
  * 
  * UPI QR Code Payment Gateway is free software: you can redistribute it and/or modify
@@ -48,7 +48,7 @@ final class UPIWC {
 	 *
 	 * @var string
 	 */
-	public $version = '1.6.3';
+	public $version = '1.7.0';
 
 	/**
 	 * Minimum version of WordPress required to run UPIWC.
@@ -62,7 +62,7 @@ final class UPIWC {
 	 *
 	 * @var string
 	 */
-	private $php_version = '5.6';
+	private $php_version = '7.0';
 
 	/**
 	 * Hold install error messages.
@@ -200,6 +200,7 @@ final class UPIWC {
 				delete_option( 'upiwc_plugin_no_thanks_donate_notice' );
 				delete_option( 'upiwc_plugin_dismissed_time' );
 				delete_option( 'upiwc_plugin_dismissed_time_donate' );
+				delete_option( 'upiwc_plugin_dismiss_knit_pay_upi_notice' );
 			}
 		);
 
@@ -301,6 +302,11 @@ final class UPIWC {
 		if ( class_exists( '\WC_Payment_Gateway' ) ) {
 			require_once UPIWC_PATH . 'includes/class-payment.php';
 		}
+
+		// Private screenshot storage (media exposure fix) — Tier 1 gating for
+		// legacy screenshots and Tier 2 private storage for new uploads.
+		require_once UPIWC_PATH . 'includes/class-private-screenshots.php';
+		UPIWC_Private_Screenshots::init();
 	}
 
 	/**

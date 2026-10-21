@@ -2,9 +2,9 @@
 Contributors: knitpay, gautammkgarg, infosatech
 Tags: upi, upi payment, woocommerce, qr code, bhim upi
 Requires at least: 4.6
-Tested up to: 7.0
-Stable tag: 1.6.3
-Requires PHP: 5.6
+Tested up to: 7.2
+Stable tag: 1.7.0
+Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -69,6 +69,7 @@ Like UPI QR Code Payment Gateway for WooCommerce plugin? Consider leaving a [5 s
 1. Activate UPI QR Code Payment Gateway for WooCommerce from your Plugins page.
 1. After activation go to 'WooCommerce > Settings > Payments > UPI QR Code'.
 1. Enable options and save changes.
+1. If your server runs Nginx (instead of Apache), also add the deny rule for the private screenshot folder ??? see the FAQ "Where are payment screenshots stored?".
 
 == Frequently Asked Questions ==
 
@@ -94,7 +95,17 @@ Post detailed information about the issue in the [support forum](https://wordpre
 
 = Where do I report security bugs found in this plugin? =
 
-Please report security bugs found in the source code of the undefined plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/5137299d-fd7c-494b-b6c4-18d460096829). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+Please report security bugs found in the source code of the undefined plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/5137299d-fd7c-494b-b6c4-18d460096829). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+
+= Where are payment screenshots stored? =
+
+Since version 1.7.0, payment screenshots are stored privately in `wp-content/uploads/upiwc-private/` under randomly generated file names, not in the Media Library, because they can show the customer's bank details. Only users who can edit WooCommerce orders can open them, from the link in the order notes. The folder is protected by server access rules (`.htaccess` / `web.config`); on Nginx, also deny web access to that folder in your server configuration. Screenshots uploaded before 1.7.0 stay in the Media Library and are no longer publicly listed.
+
+On Nginx, add this to your server configuration and reload:
+
+`location ^~ /wp-content/uploads/upiwc-private/ { deny all; }`
+
+What if you forget the Nginx rule? Nothing is enumerated or leaked: new screenshots have unguessable 24-character names, their file URLs are not exposed anywhere (they never appear in the REST API, attachment pages, or order notes), and directory listing is disabled by default on Nginx. The rule only adds hard-blocked direct access on top. Screenshots uploaded before 1.7.0 keep their original public file URLs (see the FAQ above), so they remain reachable if someone already knows the URL.
 
 == Screenshots ==
 
@@ -108,6 +119,15 @@ Please report security bugs found in the source code of the undefined plugin thr
 == Changelog ==
 
 If you like UPI QR Code Payment Gateway for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
+
+= 1.7.0 =
+Release Date: October 21, 2026
+
+* Security: Hardened the way payment screenshots are stored and opened. Update recommended for all sites.
+* Security: Screenshot uploads are now validated server-side (real JPEG/PNG only) with a file size limit.
+* Added: Customer UPI ID and transaction ID are now included in the WordPress personal data export and erasure tools.
+* Tweak: A screenshot is removed when its order is permanently deleted.
+* Tweak: Minimum PHP version is now 7.0.
 
 = 1.6.3 =
 Release Date: June 4, 2026

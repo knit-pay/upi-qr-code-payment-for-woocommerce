@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.7.0
+Release Date: October 21, 2026
+
+* Security: Hardened the way payment screenshots are stored and opened. Screenshots are stored privately and can only be opened by users who can edit WooCommerce orders, from a link in the order notes. Recommended update for all sites (issue reported by a security researcher at Patchstack).
+* Security: Screenshot uploads are now validated with `wp_check_filetype_and_ext()` (real JPEG/PNG only) and size-limited (filter: `upiwc_screenshot_max_size`), instead of trusting the browser-supplied MIME type.
+* Removed: The `_upiwc_order_attachment_id` order meta is no longer filled for new screenshots (kept for compatibility, empty value); new screenshots are stored via the `_upiwc_screenshot_file` order meta.
+* Added: Customer UPI ID and transaction ID are now included in the WordPress personal data export and erasure tools.
+* Tweak: A screenshot is removed when its order is permanently deleted.
+* Tweak: Minimum PHP version is now 7.0.
+
 ## 1.6.3
 Release Date: June 4, 2026
 

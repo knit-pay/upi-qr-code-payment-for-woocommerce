@@ -4,7 +4,7 @@
  *
  * @package    UPI QR Code Payment Gateway
  * @subpackage Includes
- * @author     Sayan Datta
+ * @author     Team KnitPay
  * @license    http://www.gnu.org/licenses/ GNU General Public License
  */
 
@@ -696,7 +696,7 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 					<div class="upiwc-payment-content">
 						<div id="upiwc-payment-qr-code" class="upiwc-payment-qr-code <?php echo esc_attr( $qr_code_class ); ?>"></div>
 						<div class="upiwc-payment-actions">
-							<div class="upiwc-payment-upi-id" title="<?php esc_attr_e( 'Click to Copy', 'upi-qr-code-payment-for-woocommerce' ); ?>"><?php echo $payee_vpa; ?></div>
+							<div class="upiwc-payment-upi-id" title="<?php esc_attr_e( 'Click to Copy', 'upi-qr-code-payment-for-woocommerce' ); ?>"><?php echo esc_html( $payee_vpa ); ?></div>
 							<?php if ( $show_qr_download ) { ?>
 								<button type="button" id="upi-download" class="btn upiwc-payment-button"><?php echo apply_filters( 'upiwc_donwload_button_text', __( 'Download QR Code', 'upi-qr-code-payment-for-woocommerce' ) ); ?></button>
 							<?php } ?>
@@ -906,24 +906,11 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 			$order->update_meta_data( '_upiwc_order_paid', 'yes' );
 
 			if ( ! empty( $_FILES['upiwc_file'] ) && ! empty( $_FILES['upiwc_file']['name'] ) ) {
-				$allowed_extensions = [ 'image/jpeg', 'image/png' ];
-				
-				if ( in_array( $_FILES['upiwc_file']['type'], $allowed_extensions ) ) {
-					require_once ABSPATH . 'wp-admin/includes/media.php';
-					require_once ABSPATH . 'wp-admin/includes/file.php';
-					require_once ABSPATH . 'wp-admin/includes/image.php';
-					
-					$attachment_id = media_handle_upload( 'upiwc_file', 0 );
-					
-					if ( is_wp_error( $attachment_id ) ) {
-						$order->add_order_note( $attachment_id->get_error_message(), false );
-					} else {
-						$order->update_meta_data( '_upiwc_order_attachment_id', $attachment_id );
-						$order_note = __( 'Screenshot uploaded successfully.', 'upi-qr-code-payment-for-woocommerce' );
-						$order->add_order_note( sprintf( '%s <a href="%s" target="_blank">%s</a>', $order_note, wp_get_attachment_url( esc_attr( $attachment_id ) ), __( 'View', 'upi-qr-code-payment-for-woocommerce' ) ), false );
-					}
+				if ( class_exists( 'UPIWC_Private_Screenshots' ) ) {
+					// Store the screenshot privately (never in the Media Library).
+					UPIWC_Private_Screenshots::handle_payment_screenshot( $order );
 				} else {
-					$order->add_order_note( __( 'File type is not valid!', 'upi-qr-code-payment-for-woocommerce' ), false );
+					$order->add_order_note( __( 'Screenshot storage is unavailable, screenshot was not saved.', 'upi-qr-code-payment-for-woocommerce' ), false );
 				}
 			}
 
@@ -1115,18 +1102,18 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 
 			if ( 'yes' === $is_paid ) {
 				if ( ! empty( $payment_id ) ) {
-					$content .= sprintf( '<p><strong>%1$s</strong> %2$s</p>', __( 'UTR:', 'upi-qr-code-payment-for-woocommerce' ), $payment_id );
+					$content .= sprintf( '<p><strong>%1$s</strong> %2$s</p>', __( 'UTR:', 'upi-qr-code-payment-for-woocommerce' ), esc_html( $payment_id ) );
 				}
 				if ( ! empty( $payment_upi_id ) ) {
 					if ( empty( $payment_id ) ) {
-						$content .= sprintf( '<p><strong>%1$s</strong> %2$s</p>', __( 'Paid via:', 'upi-qr-code-payment-for-woocommerce' ), $payment_upi_id );
+						$content .= sprintf( '<p><strong>%1$s</strong> %2$s</p>', __( 'Paid via:', 'upi-qr-code-payment-for-woocommerce' ), esc_html( $payment_upi_id ) );
 					} else {
-						$content .= sprintf( '<span style="font-size: 12px;">%1$s %2$s</span>', __( 'Paid via:', 'upi-qr-code-payment-for-woocommerce' ), $payment_upi_id );
+						$content .= sprintf( '<span style="font-size: 12px;">%1$s %2$s</span>', __( 'Paid via:', 'upi-qr-code-payment-for-woocommerce' ), esc_html( $payment_upi_id ) );
 					}
 				}
 			} else {
 				if ( ! empty( $payment_upi_id ) ) {
-					$content .= sprintf( '<p>%1$s %2$s</p>', __( 'Initiated:', 'upi-qr-code-payment-for-woocommerce' ), $payment_upi_id );
+					$content .= sprintf( '<p>%1$s %2$s</p>', __( 'Initiated:', 'upi-qr-code-payment-for-woocommerce' ), esc_html( $payment_upi_id ) );
 				}
 			}
 		}
