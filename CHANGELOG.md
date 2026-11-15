@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.7.1
+Release Date: November 15, 2026
+
+* Security: WordPress oEmbed endpoints (`/?oembed=true` and `/wp-json/oembed/1.0/embed`) no longer return embed data or the direct upload URL (`thumbnail_url`) for payment screenshots protected by the 1.7.0 access controls, when the caller cannot edit WooCommerce orders (reported by a security researcher at Patchstack; issue ID in our VDP thread 39600).
+* Added MyUPI grievance portal link (`https://www.upihelp.npci.org.in/`) for reporting fraudulent/unauthorized UPI payments.
+
 ## 1.7.0
 Release Date: October 21, 2026
 

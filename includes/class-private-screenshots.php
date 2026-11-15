@@ -93,6 +93,11 @@ final class UPIWC_Private_Screenshots {
 		// redirect the attachment page straight to the file URL.
 		add_action( 'template_redirect', array( __CLASS__, 'front_end_guard' ), 1 );
 
+		// Tier 1: guard the oEmbed discovery endpoints (`/?oembed=true` and
+		// `/wp-json/oembed/1.0/embed`), which otherwise expose the direct upload
+		// URL of a protected legacy attachment through `thumbnail_url`.
+		add_filter( 'oembed_response_data', array( __CLASS__, 'oembed_guard' ), 10, 4 );
+
 		// Tier 1: one-time protection routine for screenshots uploaded by older versions.
 		add_action( 'admin_init', array( __CLASS__, 'maybe_protect_legacy' ) );
 		add_action( 'rest_api_init', array( __CLASS__, 'maybe_protect_legacy' ) );
@@ -531,6 +536,32 @@ final class UPIWC_Private_Screenshots {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Tier 1: protect legacy screenshots from the oEmbed discovery endpoints.
+	 *
+	 * Returning `false` from this filter makes `get_oembed_response_data()`
+	 * return false, which both oEmbed endpoints (`/?oembed=true` and
+	 * `/wp-json/oembed/1.0/embed`) answer with a 404 - hiding the attachment
+	 * and its `thumbnail_url` (the direct upload URL).
+	 *
+	 * @param mixed       $data   The compiled oEmbed response data (array) or false.
+	 * @param WP_Post|int $post   The resolved post.
+	 * @param int         $width  Requested width.
+	 * @param int         $height Requested height.
+	 * @return mixed
+	 */
+	public static function oembed_guard( $data, $post, $width = 0, $height = 0 ) {
+		if ( empty( $data ) || ! $post instanceof WP_Post || 'attachment' !== $post->post_type ) {
+			return $data;
+		}
+
+		if ( '1' === get_post_meta( $post->ID, self::META_MARK, true ) && ! self::current_user_can_view_screenshots() ) {
+			return false;
+		}
+
+		return $data;
 	}
 
 	/**

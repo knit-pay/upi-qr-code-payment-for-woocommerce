@@ -3,7 +3,7 @@ Contributors: knitpay, gautammkgarg, infosatech
 Tags: upi, upi payment, woocommerce, qr code, bhim upi
 Requires at least: 4.6
 Tested up to: 7.2
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -119,6 +119,12 @@ What if you forget the Nginx rule? Nothing is enumerated or leaked: new screensh
 == Changelog ==
 
 If you like UPI QR Code Payment Gateway for WooCommerce, please take a moment to [give a 5-star rating](https://wordpress.org/support/plugin/upi-qr-code-payment-for-woocommerce/reviews/?rate=5#new-post). It helps to keep development and support going strong. Thank you!
+
+= 1.7.1 =
+Release Date: November 15, 2026
+
+* Security: WordPress oEmbed endpoints no longer return embed or thumbnail data (including the direct file link) for protected payment screenshots to users who cannot edit WooCommerce orders. Update recommended for all sites.
+* Added MyUPI grievance portal link (`https://www.upihelp.npci.org.in/`) for reporting fraudulent/unauthorized UPI payments.
 
 = 1.7.0 =
 Release Date: October 21, 2026

@@ -788,6 +788,9 @@ class UPI_WC_Payment_Gateway extends \WC_Payment_Gateway {
 							</div>
 							<div class="upiwc-payment-confirm-text"><?php echo $this->confirm_message; ?></div>
 						</div>
+						<div class="upiwc-report-fraud-link">
+							<a href="https://www.upihelp.npci.org.in/" target="_blank" rel="noopener noreferrer" title="<?php esc_attr_e( 'Opens the NPCI MyUPI grievance portal in a new tab', 'upi-qr-code-payment-for-woocommerce' ); ?>"><?php esc_html_e( 'Report fraud to NPCI', 'upi-qr-code-payment-for-woocommerce' ); ?></a>
+						</div>
 					</div>
 				</div>
 			</section>
